@@ -9,7 +9,7 @@
     the final result being written to a text file.
 '''
 # TO-DO: add better functionality for loading previous tabs (other than just
-# appending to the input file given as below
+# appending to the input file given as below)
 
 import argparse
 import numpy as np
