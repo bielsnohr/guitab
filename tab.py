@@ -21,6 +21,8 @@ class tab(object):
         self._MAX = 80
         # the chord indicating the user's current location in the tab
         self._current = ('*', '*', '*', '*', '*', '*')
+        # a blank chord
+        self._blank = tuple(['-' for x in range(6)])
         # the numpy array that will hold the tab data
         self.tab_data = np.zeros((6, self._MAX), dtype='U2')
         self.tab_data[:, :] = '-'
@@ -52,9 +54,16 @@ class tab(object):
             return False
 
     def back(self, num):
+        '''
+        Goes back num places in the tab and places a chord of astericks here.
+        Any other astericks chords will be replaces as well.
+        '''
         if self.i - abs(num) < 2:
             print("Index requested out of bounds; please try again.")
         else:
+            for j in range(2, self._MAX - 1):
+                if self.tab_data[0, j] == '*':
+                    self.tab_data[:, j] = self._blank
             self.i -= abs(num)
             self.tab_data[:, self.i] = self._current
             print(self)
@@ -63,6 +72,9 @@ class tab(object):
         if self.i + abs(num) >= self._MAX:
             print("Index requested out of bounds; please try again.")
         else:
+            for j in range(2, self._MAX - 1):
+                if self.tab_data[0, j] == '*':
+                    self.tab_data[:, j] = self._blank
             self.i += abs(num)
             self.tab_data[:, self.i] = self._current
             print(self)

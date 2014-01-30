@@ -8,11 +8,19 @@
     writing guitar tabs. The user enters chords/fingering count by count with
     the final result being written to a text file.
 '''
-# TO-DO: add better functionality for loading previous tabs (other than just
-# appending to the input file given as below)
+# TO-DO:
+# 1. add an option for inputting a title, add an option for adding
+# the author to the file, add option for quitting without saving
+# progress
+#
+# 2. Store the tab numpy arrays in a list/other array. This way, we don't
+# need to select the file until the program is quit (i.e. the file will
+# only be written to once). Furthermore, this array of tabs should be
+# pickled so it can be read in for subsequent runs of the program
 
 import argparse
 import tab
+import os
 
 
 def main():
@@ -24,12 +32,11 @@ def main():
     # define the argument parser object
     parser = argparse.ArgumentParser(prog='pyTab', description='TO-DO:'
                                      'fill in description of pyTab')
-    parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help=
-                        'the chord/fingering for the current count (if'
+    parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='the'
+                        ' chord/fingering for the current count (if'
                         ' present, there must be 6 positional arguments'
                         '-one for each string). Input order runs from high '
                         'e to low e', default='-')
-                        #default=['-', '-', '-', '-', '-', '-'])
     parser.add_argument('-d', action='store_true', help='flag'
                         ' to quit pyTab and save progress')
     parser.add_argument('-b', nargs='?', const=1, type=int, help='the'
@@ -38,20 +45,17 @@ def main():
     parser.add_argument('-f', nargs='?', const=1, type=int, help='the'
                         ' number of counts to go forward in the tab '
                         '(the default is 1 if the flag is present)')
-    parser.add_argument('-o', type=argparse.FileType('a'),
-                        default='mytab.txt', help='the file for the tab'
+    parser.add_argument('-o', '--outfile', nargs=1, type=str,
+                        default=None, help='the file for the tab'
                         ' to be written to')
-    # URGENT: need to modify the argument parser so that the 6 positional
-    # arguments are optional (will probably have to make them optional
-    # arguments instead of positional)
-    # TO-DO: add an option for inputting a title, add an option for adding
-    # the author to the file, add option for quitting without saving
-    # progress
+
+    # Initialize the tab object and any other relevant variables (although
+    # these should be soon implemented in the tab class itself) before entering
+    # main program loop
+    x = tab.tab()
+    outfile = False
 
     while(True):
-        #if newtab:
-        #    tab = cp.deepcopy(blank)
-        #    newtab = False
 
         inp = input('[pyTab]: ')
 
@@ -60,18 +64,16 @@ def main():
         except:
             continue
 
-        # could read in the input file and check for a header to see if a
-        # header needs to be written
-        if flag:
-            args.o.write("Header for pyTab Tab\n")
-            # initiate the tab for the first time
-            x = tab.tab()
-            # TO-DO: add more information to this like author, filename, date
-            flag = False
+        if args.o is not None:
+            if os.path.isfile(args.o):
+                outfile = open(args.o, mode='a')
+            else:
+                outfile = open(args.o, mode='r')
+                outfile.write("Header for pyTab Tab\n\n")
         if args.d:
             # write current tab buffer to file
-            args.o.write('\n' + str(x))
-            args.o.close()
+            outfile.write('\n' + str(x))
+            outfile.close()
             break
         if args.b is not None:
             x.back(args.b)
@@ -79,16 +81,12 @@ def main():
         if args.f is not None:
             x.forward(args.f)
             continue
-        elif len(args.chord) != 6:
-            print('You must enter 6 positional arguments when specifying a'
-                  ' count.\nPlease try again.')
-            # Raise a type error here instead? This would necessitate a new
-            # class for lists of length 6? Or just a simple type error...
+        if args.chord is '-':
             continue
         else:
             # Now, we want to write to the tab
             if x.write(args.chord):
-                args.o.write('\n' + str(x))
+                outfile.write('\n' + str(x) + '\n')
                 print("Starting new line...")
                 # reset the tab to initial settings
                 x.__init__()
