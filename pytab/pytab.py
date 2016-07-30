@@ -8,7 +8,7 @@
     writing guitar tabs. The user enters chords/fingering count by count with
     the final result being written to a text file.
 '''
-# TO-DO:
+# TODO:
 # 1. add an option for inputting a title, add an option for adding
 # the author to the file, add option for quitting without saving
 # progress
@@ -28,7 +28,7 @@ def main():
           "accelerates the tab writing process. Type -h or --help for "
           "details of how to run.")
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
-    flag = True
+    #flag = True
     # define the argument parser object
     parser = argparse.ArgumentParser(prog='pyTab', description='TO-DO:'
                                      'fill in description of pyTab')
@@ -36,7 +36,7 @@ def main():
                         ' chord/fingering for the current count (if'
                         ' present, there must be 6 positional arguments'
                         '-one for each string). Input order runs from high '
-                        'e to low e', default='-')
+                        'e to low E', default='-')
     parser.add_argument('-d', action='store_true', help='flag'
                         ' to quit pyTab and save progress')
     parser.add_argument('-b', nargs='?', const=1, type=int, help='the'
@@ -61,19 +61,21 @@ def main():
 
         try:
             args = parser.parse_args(inp.split())
+            #print(args)
         except:
             continue
 
-        if args.o is not None:
-            if os.path.isfile(args.o):
-                outfile = open(args.o, mode='a')
+        if args.outfile is not None:
+            if os.path.isfile(args.outfile):
+                outfile = open(args.outfile, mode='a')
             else:
-                outfile = open(args.o, mode='r')
+                outfile = open(args.outfile, mode='r')
                 outfile.write("Header for pyTab Tab\n\n")
         if args.d:
             # write current tab buffer to file
-            outfile.write('\n' + str(x))
-            outfile.close()
+            if args.outfile is not None:
+                outfile.write('\n' + str(x))
+                outfile.close()
             break
         if args.b is not None:
             x.back(args.b)
