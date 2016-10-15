@@ -52,7 +52,7 @@ def main():
     # Initialize the tab object and any other relevant variables (although
     # these should be soon implemented in the tab class itself) before entering
     # main program loop
-    x = tab.tab()
+    x = tab.Tab()
     outfile = False
 
     while(True):

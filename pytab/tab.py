@@ -1,49 +1,83 @@
-'''
+"""
 Created on Jan 7, 2014
 
 @author: Matt
-'''
+"""
 import re
-import numpy as np
-import math
+#import numpy as np
+#import math
 
 
-class tab(object):
-    '''
-    Class for the textual display and modification of a guitar tab.
-    '''
+class Tab(object):
+    """Create python objects for guitar tabs. 
 
-    def __init__(self):
-        '''
-        Constructor
-        '''
-        # the maximum length of a tab
-        self._MAX = 80
-        # the chord indicating the user's current location in the tab
-        self._current = ('*', '*', '*', '*', '*', '*')
+    A 'Tab' object easily facilitates the storage, modification, and textual
+    display of a guitar tab in python.
+    """
+
+    def __init__(self, clength=6):
+        """Constructor"""
+        # the maximum length of a line in the tab
+        self._MAX = 78
+        # the number of strings for a chord, default 6
+        self.clength = clength
         # a blank chord
-        self._blank = tuple(['-' for x in range(6)])
-        # the numpy array that will hold the tab data
-        self.tab_data = np.zeros((6, self._MAX), dtype='U2')
-        self.tab_data[:, :] = '-'
-        self.tab_data[:, 0] = ('e', 'B', 'G', 'D', 'A', 'E')
-        self.tab_data[:, 1] = '|'
-        # the index for the current column to be written to
-        self.i = 2
+        self._blank = ['-' for x in range(6)]
+        # the list that will hold the chords which form the tab
+        self.tab_data = [self._blank]
+        # string tuning indicator to be printed at the beginning of each tab
+        # line
+        self._leader = (('e', 'B', 'G', 'D', 'A', 'E'), ('|', '|', '|', '|',
+            '|', '|'))
+        # allowed entries for a chord list
+        self.allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
+        # the index for the current position in the tab
+        self.i = 0
         # the default name for the file to be written to
         self.file = 'myTab.txt'
+        # TODO current place: I think I have finished the __init__ constructor
 
     def __str__(self):
-        # this convoluted statement formats the numpy array so it looks like a
-        # nice tab
-        return re.sub('(\[\[)|(\]\])|(\s)|(\')', '',
-                      str(self.tab_data)).replace('][', '\n')
+        """Format Tab.tab_data for printing
+        """
+        pass
 
-    def write(self, chord):
-        '''
-        Writes the input chord to the current tab. If the tab is full, the
-        function returns True, and otherwise it returns False.
-        '''
+    def write(self, chord, index=None):
+        """Writes the input chord to an index of the Tab object
+
+        Parameters
+        ----------
+        chord : a list of single string characters and of length self.clength
+        index : the index of self.tab_data where the chord will be written.
+                Default is the current index, self.i
+
+        Returns
+        -------
+        None
+        """
+
+        # Check that the chord has the correct format
+        if len(chord) != self._MAX:
+            # TODO raise a more informative error here; make my own error
+            # class?
+            raise TypeError
+        for i in chord:
+            if i not in self.allowed:
+                raise TypeError
+
+        # If the index is unset, then use the default value of the current
+        # self.i index
+        if index is None:
+            index = self.i
+        # Otherwise, if the input index is larger than the current index, we
+        # need to expand the tab
+        else:
+            if index > self.i:
+                # TODO this logic isn't quite right since it can't be assumed
+                # that the current index is at the end of the tab. fix.
+                self.tab_data += [self.blank for x in range(index - self.i)]
+
+
         # Implement a check for the length of chord?
         self.tab_data[:, self.i] = chord
         print(self)
@@ -54,10 +88,10 @@ class tab(object):
             return False
 
     def back(self, num):
-        '''
+        """
         Goes back num places in the tab and places a chord of astericks here.
-        Any other astericks chords will be replaces as well.
-        '''
+        Any other astericks chords will be replaced as well.
+        """
         if self.i - abs(num) < 2:
             print("Index requested out of bounds; please try again.")
         else:
@@ -80,16 +114,16 @@ class tab(object):
             print(self)
 
     def open(self, file):
-        '''
+        """
         Open a pyTab file and determine if it should be appended or written
         over.
-        '''
+        """
         # This probably should just be implemented in the main function as a
         # function itself. I should define a file convention.
         pass
 
     def save(self):
-        '''
+        """
         Write the current tab data to file.
-        '''
+        """
         pass
