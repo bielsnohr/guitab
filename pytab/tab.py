@@ -16,7 +16,7 @@ class Tab(object):
     """
 
     def __init__(self, clength=6):
-        """Constructor"""
+        """Constructor for Tab class object"""
         # the maximum length of a line in the tab
         self._MAX = 78
         # the number of strings for a chord, default 6
@@ -33,9 +33,10 @@ class Tab(object):
         self.allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
         # the index for the current position in the tab
         self.i = 0
+        # the current size of the tab (i.e. largest index attained so far)
+        self.imax = 0
         # the default name for the file to be written to
         self.file = 'myTab.txt'
-        # TODO current place: I think I have finished the __init__ constructor
 
     def __str__(self):
         """Format Tab.tab_data for printing
@@ -55,6 +56,8 @@ class Tab(object):
         -------
         None
         """
+        # TODO need to check that this method works with new imax class
+        # variable
 
         # Check that the chord has the correct format
         if len(chord) != self._MAX:
@@ -69,23 +72,16 @@ class Tab(object):
         # self.i index
         if index is None:
             index = self.i
-        # Otherwise, if the input index is larger than the current index, we
-        # need to expand the tab
+        # Otherwise, if the input index is larger than the maximum index,
+        # self.imax, we need to expand the tab
         else:
-            if index > self.i:
-                # TODO this logic isn't quite right since it can't be assumed
-                # that the current index is at the end of the tab. fix.
-                self.tab_data += [self.blank for x in range(index - self.i)]
+            if index > self.imax:
+                self.tab_data += [self.blank for x in range(index - self.imax)]
+                self.imax = index
 
-
-        # Implement a check for the length of chord?
-        self.tab_data[:, self.i] = chord
+        # Add the chord to the tab data and print what we have
+        self.tab_data[index] = chord
         print(self)
-        self.i += 1
-        if self.i >= self._MAX:
-            return True
-        else:
-            return False
 
     def back(self, num):
         """
