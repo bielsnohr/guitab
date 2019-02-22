@@ -3,7 +3,7 @@ Created on Jan 7, 2014
 
 @author: Matt
 """
-import re
+#import re
 #import numpy as np
 #import math
 
@@ -41,7 +41,9 @@ class Tab(object):
     def __str__(self):
         """Format Tab.tab_data for printing
         """
-        pass
+        
+        num_loops = (self.imax // self._MAX) + 1
+
 
     def write(self, chord, index=None):
         """Writes the input chord to an index of the Tab object
@@ -56,11 +58,9 @@ class Tab(object):
         -------
         None
         """
-        # TODO need to check that this method works with new imax class
-        # variable
 
         # Check that the chord has the correct format
-        if len(chord) != self._MAX:
+        if len(chord) != self.clength:
             # TODO raise a more informative error here; make my own error
             # class?
             raise TypeError
@@ -76,12 +76,12 @@ class Tab(object):
         # self.imax, we need to expand the tab
         else:
             if index > self.imax:
-                self.tab_data += [self.blank for x in range(index - self.imax)]
+                self.tab_data += [self._blank for x in range(index - self.imax)]
                 self.imax = index
 
         # Add the chord to the tab data and print what we have
         self.tab_data[index] = chord
-        print(self)
+        #print(self)
 
     def back(self, num):
         """
