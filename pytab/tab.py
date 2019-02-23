@@ -38,11 +38,35 @@ class Tab(object):
         # the default name for the file to be written to
         self.file = 'myTab.txt'
 
+
     def __str__(self):
         """Format Tab.tab_data for printing
         """
         
         num_loops = (self.imax // self._MAX) + 1
+        pos_loop = self.i // self._MAX
+        tab_string = ''
+
+        # loop through the rows of tabs that will be created by breaking them
+        # into suitable line lengths
+        for i in range(num_loops):
+
+            #import pdb; pdb.set_trace()
+            start = i * self._MAX
+            if i == num_loops - 1:
+                end = self.imax + 1
+            else:
+                end = start + self._MAX
+
+            for j in range(self.clength):
+
+                for k in range(start, end):
+                    tab_string = tab_string + self.tab_data[k][j]
+
+                tab_string = tab_string + '\n'
+
+        return tab_string
+
 
 
     def write(self, chord, index=None):
