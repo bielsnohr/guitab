@@ -27,8 +27,7 @@ class Tab(object):
         self.tab_data = [self._blank]
         # string tuning indicator to be printed at the beginning of each tab
         # line
-        self._leader = (('e', 'B', 'G', 'D', 'A', 'E'), ('|', '|', '|', '|',
-            '|', '|'))
+        self._leader = ('e|', 'B|', 'G|', 'D|', 'A|', 'E|')
         # allowed entries for a chord list
         self.allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
         # the index for the current position in the tab
@@ -51,7 +50,6 @@ class Tab(object):
         # into suitable line lengths
         for i in range(num_loops):
 
-            #import pdb; pdb.set_trace()
             start = i * self._MAX
             if i == num_loops - 1:
                 end = self.imax + 1
@@ -60,10 +58,15 @@ class Tab(object):
 
             for j in range(self.clength):
 
+                tab_string = tab_string + self._leader[j]
                 for k in range(start, end):
                     tab_string = tab_string + self.tab_data[k][j]
-
                 tab_string = tab_string + '\n'
+
+            if i == pos_loop:
+                pad = self.i - start + 2
+                tab_string = tab_string + ' ' * pad + '*'
+            tab_string = tab_string + '\n\n'
 
         return tab_string
 
@@ -105,22 +108,38 @@ class Tab(object):
 
         # Add the chord to the tab data and print what we have
         self.tab_data[index] = chord
-        #print(self)
+        print(self)
+
 
     def back(self, num):
+        """Place the chord position back `num` places from where it currently
+        is.
+
+
+        Parameters
+        ----------
+        num   : The number of places to go backwards in tab. Must be an integer
+                > 0
+
+        Returns
+        -------
+        None
         """
-        Goes back num places in the tab and places a chord of astericks here.
-        Any other astericks chords will be replaced as well.
-        """
-        if self.i - abs(num) < 2:
-            print("Index requested out of bounds; please try again.")
+
+        if num < 0 or type(num) != int:
+            raise TypeError('num argument must be an integer and > 0: ', num)
+
+        if self.i - num < 0:
+            raise IndexError('Requested backwards move is out of range.')
         else:
+            # TODO current place
             for j in range(2, self._MAX - 1):
                 if self.tab_data[0, j] == '*':
                     self.tab_data[:, j] = self._blank
             self.i -= abs(num)
             self.tab_data[:, self.i] = self._current
             print(self)
+
 
     def forward(self, num):
         if self.i + abs(num) >= self._MAX:
