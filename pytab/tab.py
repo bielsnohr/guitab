@@ -3,9 +3,6 @@ Created on Jan 7, 2014
 
 @author: Matt
 """
-#import re
-#import numpy as np
-#import math
 
 
 class Tab(object):
@@ -41,6 +38,9 @@ class Tab(object):
     def __str__(self):
         """Format Tab.tab_data for printing
         """
+        # TODO I should think about limiting the output to only the rows around
+        # where the current position is. Alternatively, I can handle some sort
+        # of pagination in the pytab main program.
         
         num_loops = (self.imax // self._MAX) + 1
         pos_loop = self.i // self._MAX
@@ -111,15 +111,15 @@ class Tab(object):
         print(self)
 
 
-    def back(self, num):
+    def backward(self, num=1):
         """Place the chord position back `num` places from where it currently
         is.
 
 
         Parameters
         ----------
-        num   : The number of places to go backwards in tab. Must be an integer
-                > 0
+        num   : The number of places to go backwards in the tab. Must be an
+                integer > 0. Default is 1.
 
         Returns
         -------
@@ -127,30 +127,49 @@ class Tab(object):
         """
 
         if num < 0 or type(num) != int:
-            raise TypeError('num argument must be an integer and > 0: ', num)
+            raise TypeError('num argument must be an integer and > 0. num = '\
+                    '{}'.format(num))
 
-        if self.i - num < 0:
-            raise IndexError('Requested backwards move is out of range.')
+        elif self.i - num < 0:
+            raise IndexError('Requested backwards move is out of range. Index'\
+                    '= {:d}, and num = {:d}'.format(self.i, num))
+
         else:
-            # TODO current place
-            for j in range(2, self._MAX - 1):
-                if self.tab_data[0, j] == '*':
-                    self.tab_data[:, j] = self._blank
-            self.i -= abs(num)
-            self.tab_data[:, self.i] = self._current
+            self.i -= num
             print(self)
 
 
-    def forward(self, num):
-        if self.i + abs(num) >= self._MAX:
-            print("Index requested out of bounds; please try again.")
-        else:
-            for j in range(2, self._MAX - 1):
-                if self.tab_data[0, j] == '*':
-                    self.tab_data[:, j] = self._blank
-            self.i += abs(num)
-            self.tab_data[:, self.i] = self._current
-            print(self)
+    def forward(self, num=1):
+        """Place the chord position forward `num` places from where it
+        currently is.
+
+
+        Parameters
+        ----------
+        num   : The number of places to go forward in the tab. Must be an
+                integer > 0. Default is 1.
+
+        Returns
+        -------
+        None
+        """
+
+        if num < 0 or type(num) != int:
+            raise TypeError('num argument must be an integer and > 0. num = '\
+                    '{}'.format(num))
+
+        # We can add to the present index without restriction as long as the
+        # above is satisfied
+        self.i += num
+
+        # Check if the new index is greater than the previous maximum. If so,
+        # the tab needs to be expanded
+        if self.i > self.imax:
+            self.tab_data += [self._blank for x in range(self.i - self.imax)]
+            self.imax = self.i
+
+        print(self)
+
 
     def open(self, file):
         """
@@ -160,6 +179,7 @@ class Tab(object):
         # This probably should just be implemented in the main function as a
         # function itself. I should define a file convention.
         pass
+
 
     def save(self):
         """
