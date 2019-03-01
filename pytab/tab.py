@@ -85,6 +85,7 @@ class Tab(object):
         -------
         None
         """
+        # TODO I need to handle double digit fret numbers!!!
 
         # Check that the chord has the correct format
         if len(chord) != self.clength:
@@ -101,6 +102,7 @@ class Tab(object):
             index = self.i
         # Otherwise, if the input index is larger than the maximum index,
         # self.imax, we need to expand the tab
+        # TODO need to check that the index is positive and an integer!!!
         else:
             if index > self.imax:
                 self.tab_data += [self._blank for x in range(index - self.imax)]

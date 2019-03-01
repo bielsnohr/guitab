@@ -26,17 +26,20 @@ import os
 def main():
     print("Welcome to pyTab, an interactive command line program that "
           "accelerates the tab writing process. Type -h or --help for "
-          "details of how to run.")
+          "details of how to run the program.")
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
+    blank = ['-' for i in range(6)]
     #flag = True
     # define the argument parser object
     parser = argparse.ArgumentParser(prog='pyTab', description='TO-DO:'
                                      'fill in description of pyTab')
+    # TODO need to figure out how I can get a blank chord to be the default for
+    # an input of just '-c' with no chord specified.
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='the'
                         ' chord/fingering for the current count (if'
                         ' present, there must be 6 positional arguments'
                         '-one for each string). Input order runs from high '
-                        'e to low E', default='-')
+                        'e to low E', default=blank)
     parser.add_argument('-d', action='store_true', help='flag'
                         ' to quit pyTab and save progress')
     parser.add_argument('-b', nargs='?', const=1, type=int, help='the'
@@ -71,27 +74,41 @@ def main():
             else:
                 outfile = open(args.outfile, mode='r')
                 outfile.write("Header for pyTab Tab\n\n")
+
         if args.d:
             # write current tab buffer to file
             if args.outfile is not None:
                 outfile.write('\n' + str(x))
                 outfile.close()
             break
-        if args.b is not None:
-            x.back(args.b)
-            continue
-        if args.f is not None:
-            x.forward(args.f)
-            continue
-        if args.chord is '-':
-            continue
-        else:
-            # Now, we want to write to the tab
-            if x.write(args.chord):
-                outfile.write('\n' + str(x) + '\n')
-                print("Starting new line...")
-                # reset the tab to initial settings
-                x.__init__()
+        
+        if args.b:
+            try:
+                x.backward(args.b)
+            except (TypeError, IndexError) as inst:
+                print(inst)
+                continue
+            else:
+                continue
+
+        if args.f:
+            try:
+                x.forward(args.f)
+            except TypeError as inst:
+                print(inst)
+                continue
+            else:
+                continue
+
+        if args.chord:
+            try:
+                x.write(args.chord)
+            except TypeError as inst:
+                print(inst)
+                continue
+            else:
+                continue
+
 
 
 if __name__ == "__main__":
