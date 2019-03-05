@@ -1,13 +1,11 @@
 #!/usr/bin/env python
-'''
-@name: /Users/Matt/Google Drive/Python_workspace/Python_practice/pyTab.py
-@author: Matt
-@date: Nov 25, 2013
-@version: 0.1
-@description: An interacive command line program that speeds up the process of
+"""
+Author: Matthew Bluteau <matthew.bluteau@gmail.com>
+Version: 1.0
+Description: An interacive command line program that speeds up the process of
     writing guitar tabs. The user enters chords/fingering count by count with
     the final result being written to a text file.
-'''
+"""
 # TODO:
 # 1. add an option for inputting a title, add an option for adding
 # the author to the file, add option for quitting without saving
@@ -39,7 +37,7 @@ def main():
                         ' chord/fingering for the current count (if'
                         ' present, there must be 6 positional arguments'
                         '-one for each string). Input order runs from high '
-                        'e to low E', default=blank)
+                        'e to low E', default=None)
     parser.add_argument('-d', action='store_true', help='flag'
                         ' to quit pyTab and save progress')
     parser.add_argument('-b', nargs='?', const=1, type=int, help='the'
@@ -87,27 +85,21 @@ def main():
                 x.backward(args.b)
             except (TypeError, IndexError) as inst:
                 print(inst)
-                continue
-            else:
-                continue
+            continue
 
         if args.f:
             try:
                 x.forward(args.f)
             except TypeError as inst:
                 print(inst)
-                continue
-            else:
-                continue
+            continue
 
         if args.chord:
             try:
                 x.write(args.chord)
             except TypeError as inst:
                 print(inst)
-                continue
-            else:
-                continue
+            continue
 
 
 
