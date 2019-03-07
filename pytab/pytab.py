@@ -10,11 +10,13 @@ Description: An interacive command line program that speeds up the process of
 # 1. add an option for inputting a title, add an option for adding
 # the author to the file, add option for quitting without saving
 # progress
+# 
+# 2. I need to think about how to keep notes of the design decisions and with
+# each commit I make. Should this all go in the commit message? Surely I need a
+# rough space that I can work out thoughts and then reference these to the git
+# commit history so it is easier to compose a changelog when it comes to a
+# release
 #
-# 2. Store the tab numpy arrays in a list/other array. This way, we don't
-# need to select the file until the program is quit (i.e. the file will
-# only be written to once). Furthermore, this array of tabs should be
-# pickled so it can be read in for subsequent runs of the program
 
 import argparse
 import tab
@@ -26,20 +28,23 @@ def main():
           "accelerates the tab writing process. Type -h or --help for "
           "details of how to run the program.")
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
-    blank = ['-' for i in range(6)]
+    #blank = ['-' for i in range(6)]
     #flag = True
     # define the argument parser object
     parser = argparse.ArgumentParser(prog='pyTab', description='TO-DO:'
                                      'fill in description of pyTab')
-    # TODO need to figure out how I can get a blank chord to be the default for
-    # an input of just '-c' with no chord specified.
+
+    # TODO add an argument that can take in single letter chord names and
+    # produce the correct tab representation
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='the'
                         ' chord/fingering for the current count (if'
                         ' present, there must be 6 positional arguments'
                         '-one for each string). Input order runs from high '
-                        'e to low E', default=None)
+                        'e to low E')
     parser.add_argument('-d', action='store_true', help='flag'
                         ' to quit pyTab and save progress')
+    parser.add_argument('-p', action='store_true', help='flag'
+                        ' to print the entirety of the current tab')
     parser.add_argument('-b', nargs='?', const=1, type=int, help='the'
                         ' number of counts to go back in the tab '
                         '(the default is 1 if the flag is present)')
@@ -79,6 +84,11 @@ def main():
                 outfile.write('\n' + str(x))
                 outfile.close()
             break
+
+        if args.p:
+            pipe = os.popen('less', mode='w')
+            print(x, file=pipe)
+            pipe.close()
         
         if args.b:
             try:
