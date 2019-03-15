@@ -24,18 +24,21 @@ import os
 
 
 def main():
+
     print("Welcome to pyTab, an interactive command line program that "
           "accelerates the tab writing process. Type -h or --help for "
           "details of how to run the program.")
+
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
-    #blank = ['-' for i in range(6)]
-    #flag = True
+
     # define the argument parser object
     parser = argparse.ArgumentParser(prog='pyTab', description='TO-DO:'
                                      'fill in description of pyTab')
 
     # TODO add an argument that can take in single letter chord names and
     # produce the correct tab representation
+    # TODO add argument to quit (asks to save or not)
+    # TODO add argument to save to file
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='the'
                         ' chord/fingering for the current count (if'
                         ' present, there must be 6 positional arguments'

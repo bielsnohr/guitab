@@ -31,8 +31,10 @@ class Tab(object):
         self.i = 0
         # the current size of the tab (i.e. largest index attained so far)
         self.imax = 0
-        # the default name for the file to be written to
-        self.file = 'myTab.txt'
+        # the dictionary that holds the information about the tab; defaults set
+        # TODO decide if this is the best way to go about this
+        self.info = {'filename':'myTab.txt', 'title':'My Tab', 'author':'Me', 
+                'date':None} 
 
 
     def __str__(self):
@@ -224,17 +226,38 @@ class Tab(object):
         self.print()
 
 
-    def open(self, file):
+    def set_info(self, **kwargs):
+        """Set relevant information for the Tab object, such as author, date,
+        etc. 
+        
+        Keyword arguments accepted
+        ---
+        filename : the name of the file to which the tab should be read/written
+                   (str)
+        title    : the title of the tab (str)
+        author   : the author of the tab (str)
+        date     : the date the tab was written (str)
+
+        """
+
+        for i in kwargs:
+            try:
+                self.info[i] = kwargs[i]
+            except KeyError as key:
+                # TODO current place
+                pass
+
+
+
+    def get_tab(self, filename):
         """
         Open a pyTab file and determine if it should be appended or written
         over.
         """
-        # This probably should just be implemented in the main function as a
-        # function itself. I should define a file convention.
         pass
 
 
-    def save(self):
+    def save_tab(self, filename):
         """
         Write the current tab data to file.
         """
