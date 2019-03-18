@@ -241,11 +241,18 @@ class Tab(object):
         """
 
         for i in kwargs:
-            try:
-                self.info[i] = kwargs[i]
-            except KeyError as key:
-                # TODO current place
-                pass
+
+            # TODO raise Warnings instead of the print outs below?
+            if not self.info.__contains__(i):
+                print('The field requested, "{}", is not valid for tab info. '\
+                        'Try again.'.format(i))
+                continue
+            else:
+                if type(kwargs[i]) is not str:
+                    print('The input for field, "{}", is not of type str. All '\
+                          'tab information must be str. Try again.'.format(i))
+                else:
+                    self.info[i] = kwargs[i]
 
 
 
