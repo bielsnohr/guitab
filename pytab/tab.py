@@ -4,6 +4,9 @@ Created on Jan 7, 2014
 @author: Matt
 """
 
+import datetime as dt
+import warnings
+
 
 class Tab(object):
     """Create python objects for guitar tabs. 
@@ -14,27 +17,36 @@ class Tab(object):
 
     def __init__(self, clength=6):
         """Constructor for Tab class object"""
+
         # the maximum length of a line in the tab
         self._MAX = 78
+
         # the number of strings for a chord, default 6
         self.clength = clength
+
         # a blank chord
         self._blank = ['-' for x in range(6)]
+
         # the list that will hold the chords which form the tab
         self.tab_data = [self._blank]
+
         # string tuning indicator to be printed at the beginning of each tab
         # line
         self._leader = ('e|', 'B|', 'G|', 'D|', 'A|', 'E|')
+
         # allowed entries for a chord list
         self.allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
+
         # the index for the current position in the tab
         self.i = 0
+        
         # the current size of the tab (i.e. largest index attained so far)
         self.imax = 0
+
         # the dictionary that holds the information about the tab; defaults set
-        # TODO decide if this is the best way to go about this
+        today = str(dt.date.today())
         self.info = {'filename':'myTab.txt', 'title':'My Tab', 'author':'Me', 
-                'date':None} 
+                'date':today} 
 
 
     def __str__(self):
@@ -242,15 +254,16 @@ class Tab(object):
 
         for i in kwargs:
 
-            # TODO raise Warnings instead of the print outs below?
             if not self.info.__contains__(i):
-                print('The field requested, "{}", is not valid for tab info. '\
-                        'Try again.'.format(i))
+                message = 'The field requested, "{}", is not valid for tab '\
+                        'info.'.format(i)
+                warnings.warn(message)
                 continue
             else:
                 if type(kwargs[i]) is not str:
-                    print('The input for field, "{}", is not of type str. All '\
-                          'tab information must be str. Try again.'.format(i))
+                    message = 'The input for field, "{}", is not of type '\
+                            'str. All tab information must be str.'.format(i)
+                    warnings.warn(message)
                 else:
                     self.info[i] = kwargs[i]
 
@@ -260,12 +273,45 @@ class Tab(object):
         """
         Open a pyTab file and determine if it should be appended or written
         over.
+
+
+        Parameters
+        ----------
+        num   : The number of places to go forward in the tab. Must be an
+                integer > 0. Default is 1.
+
+        Returns
+        -------
+        None
         """
         pass
 
 
-    def save_tab(self, filename):
+    def save_tab(self, filename=None, **kwargs):
         """
         Write the current tab data to file.
+
+
+        Parameters
+        ----------
+        filename : The name of the file to write to
+
+        Keyword arguments accepted
+        ---
+        filename : the name of the file to which the tab should be read/written
+                   (str)
+        title    : the title of the tab (str)
+        author   : the author of the tab (str)
+        date     : the date the tab was written (str)
+
+        Returns
+        -------
+        None
         """
-        pass
+
+        if filename is None:
+            self.set_info(**kwargs)
+        else:
+            self.set_info(filename=filename, **kwargs)
+
+
