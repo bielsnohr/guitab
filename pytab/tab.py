@@ -315,21 +315,31 @@ class Tab(object):
         else:
             self.set_info(filename=filename, **kwargs)
 
-        # TODO current place: check if the file already exists and give options 
+        # check if the file already exists and give options 
         tabfilename = self.info['filename']
-        try:
-            tabfile = open(tabfilename, 'x')
-        except FileExistsError as e:
-            message = "File exists: '{}'\nOverwrite? [Y/n] ".format(tabfilename)
-            while(True):
+        while(True):
+            try:
+                tabfile = open(tabfilename, 'x')
+            except FileExistsError as e:
+                message = "File already exists: '{}'\nOverwrite? [Y/n] ".format(tabfilename)
                 inp = input(message)
                 if inp.lower() == 'y':
                     tabfile = open(tabfilename, 'w')
                     break
                 elif inp.lower() == 'n':
-                    break
+                    # TODO this is probably not security conscious; make more
+                    # robust
+                    inp2 = input('Please provide a different filename: ')
+                    tabfilename = inp2
+                    self.info['filename'] = inp2
+                    continue
                 else:
-                    break
+                    print('\nInvalid input. Please try again.')
+                    continue
+            else:
+                break
+
+        tabfile.close()
 
                 
 
