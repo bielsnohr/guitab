@@ -339,6 +339,15 @@ class Tab(object):
             else:
                 break
 
+        fileformat = 80 * '=' + '\n' + \
+                'Title : {title}\n'  + \
+                'Author: {author}\n' + \
+                'Date  : {date}\n'   + \
+                80 * '=' + '\n\n'    + \
+                '{tabdata}'
+
+        tabfile.write(fileformat.format(tabdata=str(self), **self.info))
+
         tabfile.close()
 
                 
