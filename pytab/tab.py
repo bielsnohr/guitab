@@ -346,6 +346,8 @@ class Tab(object):
                 80 * '=' + '\n\n'    + \
                 '{tabdata}'
 
+        # TODO the "*" current position character need to be removed from the
+        # output of str(self) somehow
         tabfile.write(fileformat.format(tabdata=str(self), **self.info))
 
         tabfile.close()
