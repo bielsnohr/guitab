@@ -6,6 +6,9 @@ Created on Jan 7, 2014
 
 import datetime as dt
 import warnings
+import re
+
+rm_position = re.compile(r'(^\s+)\*(\s*$)', flags=re.MULTILINE)
 
 
 class Tab(object):
@@ -346,9 +349,11 @@ class Tab(object):
                 80 * '=' + '\n\n'    + \
                 '{tabdata}'
 
-        # TODO the "*" current position character need to be removed from the
-        # output of str(self) somehow
-        tabfile.write(fileformat.format(tabdata=str(self), **self.info))
+        # remove the current position character from the output of str(self)
+        tabdata = rm_position.sub(r'\1 \2', str(self))
+
+        # finally, write all relevant information to the file
+        tabfile.write(fileformat.format(tabdata=tabdata, **self.info))
 
         tabfile.close()
 
