@@ -8,7 +8,16 @@ import datetime as dt
 import warnings
 import re
 
+
+# Compiled regex searches
 rm_position = re.compile(r'(^\s+)\*(\s*$)', flags=re.MULTILINE)
+title = re.compile(r'^title\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
+author = re.compile(r'^author\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
+date = re.compile(r'^date\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
+
+# Define the order for reading metadata from a tab file
+info_tests = {'title':title, 'author':author, 'date':date}
+info_order = ['title', 'author', 'date']
 
 
 class Tab(object):
@@ -46,7 +55,7 @@ class Tab(object):
         # the current size of the tab (i.e. largest index attained so far)
         self.imax = 0
 
-        # the dictionary that holds the information about the tab; defaults set
+        # the dictionary that holds the information about the tab; set defaults
         today = str(dt.date.today())
         self.info = {'filename':'myTab.txt', 'title':'My Tab', 'author':'Me', 
                 'date':today} 
@@ -96,6 +105,8 @@ class Tab(object):
         position falls in and the two encapsulating rows (i.e. preceding and
         following rows).
         """
+        # TODO current position: there is a bug somewhere in here after reading
+        # from a file...
         
         num_loops = (self.imax // self._MAX)
         pos_loop = self.i // self._MAX
@@ -272,27 +283,110 @@ class Tab(object):
 
 
 
-    def get_tab(self, filename):
+    def get_tab(self, filename, overwrite_info=True, overwrite_data=True):
         """
-        Open a pyTab file and determine if it should be appended or written
-        over.
+        Open a pyTab file and extract the tab data from it.
 
 
         Parameters
         ----------
-        num   : The number of places to go forward in the tab. Must be an
-                integer > 0. Default is 1.
+        filename : The name of the file to read from
+        overwrite_info: A flag to decide if the current tab information should be
+                   overwritten with that contained in the file. 'True' to
+                   overwrite with file information, 'False' to retain the
+                   current tab information and so discard any information
+                   extracted from the file.
+        overwrite_data: If there is tab data held by the tab object instance,
+                   then this boolean flag determines if that data is
+                   overwritten by the data in the file. 
 
         Returns
         -------
-        None
+        data     : The tab data read from filename in a two-dimensional list
+                   object
         """
-        pass
+
+        error1 = 'Tab file incorrectly formatted: {}'
+        error2 = 'Tab file incorrectly formatted or has mismatched tuning: {}'
+
+        if type(overwrite_info) != bool:
+            raise TypeError("overwrite_info argument in get_tab must be of type "\
+                    "bool. Type given: {}".format(overwrite_info.__class__))
+        if type(overwrite_data) != bool:
+            raise TypeError("overwrite_data argument in get_tab must be of type "\
+                    "bool. Type given: {}".format(overwrite_data.__class__))
+
+        with open(filename, 'r') as tabfile:
+
+            if tabfile.readline() != (80 * '=' + '\n'):
+                raise RuntimeError(error1.format(filename))
+
+            # Get the tab information stored in this file
+            info = {}
+            for i in info_order:
+                match = info_tests[i].search(tabfile.readline())
+                if match:
+                    info[i] = match.group(1)
+                else:
+                    raise RuntimeError(error1.format(filename))
+
+            # Save the tab information in the tab instance if requested
+            if overwrite_info:
+                info['filename'] = filename
+                self.set_info(**info)
+
+            # Discard anything until the end of the header (allows for user
+            # notes)
+            while(True):
+                line = tabfile.readline()
+                if line == (80 * '=' + '\n'):
+                    break
+                elif line == '':
+                    raise EOFError('EOF reached before finished reading header.')
+
+            # Collect the tab data contained in the file
+            #data_found = False
+            data = []
+            imax = 0
+            while(True):
+
+                line = tabfile.readline()
+
+                if line == '\n':
+                    continue
+
+                elif line[0:2] == self._leader[0]:
+                    rows = []
+                    rows.append(line)
+                    for i in range(1, self.clength):
+                        line = tabfile.readline()
+                        if line[0:2] == self._leader[i]:
+                            rows.append(line)
+                        else:
+                            raise RuntimeError(error2.format(filename))
+                    #data_found = True
+                    imax += len(rows[0]) - 3
+                    for i in range(2, len(rows[0])-1):
+                        chord = []
+                        for j in range(self.clength):
+                            chord.append(rows[j][i])
+                        data.append(chord)
+
+                elif line == '':
+                    break
+
+            if overwrite_data:
+                self.tab_data = data
+                self.imax = imax - 1
+
+            return data
+
 
 
     def save_tab(self, filename=None, **kwargs):
         """
-        Write the current tab data to file.
+        Write the current tab data to a text file.
+        TODO think about encoding here? Current is 'us-ascii'
 
 
         Parameters
@@ -319,6 +413,7 @@ class Tab(object):
             self.set_info(filename=filename, **kwargs)
 
         # check if the file already exists and give options 
+        # TODO move this to main CLI program, see NOTE for 2019-04-09
         tabfilename = self.info['filename']
         while(True):
             try:
