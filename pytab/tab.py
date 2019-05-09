@@ -105,9 +105,7 @@ class Tab(object):
         position falls in and the two encapsulating rows (i.e. preceding and
         following rows).
         """
-        # TODO current position: there is a bug somewhere in here after reading
-        # from a file...
-        
+
         num_loops = (self.imax // self._MAX)
         pos_loop = self.i // self._MAX
         tab_string = ''
@@ -127,7 +125,7 @@ class Tab(object):
         for i in range(start_out, end_out):
 
             start = i * self._MAX
-            if i == end_out - 1:
+            if i == num_loops:
                 end = self.imax + 1
             else:
                 end = start + self._MAX
