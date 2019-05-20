@@ -6,17 +6,6 @@ Description: An interacive command line program that speeds up the process of
     writing guitar tabs. The user enters chords/fingering count by count with
     the final result being written to a text file.
 """
-# TODO:
-# 1. add an option for inputting a title, add an option for adding
-# the author to the file, add option for quitting without saving
-# progress
-# 
-# 2. I need to think about how to keep notes of the design decisions and with
-# each commit I make. Should this all go in the commit message? Surely I need a
-# rough space that I can work out thoughts and then reference these to the git
-# commit history so it is easier to compose a changelog when it comes to a
-# release
-#
 
 import argparse
 import tab
@@ -32,11 +21,13 @@ def main():
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
 
     # define the argument parser object
-    parser = argparse.ArgumentParser(prog='pyTab', description='TO-DO:'
+    parser = argparse.ArgumentParser(prog='pyTab', description='TODO:'
                                      'fill in description of pyTab')
 
     # TODO add an argument that can take in single letter chord names and
     # produce the correct tab representation
+    # TODO add an option for setting title, author, and date (separate or one
+    # argument?)
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='The'
                         ' chord/fingering for the current count. If'
                         ' present, there must be 6 positional arguments'
@@ -44,6 +35,8 @@ def main():
                         'e to low E.')
     parser.add_argument('-q', action='store_true', help='Flag'
                         ' to quit pyTab and save progress.')
+    parser.add_argument('-d', action='store_true', help='Flag'
+                        ' to quit pyTab without saving progress.')
     parser.add_argument('-p', action='store_true', help='Flag'
                         ' to print the entirety of the current tab.')
     parser.add_argument('-b', nargs='?', const=1, type=int, help='The'
@@ -74,27 +67,35 @@ def main():
         except:
             continue
 
-        if args.outfile is not None:
-            x.set_info(filename=args.outfile)
+        # Quit without saving
+        if args.d:
+            break
 
-        # TODO test
+        # Set the file name
+        if args.outfile is not None:
+            x.set_info(filename=args.outfile[0])
+
+        # Save and quit
         if args.q:
             # write current tab buffer to file
             x.save_tab()
             break
 
-        # TODO test
+        # Save file and set filename if given
         if args.save:
             if args.save is True:
                 x.save_tab()
             else:
                 x.save_tab(filename=args.save)
 
+        # Print a paginated version of the whole tab
+        # TODO need to make this OS agnostic because it uses `less`
         if args.p:
             pipe = os.popen('less', mode='w')
             print(x, file=pipe)
             pipe.close()
         
+        # Move current position backwards in tab
         if args.b:
             try:
                 x.backward(args.b)
@@ -102,19 +103,21 @@ def main():
                 print(inst)
             continue
 
+        # Move current position forwards in tab
         if args.f:
             try:
                 x.forward(args.f)
             except TypeError as inst:
                 print(inst)
-            continue
+                continue
 
+        # Write a chord to the current position
         if args.chord:
             try:
                 x.write(args.chord)
             except TypeError as inst:
                 print(inst)
-            continue
+                continue
 
 
 

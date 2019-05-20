@@ -39,3 +39,10 @@ through calls to any of these class methods.
 I need to decide on how the text file convention should be specified and the
 best way is to write to the file. Should I define/use a template? Or are a
 series of `file.write('<string>')` statements fine? A question for another day.
+
+
+# 2019-04-09
+I am now questioning whether the decision to overwrite the output file should
+be handled in the main program rather than in the `save_tab` method. From the
+perspective of a class module that could be used in a arbitrary context, the
+decision to prompt for user input seems ill advised.
