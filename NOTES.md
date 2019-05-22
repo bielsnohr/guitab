@@ -46,3 +46,11 @@ I am now questioning whether the decision to overwrite the output file should
 be handled in the main program rather than in the `save_tab` method. From the
 perspective of a class module that could be used in a arbitrary context, the
 decision to prompt for user input seems ill advised.
+
+
+# 2019-05-21
+The `write`, `forward`, and `backward` methods of the tab class all currently
+print a portion of the tab before exiting. This is undesirable from the
+perspective of using the tab class outside of the pyTab main program. These
+print commands (which are already a class method) should be moved the pyTab
+main program itself.

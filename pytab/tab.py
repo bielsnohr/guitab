@@ -187,7 +187,6 @@ class Tab(object):
 
         # Add the chord to the tab data and print what we have
         self.tab_data[index] = chord
-        self.print()
 
 
     def backward(self, num=1):
@@ -215,7 +214,6 @@ class Tab(object):
 
         else:
             self.i -= num
-            self.print()
 
 
     def forward(self, num=1):
@@ -247,7 +245,6 @@ class Tab(object):
             self.tab_data += [self._blank for x in range(self.i - self.imax)]
             self.imax = self.i
 
-        self.print()
 
 
     def set_info(self, **kwargs):
