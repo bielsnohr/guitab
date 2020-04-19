@@ -21,20 +21,18 @@ def main():
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
 
     # define the argument parser object
-    parser = argparse.ArgumentParser(prog='pyTab', description='TODO:'
-                                     'fill in description of pyTab')
+    parser = argparse.ArgumentParser(prog='pyTab',
+                                     description='description of pyTab')
 
-    # TODO the string with space issue requires nargs='+' to solve. Check
-    #      how this impact all of the arguments
-    # TODO add an argument that can take in single letter chord names and
-    # produce the correct tab representation
+    # TODO add an argument that can take in single letter chord names
     # TODO add argument for setting the title of the tab
+    # produce the correct tab representation
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='The'
                         ' chord/fingering for the current count. If'
                         ' present, there must be 6 positional arguments'
                         '--one for each string. Input order runs from high '
                         'e to low E.')
-    parser.add_argument('-q', nargs='+', type=str, const=True,
+    parser.add_argument('-q', nargs='*', type=str,
                         help='Save tab then quit pyTab. Name of file'
                         ' can be set as optional argument.')
     parser.add_argument('-d', action='store_true', help='Flag'
@@ -58,10 +56,10 @@ def main():
                         ' stored in the output file.')
     parser.add_argument('-D', '--date', nargs=1, type=str,
                         default=None, help='The date associated with the tab '
-                        ' that will be stored in the output file. Defaults '
-                        'to today\'s date')
-    parser.add_argument('-s', '--save', nargs='+', type=str,
-                        const=True, help='Save the tab to file. Name of file'
+                        ' that will be stored in the output file. ISO format. '
+                        'Today\'s date will be used for tab if not set.')
+    parser.add_argument('-s', '--save', nargs='*', type=str,
+                        help='Save the tab to file. Name of file'
                         ' can be set as optional argument.')
     parser.add_argument('-l', '--load', nargs=1, type=str,
                         default=None, help='Load a tab from the filename '
@@ -77,7 +75,7 @@ def main():
     # main program loop
     user_tab = tab.Tab()
 
-    while(True):
+    while True:
 
         inp = input('[pyTab]: ')
 
@@ -92,24 +90,28 @@ def main():
             break
 
         # Set the file name
-        if args.outfile is not None:
+        if args.outfile:
             user_tab.set_info(filename=' '.join(args.outfile))
 
         # Set the author name
-        if args.author is not None:
+        if args.author:
+            print(' '.join(args.author))
+            #TODO set correct method call for author
             user_tab.set_info(filename=' '.join(args.author))
 
         # Set the date
-        if args.date is not None:
+        if args.date:
+            #TODO set correct method call for date
             user_tab.set_info(filename=args.date[0])
 
         # Set the title
-        if args.title is not None:
+        if args.title:
+            #TODO set correct method call for title
             user_tab.set_info(filename=' '.join(args.title))
 
         # Save and quit
-        if args.q:
-            if args.q is True:
+        if args.q is not None:
+            if len(args.q) == 0:
                 user_tab.save_tab()
                 break
             else:
@@ -117,16 +119,14 @@ def main():
                 break
 
         # Save file and set filename if given
-        if args.save:
-            if args.save is True:
+        if args.save is not None:
+            if len(args.save) == 0:
                 user_tab.save_tab()
             else:
                 user_tab.save_tab(filename=' '.join(args.save))
         
         # TODO add loading tab functionality
 
-        # Print a paginated version of the whole tab
-        # TODO need to make this OS agnostic because it uses `less` command
         if args.p:
             pipe = os.popen('less', mode='w')
             print(user_tab, file=pipe)
