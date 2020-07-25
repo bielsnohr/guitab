@@ -37,7 +37,7 @@ class Tab(object):
         self.clength = clength
 
         # a blank chord
-        self._blank = ['-' for x in range(6)]
+        self._blank = ['-' for x in range(self.clength)]
 
         # the list that will hold the chords which form the tab
         self.tab_data = [self._blank]
@@ -247,6 +247,7 @@ class Tab(object):
 
 
 
+# TODO present: check that this functions properly
     def set_info(self, **kwargs):
         """Set relevant information for the Tab object, such as author, date,
         etc. 

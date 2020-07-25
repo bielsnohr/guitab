@@ -25,8 +25,6 @@ def main():
                                      description='description of pyTab')
 
     # TODO add an argument that can take in single letter chord names
-    # TODO add argument for setting the title of the tab
-    # produce the correct tab representation
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='The'
                         ' chord/fingering for the current count. If'
                         ' present, there must be 6 positional arguments'
@@ -61,11 +59,11 @@ def main():
     parser.add_argument('-s', '--save', nargs='*', type=str,
                         help='Save the tab to file. Name of file'
                         ' can be set as optional argument.')
-    parser.add_argument('-l', '--load', nargs=1, type=str,
+    parser.add_argument('-l', '--load', nargs='+', type=str,
                         default=None, help='Load a tab from the filename '
                         'argument. Any tab metadata (author, etc) from the '
                         'current pyTab session will not be overwritten.')
-    parser.add_argument('-L', '--loadall', nargs=1, type=str,
+    parser.add_argument('-L', '--loadall', nargs='+', type=str,
                         default=None, help='Load a tab and all metadata from '
                         'the filename argument. Any tab metadata (author, etc)'
                         ' from the current pyTab session will be overwritten.')
@@ -81,7 +79,6 @@ def main():
 
         try:
             args = parser.parse_args(inp.split())
-            #print(args)
         except:
             continue
 
@@ -95,19 +92,15 @@ def main():
 
         # Set the author name
         if args.author:
-            print(' '.join(args.author))
-            #TODO set correct method call for author
-            user_tab.set_info(filename=' '.join(args.author))
+            user_tab.set_info(author=' '.join(args.author))
 
         # Set the date
         if args.date:
-            #TODO set correct method call for date
-            user_tab.set_info(filename=args.date[0])
+            user_tab.set_info(date=args.date[0])
 
         # Set the title
         if args.title:
-            #TODO set correct method call for title
-            user_tab.set_info(filename=' '.join(args.title))
+            user_tab.set_info(title=' '.join(args.title))
 
         # Save and quit
         if args.q is not None:
@@ -125,8 +118,7 @@ def main():
             else:
                 user_tab.save_tab(filename=' '.join(args.save))
         
-        # TODO add loading tab functionality
-
+        # Print the entirety of the tab
         if args.p:
             pipe = os.popen('less', mode='w')
             print(user_tab, file=pipe)
@@ -159,6 +151,13 @@ def main():
                 continue
             user_tab.print()
 
+        # Load the tab but don't overwrite metadata
+        if args.load:
+            user_tab.get_tab(' '.join(args.load), overwrite_info=False)
+
+        # Load the tab and overwrite metadata
+        if args.loadall:
+            user_tab.get_tab(' '.join(args.loadall))
 
 
 if __name__ == "__main__":
