@@ -1,5 +1,5 @@
-Design Notes for pyTab Project
-==============================
+Design Notes for PyTablature Project
+====================================
 
 
 # 2019-03-08
