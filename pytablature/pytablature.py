@@ -8,8 +8,9 @@ Description: An interacive command line program that speeds up the process of
 """
 
 import argparse
-import tab
 import os
+
+from . import tab
 
 
 def main():
