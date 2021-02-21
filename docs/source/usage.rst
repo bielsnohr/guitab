@@ -2,8 +2,8 @@
 Usage
 =====
 
-Start by importing PyTablature.
+Start by importing guitab.
 
 .. code-block:: python
 
-    import pytablature
+    import guitab

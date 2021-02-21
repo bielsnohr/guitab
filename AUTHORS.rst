@@ -5,7 +5,7 @@ Credits
 Maintainer
 ----------
 
-* Matthew Bluteau <matthew.bluteau@gmail.com>
+* bielsnohr <matt.bielsnohr@protonmail.com>
 
 Contributors
 ------------
