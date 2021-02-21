@@ -2,7 +2,7 @@ Design Notes for PyTablature Project
 ====================================
 
 
-# 2019-03-08
+## 2019-03-08
 Some thoughts about how the reading and writing of tabs should be handled. My
 original thinking was to handle this entirely through the main program, but now
 I am thinking that is makes sense to define a file convention within the tab
@@ -19,7 +19,7 @@ In general, I need to be careful not to try and replicate a fully-functional
 GUI too much, as the immediate goal is to get to a useable prototype.
 
 
-# 2019-03-11
+## 2019-03-11
 I need to figure out what I want the arguments to the `get_tab()` and
 `save_tab()` methods to be. Crucially, I need to revisit how keyword arguments
 and dictionaries interact so that there are keyword arguments to `save_tab()`
@@ -35,22 +35,29 @@ then onto the `set_info()` method such that the tab information can be updated
 through calls to any of these class methods.
 
 
-# 2019-03-21
+## 2019-03-21
 I need to decide on how the text file convention should be specified and the
 best way is to write to the file. Should I define/use a template? Or are a
 series of `file.write('<string>')` statements fine? A question for another day.
 
 
-# 2019-04-09
+## 2019-04-09
 I am now questioning whether the decision to overwrite the output file should
 be handled in the main program rather than in the `save_tab` method. From the
 perspective of a class module that could be used in a arbitrary context, the
 decision to prompt for user input seems ill advised.
 
 
-# 2019-05-21
+## 2019-05-21
 The `write`, `forward`, and `backward` methods of the tab class all currently
 print a portion of the tab before exiting. This is undesirable from the
 perspective of using the tab class outside of the pyTab main program. These
 print commands (which are already a class method) should be moved the pyTab
 main program itself.
+
+## 2021-02-20
+
+Because of relative imports, if one wants to run `guitab.py` directly, then one
+must use `python -m guitab.guitab`. Not very elegant, but suitable for the time
+being. It will be necessary to see how I will package such that this CLI
+program is available to users without these relative import restrictions.

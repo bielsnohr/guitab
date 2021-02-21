@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-"""
-Author: Matthew Bluteau <matthew.bluteau@gmail.com>
-Version: 1.0
-Description: An interacive command line program that speeds up the process of
-    writing guitar tabs. The user enters chords/fingering count by count with
-    the final result being written to a text file.
+"""An interacive command line program that speeds up the process of writing
+guitar tabs. 
+
+The user enters chords/fingering count by count with the final
+result being written to a text file.
 """
 
 import argparse
@@ -15,15 +14,15 @@ from . import tab
 
 def main():
 
-    print("Welcome to PyTablature, an interactive command line program that "
+    print("Welcome to guitab, an interactive command line program that "
           "accelerates the tab writing process. Type -h or --help for "
           "details of how to run the program.")
 
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
 
     # define the argument parser object
-    parser = argparse.ArgumentParser(prog='PyTablature',
-                                     description='description of PyTablature')
+    parser = argparse.ArgumentParser(prog='guitab',
+                                     description='description of guitab')
 
     # TODO add an argument that can take in single letter chord names
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='The'
@@ -32,10 +31,10 @@ def main():
                         '--one for each string. Input order runs from high '
                         'e to low E.')
     parser.add_argument('-q', nargs='*', type=str,
-                        help='Save tab then quit PyTablature. Name of file'
+                        help='Save tab then quit guitab. Name of file'
                         ' can be set as optional argument.')
     parser.add_argument('-d', action='store_true', help='Flag'
-                        ' to quit PyTablature without saving progress.')
+                        ' to quit guitab without saving progress.')
     parser.add_argument('-p', action='store_true', help='Flag'
                         ' to print the entirety of the current tab.')
     parser.add_argument('-b', nargs='?', const=1, type=int, help='The'
@@ -63,11 +62,11 @@ def main():
     parser.add_argument('-l', '--load', nargs='+', type=str,
                         default=None, help='Load a tab from the filename '
                         'argument. Any tab metadata (author, etc) from the '
-                        'current PyTablature session will not be overwritten.')
+                        'current guitab session will not be overwritten.')
     parser.add_argument('-L', '--loadall', nargs='+', type=str,
                         default=None, help='Load a tab and all metadata from '
                         'the filename argument. Any tab metadata (author, etc)'
-                        ' from the current PyTablature session will be overwritten.')
+                        ' from the current guitab session will be overwritten.')
 
     # Initialize the tab object and any other relevant variables (although
     # these should be soon implemented in the tab class itself) before entering

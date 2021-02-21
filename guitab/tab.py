@@ -1,7 +1,4 @@
-"""
-Created on Jan 7, 2014
-
-@author: Matt
+"""A class for representing guitar tablature
 """
 
 import datetime as dt
