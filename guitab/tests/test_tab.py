@@ -48,3 +48,9 @@ def test_backward_valid(filled_tab, filled_tab_dict):
     filled_tab.backward()
     filled_tab_dict['i'] = 2
     assert filled_tab.__dict__ == filled_tab_dict
+
+
+def test_forward_valid(blank_tab, filled_tab_dict):
+    """Check that valid `forward` operation yields expected tab state."""
+    blank_tab.forward(3)
+    assert blank_tab.__dict__ == filled_tab_dict
