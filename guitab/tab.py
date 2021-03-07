@@ -13,12 +13,12 @@ author = re.compile(r'^author\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
 date = re.compile(r'^date\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
 
 # Define the order for reading metadata from a tab file
-info_tests = {'title':title, 'author':author, 'date':date}
+info_tests = {'title': title, 'author': author, 'date': date}
 info_order = ['title', 'author', 'date']
 
 
 class Tab(object):
-    """Create python objects for guitar tabs. 
+    """Create python objects for guitar tabs.
 
     A 'Tab' object easily facilitates the storage, modification, and textual
     display of a guitar tab in python.
@@ -48,20 +48,19 @@ class Tab(object):
 
         # the index for the current position in the tab
         self.i = 0
-        
+
         # the current size of the tab (i.e. largest index attained so far)
         self.imax = 0
 
         # the dictionary that holds the information about the tab; set defaults
         today = str(dt.date.today())
-        self.info = {'filename':'myTab.txt', 'title':'My Tab', 'author':'Me', 
-                'date':today} 
-
+        self.info = {'filename': 'myTab.txt', 'title': 'My Tab', 'author':
+                     'Me', 'date': today}
 
     def __str__(self):
         """Format Tab.tab_data for printing
         """
-        
+
         num_loops = (self.imax // self._MAX) + 1
         pos_loop = self.i // self._MAX
         tab_string = ''
@@ -93,7 +92,6 @@ class Tab(object):
                 tab_string = tab_string + '\n\n'
 
         return tab_string
-
 
     def print(self):
         """Format Tab.tab_data for limited printing. This routine prints the
@@ -145,7 +143,6 @@ class Tab(object):
 
         print(tab_string)
 
-
     def write(self, chord, index=None):
         """Writes the input chord to an index of the Tab object
 
@@ -184,7 +181,6 @@ class Tab(object):
         # Add the chord to the tab data and print what we have
         self.tab_data[index] = chord
 
-
     def backward(self, num=1):
         """Place the chord position back `num` places from where it currently
         is.
@@ -201,16 +197,15 @@ class Tab(object):
         """
 
         if num < 0 or type(num) != int:
-            raise TypeError('num argument must be an integer and > 0. num = '\
-                    '{}'.format(num))
+            raise TypeError('num argument must be an integer and > 0. num = '
+                            '{}'.format(num))
 
         elif self.i - num < 0:
-            raise IndexError('Requested backwards move is out of range. Index'\
-                    '= {:d}, and num = {:d}'.format(self.i, num))
+            raise IndexError('Requested backwards move is out of range. Index'
+                             '= {:d}, and num = {:d}'.format(self.i, num))
 
         else:
             self.i -= num
-
 
     def forward(self, num=1):
         """Place the chord position forward `num` places from where it
@@ -228,8 +223,8 @@ class Tab(object):
         """
 
         if num < 0 or type(num) != int:
-            raise TypeError('num argument must be an integer and > 0. num = '\
-                    '{}'.format(num))
+            raise TypeError('num argument must be an integer and > 0. num = '
+                            '{}'.format(num))
 
         # We can add to the present index without restriction as long as the
         # above is satisfied
@@ -241,13 +236,11 @@ class Tab(object):
             self.tab_data += [self._blank for x in range(self.i - self.imax)]
             self.imax = self.i
 
-
-
 # TODO present: check that this functions properly
     def set_info(self, **kwargs):
         """Set relevant information for the Tab object, such as author, date,
-        etc. 
-        
+        etc.
+
         Keyword arguments accepted
         ---
         filename : the name of the file to which the tab should be read/written
@@ -273,8 +266,6 @@ class Tab(object):
                 else:
                     self.info[i] = kwargs[i]
 
-
-
 # TODO object IO should be handled in a separate module
     def get_tab(self, filename, overwrite_info=True, overwrite_data=True):
         """
@@ -291,7 +282,7 @@ class Tab(object):
                    extracted from the file.
         overwrite_data: If there is tab data held by the tab object instance,
                    then this boolean flag determines if that data is
-                   overwritten by the data in the file. 
+                   overwritten by the data in the file.
 
         Returns
         -------
@@ -303,11 +294,12 @@ class Tab(object):
         error2 = 'Tab file incorrectly formatted or has mismatched tuning: {}'
 
         if type(overwrite_info) != bool:
-            raise TypeError("overwrite_info argument in get_tab must be of type "\
-                    "bool. Type given: {}".format(overwrite_info.__class__))
+            raise TypeError("overwrite_info argument in get_tab must be of "
+                            "type bool. Type given: {}".format(overwrite_info.__class__))
         if type(overwrite_data) != bool:
-            raise TypeError("overwrite_data argument in get_tab must be of type "\
-                    "bool. Type given: {}".format(overwrite_data.__class__))
+            raise TypeError("overwrite_data argument in get_tab must be of "
+                            "type bool. Type given: "
+                            "{}".format(overwrite_data.__class__))
 
         with open(filename, 'r') as tabfile:
 
@@ -338,7 +330,6 @@ class Tab(object):
                     raise EOFError('EOF reached before finished reading header.')
 
             # Collect the tab data contained in the file
-            #data_found = False
             data = []
             imax = 0
             while(True):
@@ -357,7 +348,6 @@ class Tab(object):
                             rows.append(line)
                         else:
                             raise RuntimeError(error2.format(filename))
-                    #data_found = True
                     imax += len(rows[0]) - 3
                     for i in range(2, len(rows[0])-1):
                         chord = []
@@ -373,8 +363,6 @@ class Tab(object):
                 self.imax = imax - 1
 
             return data
-
-
 
     def save_tab(self, filename=None, **kwargs):
         """
@@ -405,13 +393,13 @@ class Tab(object):
         else:
             self.set_info(filename=filename, **kwargs)
 
-        # check if the file already exists and give options 
+        # check if the file already exists and give options
         # TODO move this to main CLI program, see NOTE for 2019-04-09
         tabfilename = self.info['filename']
         while(True):
             try:
                 tabfile = open(tabfilename, 'x')
-            except FileExistsError as e:
+            except FileExistsError:
                 message = "File already exists: '{}'\nOverwrite? [Y/n] ".format(tabfilename)
                 inp = input(message)
                 if inp.lower() == 'y':
@@ -431,11 +419,11 @@ class Tab(object):
                 break
 
         fileformat = 80 * '=' + '\n' + \
-                'Title : {title}\n'  + \
-                'Author: {author}\n' + \
-                'Date  : {date}\n'   + \
-                80 * '=' + '\n\n'    + \
-                '{tabdata}'
+            'Title : {title}\n' + \
+            'Author: {author}\n' + \
+            'Date  : {date}\n' + \
+            80 * '=' + '\n\n' + \
+            '{tabdata}'
 
         # remove the current position character from the output of str(self)
         tabdata = rm_position.sub(r'\1 \2', str(self))
@@ -444,6 +432,3 @@ class Tab(object):
         tabfile.write(fileformat.format(tabdata=tabdata, **self.info))
 
         tabfile.close()
-
-                
-
