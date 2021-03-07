@@ -163,8 +163,7 @@ class Tab(object):
 
         # Check that the chord has the correct format
         if len(chord) != self.clength:
-            # TODO raise a more informative error here; make my own error
-            # class?
+            # TODO fill out error information
             raise TypeError
         for i in chord:
             if i not in self.allowed:
@@ -276,6 +275,7 @@ class Tab(object):
 
 
 
+# TODO object IO should be handled in a separate module
     def get_tab(self, filename, overwrite_info=True, overwrite_data=True):
         """
         Open a pyTab file and extract the tab data from it.
