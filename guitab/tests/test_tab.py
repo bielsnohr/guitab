@@ -96,3 +96,21 @@ def test_write_invalid_chord(invalid_tab, filled_tab):
     """Check that writing an invalid chord raises a TypeError"""
     with pytest.raises(TypeError):
         filled_tab.write(invalid_tab)
+
+
+def test_str_blank_tab(blank_tab):
+    str_blank_tab = 'e|-\nB|-\nG|-\nD|-\nA|-\nE|-\n  *\n'
+    assert str(blank_tab) == str_blank_tab
+
+
+def test_str_tab_1_row(blank_tab):
+    blank_tab.forward(77)
+    str_tab_1_row = \
+        'e|------------------------------------------------------------------------------\n'\
+        'B|------------------------------------------------------------------------------\n'\
+        'G|------------------------------------------------------------------------------\n'\
+        'D|------------------------------------------------------------------------------\n'\
+        'A|------------------------------------------------------------------------------\n'\
+        'E|------------------------------------------------------------------------------\n'\
+        '                                                                               *\n'
+    assert str(blank_tab) == str_tab_1_row
