@@ -18,6 +18,7 @@ def main():
           "accelerates the tab writing process. Type -h or --help for "
           "details of how to run the program.")
 
+    # TODO this should be set in the tab class, not here
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
 
     # define the argument parser object
