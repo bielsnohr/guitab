@@ -2,8 +2,8 @@
 guitab
 ======
 
-.. image:: https://img.shields.io/travis/bielsnohr/guitab.svg
-        :target: https://travis-ci.org/bielsnohr/guitab
+.. image:: https://github.com/bielsnohr/guitab/actions/workflows/lint-and-test/badge.svg?branch=master
+        :target: https://github.com/bielsnohr/guitab/actions/workflows/lint-and-test/?query=branch%3Amaster+
 
 .. image:: https://img.shields.io/pypi/v/guitab.svg
         :target: https://pypi.python.org/pypi/guitab
