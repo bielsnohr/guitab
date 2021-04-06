@@ -58,8 +58,8 @@ def test_guitab_print_tab_2_rows(monkeypatch, capfd):
 
 
 def test_guitab_write_chord(monkeypatch, capfd):
-    """Confirm that the custom shell program displays a blank tab correctly and
-    then quits"""
+    """Confirm that the custom shell program can write a C chord, display it
+    correctly and then quit"""
 
     user_input = iter(['-c - 1 - 2 3 x', '-d'])
     monkeypatch.setattr('builtins.input', lambda _: next(user_input))
