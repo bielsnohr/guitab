@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """An interacive command line program that speeds up the process of writing
-guitar tabs. 
+guitar tabs.
 
 The user enters chords/fingering count by count with the final
 result being written to a text file.
@@ -18,6 +18,7 @@ def main():
           "accelerates the tab writing process. Type -h or --help for "
           "details of how to run the program.")
 
+    # TODO this should be set in the tab class, not here
     allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
 
     # define the argument parser object
@@ -79,7 +80,7 @@ def main():
 
         try:
             args = parser.parse_args(inp.split())
-        except:
+        except BaseException:
             continue
 
         # Quit without saving
@@ -117,13 +118,13 @@ def main():
                 user_tab.save_tab()
             else:
                 user_tab.save_tab(filename=' '.join(args.save))
-        
+
         # Print the entirety of the tab
         if args.p:
             pipe = os.popen('less', mode='w')
             print(user_tab, file=pipe)
             pipe.close()
-        
+
         # Move current position backwards in tab
         if args.b:
             try:
