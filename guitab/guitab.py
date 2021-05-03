@@ -13,6 +13,11 @@ from . import tab
 
 
 def main():
+    """Main function for guitab module
+
+    This initiates a REPL-like program that takes in user input to build the
+    tablature using a `Tab` object
+    """
 
     print("Welcome to guitab, an interactive command line program that "
           "accelerates the tab writing process. Type -h or --help for "

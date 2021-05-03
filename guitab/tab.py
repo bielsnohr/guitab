@@ -6,14 +6,17 @@ import warnings
 import re
 
 
-# Compiled regex searches
+"""Compiled regex search to remove position cursor in tab"""
 rm_position = re.compile(r'(^\s+)\*(\s*$)', flags=re.MULTILINE)
+"""Compiled regex search to find title field in tab text file"""
 title = re.compile(r'^title\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
+"""Compiled regex search to find author field in tab text file"""
 author = re.compile(r'^author\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
+"""Compiled regex search to find date field in tab text file"""
 date = re.compile(r'^date\s*:\s*(.*)\s*$', flags=re.IGNORECASE)
 
-# Define the order for reading metadata from a tab file
 info_tests = {'title': title, 'author': author, 'date': date}
+"""Define the order for reading metadata from a tab file"""
 info_order = ['title', 'author', 'date']
 
 
