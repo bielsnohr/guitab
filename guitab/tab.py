@@ -1,4 +1,4 @@
-"""A class for representing guitar tablature
+"""A module for representing guitar tablature
 """
 
 import datetime as dt
@@ -18,14 +18,23 @@ info_order = ['title', 'author', 'date']
 
 
 class Tab(object):
-    """Create python objects for guitar tabs.
+    """Class to represent textual guitar tabs.
 
     A 'Tab' object easily facilitates the storage, modification, and textual
-    display of a guitar tab in python.
+    display of a guitar tab in Python.
     """
 
     def __init__(self, clength=6):
-        """Constructor for Tab class object"""
+        """Constructor for Tab class object
+
+
+        Parameters
+        ----------
+        clength : int, optional
+            The "length" of a chord, i.e. the number of strings of the guitar.
+            The default is 6 which corresponds to the usual 6-string guitar.
+            WIP not yet implemented
+        """
 
         # the maximum length of a line in the tab
         self._MAX = 78
@@ -58,7 +67,7 @@ class Tab(object):
                      'Me', 'date': today}
 
     def __str__(self):
-        """Format Tab.tab_data for printing
+        """Formatted string of the Tab object data
         """
 
         num_loops = (self.imax // self._MAX) + 1
@@ -94,11 +103,12 @@ class Tab(object):
         return tab_string
 
     def print(self):
-        """Format Tab.tab_data for limited printing. This routine prints the
-        tab object with the same formatting as calling `print(tab_instance)`
-        but only three tab rows are printed: the row that the current chord
-        position falls in and the two encapsulating rows (i.e. preceding and
-        following rows).
+        """Format Tab object data for limited printing.
+
+        This routine prints the tab object with the same formatting as calling
+        `print(tab_instance)` but only three tab rows are printed: the row that
+        the current chord position falls in and the two encapsulating rows
+        (i.e. preceding and following rows).
         """
 
         num_loops = (self.imax // self._MAX)
@@ -148,9 +158,12 @@ class Tab(object):
 
         Parameters
         ----------
-        chord : a list of single string characters and of length self.clength
-        index : the index of self.tab_data where the chord will be written.
-                Default is the current index, self.i
+        chord : list of str
+            A list of single string characters of length self.clength that
+            represents the chord
+        index : int, optional
+            The index of self.tab_data where the chord will be written.
+            Default is the current index, self.i
 
         Returns
         -------
@@ -188,8 +201,9 @@ class Tab(object):
 
         Parameters
         ----------
-        num   : The number of places to go backwards in the tab. Must be an
-                integer > 0. Default is 1.
+        num : int, optional
+            The number of places to go backwards in the tab. Must be an integer
+            > 0. Default is 1.
 
         Returns
         -------
@@ -214,8 +228,9 @@ class Tab(object):
 
         Parameters
         ----------
-        num   : The number of places to go forward in the tab. Must be an
-                integer > 0. Default is 1.
+        num : int, optional
+            The number of places to go forward in the tab. Must be an integer >
+            0. Default is 1.
 
         Returns
         -------
@@ -241,13 +256,16 @@ class Tab(object):
         """Set relevant information for the Tab object, such as author, date,
         etc.
 
-        Keyword arguments accepted
-        ---
-        filename : the name of the file to which the tab should be read/written
-                   (str)
-        title    : the title of the tab (str)
-        author   : the author of the tab (str)
-        date     : the date the tab was written (str)
+        Parameters
+        ----------
+        filename : str
+            The name of the file to which the tab should be read/written
+        title : str
+            The title of the tab
+        author : str
+            The author of the tab
+        date : str
+            The date the tab was written (str)
 
         """
 
@@ -268,26 +286,27 @@ class Tab(object):
 
 # TODO object IO should be handled in a separate module
     def get_tab(self, filename, overwrite_info=True, overwrite_data=True):
-        """
-        Open a pyTab file and extract the tab data from it.
-
+        """Open a guitab text file and extract the tab data from it.
 
         Parameters
         ----------
-        filename : The name of the file to read from
-        overwrite_info: A flag to decide if the current tab information should be
-                   overwritten with that contained in the file. 'True' to
-                   overwrite with file information, 'False' to retain the
-                   current tab information and so discard any information
-                   extracted from the file.
-        overwrite_data: If there is tab data held by the tab object instance,
-                   then this boolean flag determines if that data is
-                   overwritten by the data in the file.
+        filename : str
+            The name of the file to read from
+        overwrite_info: bool, optional
+            A flag to decide if the current tab information should be
+            overwritten with that contained in the file. 'True' to overwrite
+            with file information, 'False' to retain the current tab
+            information and so discard any information extracted from the file.
+        overwrite_data: bool, optional
+            If there is tab data held by the tab object instance, then this
+            boolean flag determines if that data is overwritten by the data in
+            the file.
 
         Returns
         -------
-        data     : The tab data read from filename in a two-dimensional list
-                   object
+        data : list of list of str
+            The tab data read from filename in a two-dimensional list object
+            that is the internal storage format of the Tab object
         """
 
         error1 = 'Tab file incorrectly formatted: {}'
@@ -364,27 +383,20 @@ class Tab(object):
 
             return data
 
+    # TODO think about encoding here? Current is 'us-ascii'
     def save_tab(self, filename=None, **kwargs):
-        """
-        Write the current tab data to a text file.
-        TODO think about encoding here? Current is 'us-ascii'
+        """Write the current tab data to a text file.
 
 
         Parameters
         ----------
-        filename : The name of the file to write to
-
-        Keyword arguments accepted
-        ---
-        filename : the name of the file to which the tab should be read/written
-                   (str)
-        title    : the title of the tab (str)
-        author   : the author of the tab (str)
-        date     : the date the tab was written (str)
-
-        Returns
-        -------
-        None
+        filename : str, optional
+            The name of the file to write to. If not provided, the filename
+            currently in the Tab object info is used.
+        **kwargs : dict, optional
+            title : the title of the tab (str)
+            author : the author of the tab (str)
+            date  : the date the tab was written (str)
         """
 
         # set the relevant tab info that has been passed to this function
