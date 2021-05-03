@@ -1,0 +1,439 @@
+:mod:`guitab.tab`
+=================
+
+.. py:module:: guitab.tab
+
+.. autoapi-nested-parse::
+
+   A module for representing guitar tablature
+
+   ..
+       !! processed by numpydoc !!
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   guitab.tab.Tab
+
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   guitab.tab.rm_position
+   guitab.tab.title
+   guitab.tab.author
+   guitab.tab.date
+   guitab.tab.info_tests
+   guitab.tab.info_order
+
+
+.. data:: rm_position
+   
+
+   Compiled regex search to find title field in tab text file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+.. data:: title
+   
+
+   Compiled regex search to find author field in tab text file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+.. data:: author
+   
+
+   Compiled regex search to find date field in tab text file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+.. data:: date
+   
+
+   
+
+.. data:: info_tests
+   
+
+   Define the order for reading metadata from a tab file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+.. data:: info_order
+   :annotation: = ['title', 'author', 'date']
+
+   
+
+.. class:: Tab(clength=6)
+
+
+   Bases: :py:obj:`object`
+
+   Class to represent textual guitar tabs.
+
+   A 'Tab' object easily facilitates the storage, modification, and textual
+   display of a guitar tab in Python.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. method:: __str__(self)
+
+      Formatted string of the Tab object data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. method:: print(self)
+
+      Format Tab object data for limited printing.
+
+      This routine prints the tab object with the same formatting as calling
+      `print(tab_instance)` but only three tab rows are printed: the row that
+      the current chord position falls in and the two encapsulating rows
+      (i.e. preceding and following rows).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. method:: write(self, chord, index=None)
+
+      Writes the input chord to an index of the Tab object
+
+
+      :Parameters:
+
+          **chord** : list of str
+              A list of single string characters of length self.clength that
+              represents the chord
+
+          **index** : int, optional
+              The index of self.tab_data where the chord will be written.
+              Default is the current index, self.i
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. method:: backward(self, num=1)
+
+      Place the chord position back `num` places from where it currently
+      is.
+
+
+      :Parameters:
+
+          **num** : int, optional
+              The number of places to go backwards in the tab. Must be an integer
+              > 0. Default is 1.
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. method:: forward(self, num=1)
+
+      Place the chord position forward `num` places from where it
+      currently is.
+
+
+      :Parameters:
+
+          **num** : int, optional
+              The number of places to go forward in the tab. Must be an integer >
+              0. Default is 1.
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. method:: set_info(self, **kwargs)
+
+      Set relevant information for the Tab object, such as author, date,
+      etc.
+
+
+      :Parameters:
+
+          **filename** : str
+              The name of the file to which the tab should be read/written
+
+          **title** : str
+              The title of the tab
+
+          **author** : str
+              The author of the tab
+
+          **date** : str
+              The date the tab was written (str)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. method:: get_tab(self, filename, overwrite_info=True, overwrite_data=True)
+
+      Open a guitab text file and extract the tab data from it.
+
+
+      :Parameters:
+
+          **filename** : str
+              The name of the file to read from
+
+          **overwrite_info: bool, optional**
+              A flag to decide if the current tab information should be
+              overwritten with that contained in the file. 'True' to overwrite
+              with file information, 'False' to retain the current tab
+              information and so discard any information extracted from the file.
+
+          **overwrite_data: bool, optional**
+              If there is tab data held by the tab object instance, then this
+              boolean flag determines if that data is overwritten by the data in
+              the file.
+
+      :Returns:
+
+          **data** : list of list of str
+              The tab data read from filename in a two-dimensional list object
+              that is the internal storage format of the Tab object
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. method:: save_tab(self, filename=None, **kwargs)
+
+      Write the current tab data to a text file.
+
+
+      :Parameters:
+
+          **filename** : str, optional
+              The name of the file to write to. If not provided, the filename
+              currently in the Tab object info is used.
+
+          **\*\*kwargs** : dict, optional
+              title : the title of the tab (str)
+              author : the author of the tab (str)
+              date  : the date the tab was written (str)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+

@@ -1,0 +1,24 @@
+:mod:`guitab`
+=============
+
+.. py:module:: guitab
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   guitab/index.rst
+   tab/index.rst
+
+
+Package Contents
+----------------
+
+.. data:: __version__
+   
+
+   
+

@@ -1,0 +1,56 @@
+:mod:`guitab.guitab`
+====================
+
+.. py:module:: guitab.guitab
+
+.. autoapi-nested-parse::
+
+   An interacive command line program that speeds up the process of writing
+   guitar tabs.
+
+   The user enters chords/fingering count by count with the final
+   result being written to a text file.
+
+   ..
+       !! processed by numpydoc !!
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   guitab.guitab.main
+
+
+
+.. function:: main()
+
+   Main function for guitab module
+
+   This initiates a REPL-like program that takes in user input to build the
+   tablature using a `Tab` object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+

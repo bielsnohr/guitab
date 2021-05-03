@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>guitab.tab &mdash; guitab 0.post1+g5ef6c6e documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="http://bielsnohr.github.io/guitab/_modules/guitab/tab.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> guitab
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.post1+g5ef6c6e
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release-history.html">Release History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../min_versions.html">Minimum Version of Python and NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">guitab</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../guitab.html">guitab</a> &raquo;</li>
+        
+      <li>guitab.tab</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for guitab.tab</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;A module for representing guitar tablature</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="sd">&quot;&quot;&quot;Compiled regex search to remove position cursor in tab&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="rm_position"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.rm_position">[docs]</a><span class="n">rm_position</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(^\s+)\*(\s*$)&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span></div>
+<span class="sd">&quot;&quot;&quot;Compiled regex search to find title field in tab text file&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="title"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.title">[docs]</a><span class="n">title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^title\s*:\s*(.*)\s*$&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span></div>
+<span class="sd">&quot;&quot;&quot;Compiled regex search to find author field in tab text file&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="author"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.author">[docs]</a><span class="n">author</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^author\s*:\s*(.*)\s*$&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span></div>
+<span class="sd">&quot;&quot;&quot;Compiled regex search to find date field in tab text file&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="date"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.date">[docs]</a><span class="n">date</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^date\s*:\s*(.*)\s*$&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="info_tests"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.info_tests">[docs]</a><span class="n">info_tests</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">date</span><span class="p">}</span></div>
+<span class="sd">&quot;&quot;&quot;Define the order for reading metadata from a tab file&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="info_order"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.info_order">[docs]</a><span class="n">info_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Tab"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab">[docs]</a><span class="k">class</span> <span class="nc">Tab</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to represent textual guitar tabs.</span>
+
+<span class="sd">    A &#39;Tab&#39; object easily facilitates the storage, modification, and textual</span>
+<span class="sd">    display of a guitar tab in Python.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clength</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for Tab class object</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        clength : int, optional</span>
+<span class="sd">            The &quot;length&quot; of a chord, i.e. the number of strings of the guitar.</span>
+<span class="sd">            The default is 6 which corresponds to the usual 6-string guitar.</span>
+<span class="sd">            WIP not yet implemented</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># the maximum length of a line in the tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span> <span class="o">=</span> <span class="mi">78</span>
+
+        <span class="c1"># the number of strings for a chord, default 6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clength</span> <span class="o">=</span> <span class="n">clength</span>
+
+        <span class="c1"># a blank chord</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_blank</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="p">)]</span>
+
+        <span class="c1"># the list that will hold the chords which form the tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_blank</span><span class="p">]</span>
+
+        <span class="c1"># string tuning indicator to be printed at the beginning of each tab</span>
+        <span class="c1"># line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_leader</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;e|&#39;</span><span class="p">,</span> <span class="s1">&#39;B|&#39;</span><span class="p">,</span> <span class="s1">&#39;G|&#39;</span><span class="p">,</span> <span class="s1">&#39;D|&#39;</span><span class="p">,</span> <span class="s1">&#39;A|&#39;</span><span class="p">,</span> <span class="s1">&#39;E|&#39;</span><span class="p">)</span>
+
+        <span class="c1"># allowed entries for a chord list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">)]</span>
+
+        <span class="c1"># the index for the current position in the tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># the current size of the tab (i.e. largest index attained so far)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># the dictionary that holds the information about the tab; set defaults</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="s1">&#39;myTab.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;My Tab&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">:</span>
+                     <span class="s1">&#39;Me&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">today</span><span class="p">}</span>
+
+<div class="viewcode-block" id="Tab.__str__"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.__str__">[docs]</a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Formatted string of the Tab object data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">num_loops</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">pos_loop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span>
+        <span class="n">tab_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="c1"># loop through the rows of tabs that will be created by breaking them</span>
+        <span class="c1"># into suitable line lengths</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_loops</span><span class="p">):</span>
+
+            <span class="n">start</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_loops</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="p">):</span>
+
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_leader</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+                    <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">pos_loop</span><span class="p">:</span>
+                <span class="n">pad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_loops</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+
+        <span class="k">return</span> <span class="n">tab_string</span></div>
+
+<div class="viewcode-block" id="Tab.print"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Format Tab object data for limited printing.</span>
+
+<span class="sd">        This routine prints the tab object with the same formatting as calling</span>
+<span class="sd">        `print(tab_instance)` but only three tab rows are printed: the row that</span>
+<span class="sd">        the current chord position falls in and the two encapsulating rows</span>
+<span class="sd">        (i.e. preceding and following rows).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">num_loops</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span><span class="p">)</span>
+        <span class="n">pos_loop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span>
+        <span class="n">tab_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="n">start_out</span> <span class="o">=</span> <span class="n">pos_loop</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">end_out</span> <span class="o">=</span> <span class="n">pos_loop</span> <span class="o">+</span> <span class="mi">2</span>
+
+        <span class="c1"># TODO amend this so that it always prints 3 rows if they are</span>
+        <span class="c1"># available</span>
+        <span class="k">if</span> <span class="n">pos_loop</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">start_out</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">pos_loop</span> <span class="o">==</span> <span class="n">num_loops</span><span class="p">:</span>
+            <span class="n">end_out</span> <span class="o">=</span> <span class="n">num_loops</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># loop through the rows of tabs that will be created by breaking them</span>
+        <span class="c1"># into suitable line lengths</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_out</span><span class="p">,</span> <span class="n">end_out</span><span class="p">):</span>
+
+            <span class="n">start</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_loops</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="p">):</span>
+
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_leader</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+                    <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">pos_loop</span><span class="p">:</span>
+                <span class="n">pad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">end_out</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tab_string</span> <span class="o">=</span> <span class="n">tab_string</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">tab_string</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tab.write"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chord</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Writes the input chord to an index of the Tab object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chord : list of str</span>
+<span class="sd">            A list of single string characters of length self.clength that</span>
+<span class="sd">            represents the chord</span>
+<span class="sd">        index : int, optional</span>
+<span class="sd">            The index of self.tab_data where the chord will be written.</span>
+<span class="sd">            Default is the current index, self.i</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO I need to handle double digit fret numbers!!!</span>
+
+        <span class="c1"># Check that the chord has the correct format</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="p">:</span>
+            <span class="c1"># TODO fill out error information</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chord</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span>
+
+        <span class="c1"># If the index is unset, then use the default value of the current</span>
+        <span class="c1"># self.i index</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span>
+        <span class="c1"># Otherwise, if the input index is larger than the maximum index,</span>
+        <span class="c1"># self.imax, we need to expand the tab</span>
+        <span class="c1"># TODO need to check that the index is positive and an integer!!!</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">imax</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_blank</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">index</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">imax</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">=</span> <span class="n">index</span>
+
+        <span class="c1"># Add the chord to the tab data and print what we have</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">chord</span></div>
+
+<div class="viewcode-block" id="Tab.backward"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.backward">[docs]</a>    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Place the chord position back `num` places from where it currently</span>
+<span class="sd">        is.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num : int, optional</span>
+<span class="sd">            The number of places to go backwards in the tab. Must be an integer</span>
+<span class="sd">            &gt; 0. Default is 1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;num argument must be an integer and &gt; 0. num = &#39;</span>
+                            <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Requested backwards move is out of range. Index&#39;</span>
+                             <span class="s1">&#39;= </span><span class="si">{:d}</span><span class="s1">, and num = </span><span class="si">{:d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-=</span> <span class="n">num</span></div>
+
+<div class="viewcode-block" id="Tab.forward"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Place the chord position forward `num` places from where it</span>
+<span class="sd">        currently is.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num : int, optional</span>
+<span class="sd">            The number of places to go forward in the tab. Must be an integer &gt;</span>
+<span class="sd">            0. Default is 1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;num argument must be an integer and &gt; 0. num = &#39;</span>
+                            <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+
+        <span class="c1"># We can add to the present index without restriction as long as the</span>
+        <span class="c1"># above is satisfied</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="n">num</span>
+
+        <span class="c1"># Check if the new index is greater than the previous maximum. If so,</span>
+        <span class="c1"># the tab needs to be expanded</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">imax</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_blank</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">imax</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span></div>
+
+<span class="c1"># TODO present: check that this functions properly</span>
+<div class="viewcode-block" id="Tab.set_info"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.set_info">[docs]</a>    <span class="k">def</span> <span class="nf">set_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set relevant information for the Tab object, such as author, date,</span>
+<span class="sd">        etc.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            The name of the file to which the tab should be read/written</span>
+<span class="sd">        title : str</span>
+<span class="sd">            The title of the tab</span>
+<span class="sd">        author : str</span>
+<span class="sd">            The author of the tab</span>
+<span class="sd">        date : str</span>
+<span class="sd">            The date the tab was written (str)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;The field requested, &quot;</span><span class="si">{}</span><span class="s1">&quot;, is not valid for tab &#39;</span>\
+                        <span class="s1">&#39;info.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+                    <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;The input for field, &quot;</span><span class="si">{}</span><span class="s1">&quot;, is not of type &#39;</span>\
+                            <span class="s1">&#39;str. All tab information must be str.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+
+<span class="c1"># TODO object IO should be handled in a separate module</span>
+<div class="viewcode-block" id="Tab.get_tab"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.get_tab">[docs]</a>    <span class="k">def</span> <span class="nf">get_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">overwrite_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Open a guitab text file and extract the tab data from it.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            The name of the file to read from</span>
+<span class="sd">        overwrite_info: bool, optional</span>
+<span class="sd">            A flag to decide if the current tab information should be</span>
+<span class="sd">            overwritten with that contained in the file. &#39;True&#39; to overwrite</span>
+<span class="sd">            with file information, &#39;False&#39; to retain the current tab</span>
+<span class="sd">            information and so discard any information extracted from the file.</span>
+<span class="sd">        overwrite_data: bool, optional</span>
+<span class="sd">            If there is tab data held by the tab object instance, then this</span>
+<span class="sd">            boolean flag determines if that data is overwritten by the data in</span>
+<span class="sd">            the file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data : list of list of str</span>
+<span class="sd">            The tab data read from filename in a two-dimensional list object</span>
+<span class="sd">            that is the internal storage format of the Tab object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">error1</span> <span class="o">=</span> <span class="s1">&#39;Tab file incorrectly formatted: </span><span class="si">{}</span><span class="s1">&#39;</span>
+        <span class="n">error2</span> <span class="o">=</span> <span class="s1">&#39;Tab file incorrectly formatted or has mismatched tuning: </span><span class="si">{}</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">overwrite_info</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;overwrite_info argument in get_tab must be of &quot;</span>
+                            <span class="s2">&quot;type bool. Type given: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">overwrite_info</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">overwrite_data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;overwrite_data argument in get_tab must be of &quot;</span>
+                            <span class="s2">&quot;type bool. Type given: &quot;</span>
+                            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">overwrite_data</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tabfile</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">tabfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">80</span> <span class="o">*</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">error1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+            <span class="c1"># Get the tab information stored in this file</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">info_order</span><span class="p">:</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">info_tests</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">tabfile</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                    <span class="n">info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">error1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+            <span class="c1"># Save the tab information in the tab instance if requested</span>
+            <span class="k">if</span> <span class="n">overwrite_info</span><span class="p">:</span>
+                <span class="n">info</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="o">**</span><span class="n">info</span><span class="p">)</span>
+
+            <span class="c1"># Discard anything until the end of the header (allows for user</span>
+            <span class="c1"># notes)</span>
+            <span class="k">while</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">tabfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="p">(</span><span class="mi">80</span> <span class="o">*</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                    <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">EOFError</span><span class="p">(</span><span class="s1">&#39;EOF reached before finished reading header.&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Collect the tab data contained in the file</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">imax</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+
+                <span class="n">line</span> <span class="o">=</span> <span class="n">tabfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="k">elif</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_leader</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="p">):</span>
+                        <span class="n">line</span> <span class="o">=</span> <span class="n">tabfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_leader</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">error2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+                    <span class="n">imax</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">3</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                        <span class="n">chord</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="p">):</span>
+                            <span class="n">chord</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">overwrite_data</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span> <span class="o">=</span> <span class="n">data</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">=</span> <span class="n">imax</span> <span class="o">-</span> <span class="mi">1</span>
+
+            <span class="k">return</span> <span class="n">data</span></div>
+
+    <span class="c1"># TODO think about encoding here? Current is &#39;us-ascii&#39;</span>
+<div class="viewcode-block" id="Tab.save_tab"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.save_tab">[docs]</a>    <span class="k">def</span> <span class="nf">save_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write the current tab data to a text file.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str, optional</span>
+<span class="sd">            The name of the file to write to. If not provided, the filename</span>
+<span class="sd">            currently in the Tab object info is used.</span>
+<span class="sd">        **kwargs : dict, optional</span>
+<span class="sd">            title : the title of the tab (str)</span>
+<span class="sd">            author : the author of the tab (str)</span>
+<span class="sd">            date  : the date the tab was written (str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># set the relevant tab info that has been passed to this function</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># check if the file already exists and give options</span>
+        <span class="c1"># TODO move this to main CLI program, see NOTE for 2019-04-09</span>
+        <span class="n">tabfilename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+        <span class="k">while</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tabfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tabfilename</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;File already exists: &#39;</span><span class="si">{}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">Overwrite? [Y/n] &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabfilename</span><span class="p">)</span>
+                <span class="n">inp</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+                    <span class="n">tabfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tabfilename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span>
+                    <span class="c1"># TODO this is probably not security conscious; make more</span>
+                    <span class="c1"># robust</span>
+                    <span class="n">inp2</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Please provide a different filename: &#39;</span><span class="p">)</span>
+                    <span class="n">tabfilename</span> <span class="o">=</span> <span class="n">inp2</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inp2</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Invalid input. Please try again.&#39;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="n">fileformat</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;Title : </span><span class="si">{title}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;Author: </span><span class="si">{author}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;Date  : </span><span class="si">{date}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+            <span class="mi">80</span> <span class="o">*</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;</span><span class="si">{tabdata}</span><span class="s1">&#39;</span>
+
+        <span class="c1"># remove the current position character from the output of str(self)</span>
+        <span class="n">tabdata</span> <span class="o">=</span> <span class="n">rm_position</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\1 \2&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="c1"># finally, write all relevant information to the file</span>
+        <span class="n">tabfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fileformat</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabdata</span><span class="o">=</span><span class="n">tabdata</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">))</span>
+
+        <span class="n">tabfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, bielsnohr.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

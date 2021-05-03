@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>guitab.guitab &mdash; guitab 0.post1+g5ef6c6e documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="http://bielsnohr.github.io/guitab/_modules/guitab/guitab.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> guitab
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.post1+g5ef6c6e
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release-history.html">Release History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../min_versions.html">Minimum Version of Python and NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">guitab</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../guitab.html">guitab</a> &raquo;</li>
+        
+      <li>guitab.guitab</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for guitab.guitab</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;An interacive command line program that speeds up the process of writing</span>
+<span class="sd">guitar tabs.</span>
+
+<span class="sd">The user enters chords/fingering count by count with the final</span>
+<span class="sd">result being written to a text file.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">tab</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main function for guitab module</span>
+
+<span class="sd">    This initiates a REPL-like program that takes in user input to build the</span>
+<span class="sd">    tablature using a `Tab` object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Welcome to guitab, an interactive command line program that &quot;</span>
+          <span class="s2">&quot;accelerates the tab writing process. Type -h or --help for &quot;</span>
+          <span class="s2">&quot;details of how to run the program.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># TODO this should be set in the tab class, not here</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">)]</span>
+
+    <span class="c1"># define the argument parser object</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;guitab&#39;</span><span class="p">,</span>
+                                     <span class="n">description</span><span class="o">=</span><span class="s1">&#39;description of guitab&#39;</span><span class="p">)</span>
+
+    <span class="c1"># TODO add an argument that can take in single letter chord names</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--chord&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">allowed</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The&#39;</span>
+                        <span class="s1">&#39; chord/fingering for the current count. If&#39;</span>
+                        <span class="s1">&#39; present, there must be 6 positional arguments&#39;</span>
+                        <span class="s1">&#39;--one for each string. Input order runs from high &#39;</span>
+                        <span class="s1">&#39;e to low E.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-q&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Save tab then quit guitab. Name of file&#39;</span>
+                        <span class="s1">&#39; can be set as optional argument.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Flag&#39;</span>
+                        <span class="s1">&#39; to quit guitab without saving progress.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Flag&#39;</span>
+                        <span class="s1">&#39; to print the entirety of the current tab.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The&#39;</span>
+                        <span class="s1">&#39; number of counts to go back in the tab &#39;</span>
+                        <span class="s1">&#39;(the default is 1 if the flag is present).&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The&#39;</span>
+                        <span class="s1">&#39; number of counts to go forward in the tab &#39;</span>
+                        <span class="s1">&#39;(the default is 1 if the flag is present).&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--outfile&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file for the tab&#39;</span>
+                        <span class="s1">&#39; to be written to.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="s1">&#39;--title&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The title of the tab to be&#39;</span>
+                        <span class="s1">&#39; stored in the output file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;--author&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The name of the tab author to be&#39;</span>
+                        <span class="s1">&#39; stored in the output file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-D&#39;</span><span class="p">,</span> <span class="s1">&#39;--date&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The date associated with the tab &#39;</span>
+                        <span class="s1">&#39; that will be stored in the output file. ISO format. &#39;</span>
+                        <span class="s1">&#39;Today</span><span class="se">\&#39;</span><span class="s1">s date will be used for tab if not set.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--save&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Save the tab to file. Name of file&#39;</span>
+                        <span class="s1">&#39; can be set as optional argument.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--load&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Load a tab from the filename &#39;</span>
+                        <span class="s1">&#39;argument. Any tab metadata (author, etc) from the &#39;</span>
+                        <span class="s1">&#39;current guitab session will not be overwritten.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-L&#39;</span><span class="p">,</span> <span class="s1">&#39;--loadall&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Load a tab and all metadata from &#39;</span>
+                        <span class="s1">&#39;the filename argument. Any tab metadata (author, etc)&#39;</span>
+                        <span class="s1">&#39; from the current guitab session will be overwritten.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Initialize the tab object and any other relevant variables (although</span>
+    <span class="c1"># these should be soon implemented in the tab class itself) before entering</span>
+    <span class="c1"># main program loop</span>
+    <span class="n">user_tab</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">Tab</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="n">inp</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;[tab]: &#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">inp</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Quit without saving</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">d</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="c1"># Set the file name</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">:</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">))</span>
+
+        <span class="c1"># Set the author name</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">author</span><span class="p">:</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">author</span><span class="p">))</span>
+
+        <span class="c1"># Set the date</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">date</span><span class="p">:</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Set the title</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">))</span>
+
+        <span class="c1"># Save and quit</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">q</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">()</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">q</span><span class="p">))</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Save file and set filename if given</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">save</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">save</span><span class="p">))</span>
+
+        <span class="c1"># Print the entirety of the tab</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">p</span><span class="p">:</span>
+            <span class="n">pipe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;less&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">user_tab</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">pipe</span><span class="p">)</span>
+            <span class="n">pipe</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># Move current position backwards in tab</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">b</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user_tab</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">inst</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Move current position forwards in tab</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">f</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user_tab</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">inst</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Write a chord to the current position</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">chord</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user_tab</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">chord</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">inst</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Load the tab but don&#39;t overwrite metadata</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">load</span><span class="p">:</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">get_tab</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">load</span><span class="p">),</span> <span class="n">overwrite_info</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Load the tab and overwrite metadata</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">loadall</span><span class="p">:</span>
+            <span class="n">user_tab</span><span class="o">.</span><span class="n">get_tab</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">loadall</span><span class="p">))</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, bielsnohr.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
