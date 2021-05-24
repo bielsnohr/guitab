@@ -104,7 +104,7 @@ todo_include_todos = False
 
 autoapi_type = "python"
 autoapi_dirs = ["../../guitab"]
-autoapi_keep_files = False
+autoapi_keep_files = True
 autoapi_ignore = ['*test*']
 autoapi_options = [
     "members",
