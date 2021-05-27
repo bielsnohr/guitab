@@ -12,7 +12,6 @@ guitab Documentation
    installation
    usage
    release-history
-   min_versions
    autoapi/index
 
 Indices

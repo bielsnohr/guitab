@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Usage &mdash; guitab 0.post1+g5ef6c6e documentation</title>
+  <title>Usage &mdash; guitab 0.post1+gfa86a36 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
   <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -69,7 +72,7 @@
             
             
               <div class="version">
-                0.post1+g5ef6c6e
+                0.post1+gfa86a36
               </div>
             
           
@@ -96,9 +99,11 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="min_versions.html">Minimum Version of Python and NumPy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 </ul>
 
@@ -169,9 +174,36 @@
             
   <div class="section" id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<p>Start by importing guitab.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">guitab</span>
+<p>The <code class="docutils literal notranslate"><span class="pre">guitab</span></code> line-oriented command interpreter is the intended user
+interface. It is started by running the following from the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ guitab
 </pre></div>
+</div>
+<p>This should display a brief splash screen welcoming you to <code class="docutils literal notranslate"><span class="pre">guitab</span></code> and drop
+you to a new prompt that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">tab</span><span class="p">]:</span>
+</pre></div>
+</div>
+<p>From there, you execute commands to gradually build up your guitar tab. The
+full list of commands can be displayed by typing <code class="docutils literal notranslate"><span class="pre">-h&lt;Enter&gt;</span></code>.</p>
+<p>You can move backwards and forwards in the tab with the commands <code class="docutils literal notranslate"><span class="pre">-b</span></code> and
+<code class="docutils literal notranslate"><span class="pre">-f</span></code>, respectively. These commands also accept numerical arguments to specify
+the number of places to move. After issuing one of these commands, a textual
+representation of the tab will be printed out, with a <code class="docutils literal notranslate"><span class="pre">*</span></code> character on the
+final line indicating where in the tab you currently are.</p>
+<p>The whole tab can be printed at anytime (piped through <code class="docutils literal notranslate"><span class="pre">less</span></code>) with the
+<code class="docutils literal notranslate"><span class="pre">-p</span></code> command.</p>
+<p>Chords are added with the command <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">[list</span> <span class="pre">of</span> <span class="pre">fret</span> <span class="pre">numbers]</span></code>.</p>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<p>If instead you want a Python object to store and manipulate tab data, you can
+use the <a class="reference internal" href="autoapi/guitab/tab/index.html#guitab.tab.Tab" title="guitab.tab.Tab"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tab</span></code></a> class. Basic usage along the lines:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">guitab.tab</span> <span class="kn">import</span> <span class="n">Tab</span>
+
+<span class="n">my_tab</span> <span class="o">=</span> <span class="n">Tab</span><span class="p">()</span>
+<span class="c1"># manipulate tab object as needed</span>
+</pre></div>
+</div>
 </div>
 </div>
 
