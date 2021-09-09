@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>guitab.guitab &mdash; guitab 0.1.0 documentation</title>
+  <title>guitab.guitab &mdash; guitab 0.post1+gbb13b4a documentation</title>
   
 
   
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.post1+gbb13b4a
               </div>
             
           
@@ -192,6 +192,20 @@ guitar tabs.</p>
 result being written to a text file.</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#guitab.guitab.GuitabShell" title="guitab.guitab.GuitabShell"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GuitabShell</span></code></a></p></td>
+<td><p>A simple framework for writing line-oriented command interpreters.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-default">
@@ -205,6 +219,70 @@ result being written to a text file.</p>
 </tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">guitab.guitab.</span></span><span class="sig-name descname"><span class="pre">GuitabShell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">completekey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/cmd.html#cmd.Cmd" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cmd.Cmd</span></code></a></p>
+<p>A simple framework for writing line-oriented command interpreters.</p>
+<p>These are often useful for test harnesses, administrative tools, and
+prototypes that will later be wrapped in a more sophisticated interface.</p>
+<p>A Cmd instance or subclass instance is a line-oriented interpreter
+framework.  There is no good reason to instantiate Cmd itself; rather,
+it’s useful as a superclass of an interpreter class you define yourself
+in order to inherit Cmd’s methods and encapsulate action methods.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.intro">
+<span class="sig-name descname"><span class="pre">intro</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Welcome</span> <span class="pre">to</span> <span class="pre">guitab,</span> <span class="pre">an</span> <span class="pre">interactive</span> <span class="pre">command</span> <span class="pre">line</span> <span class="pre">program</span> <span class="pre">that</span> <span class="pre">accelerates</span> <span class="pre">the</span> <span class="pre">tab</span> <span class="pre">writing</span> <span class="pre">process....</span></em><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.intro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.intro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.prompt">
+<span class="sig-name descname"><span class="pre">prompt</span></span><em class="property"> <span class="pre">=</span> <span class="pre">(guitab)</span></em><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.prompt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.file">
+<span class="sig-name descname"><span class="pre">file</span></span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_forward">
+<span class="sig-name descname"><span class="pre">do_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the turtle forward by the specified distance:  FORWARD 10</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_bye">
+<span class="sig-name descname"><span class="pre">do_bye</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_bye"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_bye" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop recording and exit:  BYE</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_record">
+<span class="sig-name descname"><span class="pre">do_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save future commands to filename:  RECORD rose.cmd</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_playback">
+<span class="sig-name descname"><span class="pre">do_playback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_playback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_playback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Playback commands from a file:  PLAYBACK rose.cmd</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.precmd">
+<span class="sig-name descname"><span class="pre">precmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.precmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.precmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method executed just before the command line is
+interpreted, but after the input prompt is generated and issued.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="guitab.guitab.main">
 <span class="sig-prename descclassname"><span class="pre">guitab.guitab.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.main" title="Permalink to this definition">¶</a></dt>

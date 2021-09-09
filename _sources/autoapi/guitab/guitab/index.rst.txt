@@ -1,5 +1,5 @@
-:mod:`guitab.guitab`
-====================
+:py:mod:`guitab.guitab`
+=======================
 
 .. py:module:: guitab.guitab
 
@@ -15,9 +15,16 @@
        !! processed by numpydoc !!
 
 
-
 Module Contents
 ---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   guitab.guitab.GuitabShell
+
 
 
 Functions
@@ -29,8 +36,248 @@ Functions
 
 
 
-.. function:: main()
+.. py:class:: GuitabShell(completekey='tab', stdin=None, stdout=None)
 
+   Bases: :py:obj:`cmd.Cmd`
+
+   
+   A simple framework for writing line-oriented command interpreters.
+
+   These are often useful for test harnesses, administrative tools, and
+   prototypes that will later be wrapped in a more sophisticated interface.
+
+   A Cmd instance or subclass instance is a line-oriented interpreter
+   framework.  There is no good reason to instantiate Cmd itself; rather,
+   it's useful as a superclass of an interpreter class you define yourself
+   in order to inherit Cmd's methods and encapsulate action methods.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:attribute:: intro
+      :annotation: = Welcome to guitab, an interactive command line program that accelerates the tab writing process....
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:attribute:: prompt
+      :annotation: = (guitab) 
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:attribute:: file
+      
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_forward(self, arg)
+
+      
+      Move the turtle forward by the specified distance:  FORWARD 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_bye(self, arg)
+
+      
+      Stop recording and exit:  BYE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_record(self, arg)
+
+      
+      Save future commands to filename:  RECORD rose.cmd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_playback(self, arg)
+
+      
+      Playback commands from a file:  PLAYBACK rose.cmd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: precmd(self, line)
+
+      
+      Hook method executed just before the command line is
+      interpreted, but after the input prompt is generated and issued.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: close(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:function:: main()
+
+   
    Main function for guitab module
 
    This initiates a REPL-like program that takes in user input to build the
@@ -52,5 +299,4 @@ Functions
 
    ..
        !! processed by numpydoc !!
-
 

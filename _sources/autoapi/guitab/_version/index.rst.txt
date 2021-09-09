@@ -1,7 +1,7 @@
 :orphan:
 
-:mod:`guitab._version`
-======================
+:py:mod:`guitab._version`
+=========================
 
 .. py:module:: guitab._version
 
@@ -11,7 +11,6 @@
 
    ..
        !! processed by numpydoc !!
-
 
 
 Module Contents
@@ -60,8 +59,9 @@ Attributes
    guitab._version.HANDLERS
 
 
-.. function:: get_keywords()
+.. py:function:: get_keywords()
 
+   
    Get the keywords needed to look up the version information.
 
 
@@ -82,9 +82,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:class:: VersioneerConfig
 
-.. class:: VersioneerConfig
-
+   
    Container for Versioneer configuration parameters.
 
 
@@ -105,9 +105,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: get_config()
 
-.. function:: get_config()
-
+   
    Create, populate and return the VersioneerConfig() object.
 
 
@@ -128,12 +128,11 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-
-.. exception:: NotThisMethod
-
+.. py:exception:: NotThisMethod
 
    Bases: :py:obj:`Exception`
 
+   
    Exception raised if a method is not valid for the current scenario.
 
 
@@ -154,19 +153,55 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-
-.. data:: LONG_VERSION_PY
+.. py:data:: LONG_VERSION_PY
    
 
    
 
-.. data:: HANDLERS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: HANDLERS
    
 
    
 
-.. function:: register_vcs_handler(vcs, method)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: register_vcs_handler(vcs, method)
+
+   
    Decorator to mark a method as the handler for a particular VCS.
 
 
@@ -187,9 +222,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: run_command(commands, args, cwd=None, verbose=False, hide_stderr=False, env=None)
 
-.. function:: run_command(commands, args, cwd=None, verbose=False, hide_stderr=False, env=None)
-
+   
    Call the given command(s).
 
 
@@ -210,9 +245,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: versions_from_parentdir(parentdir_prefix, root, verbose)
 
-.. function:: versions_from_parentdir(parentdir_prefix, root, verbose)
-
+   
    Try to determine the version from the parent directory name.
 
    Source tarballs conventionally unpack into a directory that includes both
@@ -236,9 +271,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: git_get_keywords(versionfile_abs)
 
-.. function:: git_get_keywords(versionfile_abs)
-
+   
    Extract version information from the given file.
 
 
@@ -259,9 +294,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: git_versions_from_keywords(keywords, tag_prefix, verbose)
 
-.. function:: git_versions_from_keywords(keywords, tag_prefix, verbose)
-
+   
    Get version information from git keywords.
 
 
@@ -282,9 +317,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: git_pieces_from_vcs(tag_prefix, root, verbose, run_command=run_command)
 
-.. function:: git_pieces_from_vcs(tag_prefix, root, verbose, run_command=run_command)
-
+   
    Get version from 'git describe' in the root of the source tree.
 
    This only gets called if the git-archive 'subst' keywords were *not*
@@ -308,9 +343,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: plus_or_dot(pieces)
 
-.. function:: plus_or_dot(pieces)
-
+   
    Return a + if we don't already have one, else return a .
 
 
@@ -331,9 +366,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: render_pep440(pieces)
 
-.. function:: render_pep440(pieces)
-
+   
    Build up version string, with post-release "local version identifier".
 
    Our goal: TAG[+DISTANCE.gHEX[.dirty]] . Note that if you
@@ -359,9 +394,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: render_pep440_pre(pieces)
 
-.. function:: render_pep440_pre(pieces)
-
+   
    TAG[.post.devDISTANCE] -- No -dirty.
 
    Exceptions:
@@ -384,9 +419,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: render_pep440_post(pieces)
 
-.. function:: render_pep440_post(pieces)
-
+   
    TAG[.postDISTANCE[.dev0]+gHEX] .
 
    The ".dev0" means dirty. Note that .dev0 sorts backwards
@@ -413,9 +448,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: render_pep440_old(pieces)
 
-.. function:: render_pep440_old(pieces)
-
+   
    TAG[.postDISTANCE[.dev0]] .
 
    The ".dev0" means dirty.
@@ -440,9 +475,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: render_git_describe(pieces)
 
-.. function:: render_git_describe(pieces)
-
+   
    TAG[-DISTANCE-gHEX][-dirty].
 
    Like 'git describe --tags --dirty --always'.
@@ -467,9 +502,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: render_git_describe_long(pieces)
 
-.. function:: render_git_describe_long(pieces)
-
+   
    TAG-DISTANCE-gHEX[-dirty].
 
    Like 'git describe --tags --dirty --always -long'.
@@ -495,9 +530,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: render(pieces, style)
 
-.. function:: render(pieces, style)
-
+   
    Render the given version pieces into the requested style.
 
 
@@ -518,9 +553,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: get_versions()
 
-.. function:: get_versions()
-
+   
    Get version information or return default if unable to do so.
 
 
@@ -540,5 +575,4 @@ Attributes
 
    ..
        !! processed by numpydoc !!
-
 

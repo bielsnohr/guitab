@@ -1,5 +1,5 @@
-:mod:`guitab.tab`
-=================
+:py:mod:`guitab.tab`
+====================
 
 .. py:module:: guitab.tab
 
@@ -9,7 +9,6 @@
 
    ..
        !! processed by numpydoc !!
-
 
 
 Module Contents
@@ -38,9 +37,10 @@ Attributes
    guitab.tab.info_order
 
 
-.. data:: rm_position
+.. py:data:: rm_position
    
 
+   
    Compiled regex search to find title field in tab text file
 
 
@@ -61,10 +61,10 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-
-.. data:: title
+.. py:data:: title
    
 
+   
    Compiled regex search to find author field in tab text file
 
 
@@ -85,10 +85,10 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-
-.. data:: author
+.. py:data:: author
    
 
+   
    Compiled regex search to find date field in tab text file
 
 
@@ -109,15 +109,33 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-
-.. data:: date
+.. py:data:: date
    
 
    
 
-.. data:: info_tests
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: info_tests
    
 
+   
    Define the order for reading metadata from a tab file
 
 
@@ -138,17 +156,34 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-
-.. data:: info_order
+.. py:data:: info_order
    :annotation: = ['title', 'author', 'date']
 
    
 
-.. class:: Tab(clength=6)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:class:: Tab(clength=6)
 
    Bases: :py:obj:`object`
 
+   
    Class to represent textual guitar tabs.
 
    A 'Tab' object easily facilitates the storage, modification, and textual
@@ -170,9 +205,9 @@ Attributes
 
    ..
        !! processed by numpydoc !!
+   .. py:method:: __str__(self)
 
-   .. method:: __str__(self)
-
+      
       Formatted string of the Tab object data
 
 
@@ -193,9 +228,9 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: print(self)
 
-   .. method:: print(self)
-
+      
       Format Tab object data for limited printing.
 
       This routine prints the tab object with the same formatting as calling
@@ -220,9 +255,9 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: write(self, chord, index=None)
 
-   .. method:: write(self, chord, index=None)
-
+      
       Writes the input chord to an index of the Tab object
 
 
@@ -256,9 +291,9 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: backward(self, num=1)
 
-   .. method:: backward(self, num=1)
-
+      
       Place the chord position back `num` places from where it currently
       is.
 
@@ -289,9 +324,9 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: forward(self, num=1)
 
-   .. method:: forward(self, num=1)
-
+      
       Place the chord position forward `num` places from where it
       currently is.
 
@@ -322,9 +357,9 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: set_info(self, **kwargs)
 
-   .. method:: set_info(self, **kwargs)
-
+      
       Set relevant information for the Tab object, such as author, date,
       etc.
 
@@ -359,9 +394,9 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: get_tab(self, filename, overwrite_info=True, overwrite_data=True)
 
-   .. method:: get_tab(self, filename, overwrite_info=True, overwrite_data=True)
-
+      
       Open a guitab text file and extract the tab data from it.
 
 
@@ -402,9 +437,9 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: save_tab(self, filename=None, **kwargs)
 
-   .. method:: save_tab(self, filename=None, **kwargs)
-
+      
       Write the current tab data to a text file.
 
 
@@ -434,6 +469,5 @@ Attributes
 
       ..
           !! processed by numpydoc !!
-
 
 

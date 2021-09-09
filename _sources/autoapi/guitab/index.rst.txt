@@ -1,7 +1,29 @@
-:mod:`guitab`
-=============
+:py:mod:`guitab`
+================
 
 .. py:module:: guitab
+
+.. autoapi-nested-parse::
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 
 
 Submodules
@@ -17,8 +39,26 @@ Submodules
 Package Contents
 ----------------
 
-.. data:: __version__
+.. py:data:: __version__
    
 
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 

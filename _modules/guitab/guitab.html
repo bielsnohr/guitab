@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>guitab.guitab &mdash; guitab 0.1.0 documentation</title>
+  <title>guitab.guitab &mdash; guitab 0.post1+gbb13b4a documentation</title>
   
 
   
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.post1+gbb13b4a
               </div>
             
           
@@ -178,8 +178,46 @@
 
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cmd</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">tab</span>
+
+<div class="viewcode-block" id="GuitabShell"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell">[docs]</a><span class="k">class</span> <span class="nc">GuitabShell</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">Cmd</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GuitabShell.intro"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.intro">[docs]</a>    <span class="n">intro</span> <span class="o">=</span> <span class="s2">&quot;Welcome to guitab, an interactive command line program &quot;</span>\</div>
+        <span class="s2">&quot;that accelerates the tab writing process. Type help or ? to list &quot;</span>\
+        <span class="s2">&quot;commands.&quot;</span>
+<div class="viewcode-block" id="GuitabShell.prompt"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.prompt">[docs]</a>    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;(guitab) &#39;</span></div>
+<div class="viewcode-block" id="GuitabShell.file"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.file">[docs]</a>    <span class="n">file</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="c1"># ----- basic commands -----</span>
+<div class="viewcode-block" id="GuitabShell.do_forward"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_forward">[docs]</a>    <span class="k">def</span> <span class="nf">do_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Move the turtle forward by the specified distance:  FORWARD 10&#39;</span>
+        <span class="k">pass</span></div>
+<div class="viewcode-block" id="GuitabShell.do_bye"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_bye">[docs]</a>    <span class="k">def</span> <span class="nf">do_bye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Stop recording and exit:  BYE&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Thank you for using guitab&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="c1"># ----- record tab -----</span>
+<div class="viewcode-block" id="GuitabShell.do_record"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_record">[docs]</a>    <span class="k">def</span> <span class="nf">do_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Save future commands to filename:  RECORD rose.cmd&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="GuitabShell.do_playback"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_playback">[docs]</a>    <span class="k">def</span> <span class="nf">do_playback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Playback commands from a file:  PLAYBACK rose.cmd&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmdqueue</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span></div>
+<div class="viewcode-block" id="GuitabShell.precmd"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.precmd">[docs]</a>    <span class="k">def</span> <span class="nf">precmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">and</span> <span class="s1">&#39;playback&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">line</span></div>
+<div class="viewcode-block" id="GuitabShell.close"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span></div></div>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -336,8 +374,8 @@
             <span class="n">user_tab</span><span class="o">.</span><span class="n">get_tab</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">loadall</span><span class="p">))</span></div>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">GuitabShell</span><span class="p">()</span><span class="o">.</span><span class="n">cmdloop</span><span class="p">()</span>
 </pre></div>
 
            </div>
