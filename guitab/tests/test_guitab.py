@@ -1,25 +1,28 @@
-from ..guitab import main
+import guitab
+from ..guitab import main, GuitabShell
 import pytest
 import re
 from . import global_test_data
 
 
 welcome_message = "Welcome to guitab, an interactive command line program "\
-        "that accelerates the tab writing process. Type -h or --help for "\
-        "details of how to run the program.\n"
+    "that accelerates the tab writing process. Type help or ? to list "\
+    "commands."
 
 
-def test_guitab_welcome_message_and_quit(monkeypatch, capfd):
+def test_guitab_welcome_message_and_quit(monkeypatch, capsys):
     """Confirm that the custom shell program displays a welcome message and
     then quits"""
 
     # monkeypatch the "input" function, so that it returns predefined input.
     # This simulates the user entering this input in the terminal
-    user_input = iter(['-d'])
+    user_input = iter(['bye'])
     monkeypatch.setattr('builtins.input', lambda _: next(user_input))
-    main()
-    out, err = capfd.readouterr()
-    assert out == welcome_message
+
+    guitab_shell = GuitabShell()
+    guitab_shell.cmdloop()
+    out, err = capsys.readouterr()
+    assert out == welcome_message + "\nThank you for using guitab\n"
 
 
 # TODO this test needs to be more rigorous

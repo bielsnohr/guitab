@@ -8,8 +8,46 @@ result being written to a text file.
 
 import argparse
 import os
+import cmd
 
 from . import tab
+
+class GuitabShell(cmd.Cmd):
+
+    intro = "Welcome to guitab, an interactive command line program "\
+        "that accelerates the tab writing process. Type help or ? to list "\
+        "commands."
+    prompt = '(guitab) '
+    file = None
+
+    # ----- basic commands -----
+    def do_forward(self, arg):
+        'Move the turtle forward by the specified distance:  FORWARD 10'
+        pass
+    def do_bye(self, arg):
+        'Stop recording and exit:  BYE'
+        print('Thank you for using guitab')
+        self.close()
+        return True
+
+    # ----- record tab -----
+    def do_record(self, arg):
+        'Save future commands to filename:  RECORD rose.cmd'
+        self.file = open(arg, 'w')
+    def do_playback(self, arg):
+        'Playback commands from a file:  PLAYBACK rose.cmd'
+        self.close()
+        with open(arg) as f:
+            self.cmdqueue.extend(f.read().splitlines())
+    def precmd(self, line):
+        line = line.lower()
+        if self.file and 'playback' not in line:
+            print(line, file=self.file)
+        return line
+    def close(self):
+        if self.file:
+            self.file.close()
+            self.file = None
 
 
 def main():
@@ -166,5 +204,5 @@ def main():
             user_tab.get_tab(' '.join(args.loadall))
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    GuitabShell().cmdloop()
