@@ -21,7 +21,8 @@ def test_guitab_welcome_message_and_quit(monkeypatch, capsys):
     guitab_shell = GuitabShell()
     guitab_shell.cmdloop()
     out, err = capsys.readouterr()
-    assert out == welcome_message + "\nThank you for using guitab\n"
+    welcome_message_re = re.compile(welcome_message + r"\nThank you for using guitab\n")
+    assert welcome_message_re.match(out)
 
 
 # TODO this test needs to be more rigorous
@@ -37,7 +38,7 @@ def test_guitab_help_message(monkeypatch, capfd):
     help_message_regex = re.compile(welcome_message + \
         r"\n\nDocumented commands \(type help <topic>\):\n"
         r"========================================\n")
-    assert help_message_regex.search(out)
+    assert help_message_regex.match(out)
 
 
 def test_guitab_print_tab_blank(monkeypatch, capfd):
