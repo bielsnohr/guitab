@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guitab.guitab &mdash; guitab 0.post1+gc41a0b2 documentation</title>
+  <title>guitab.guitab &mdash; guitab 0.post1+g8d63b79 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
@@ -36,7 +36,7 @@
             <a href="../../../index.html" class="icon icon-home"> guitab
           </a>
               <div class="version">
-                0.post1+gc41a0b2
+                0.post1+g8d63b79
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -160,7 +160,14 @@ in order to inherit Cmd’s methods and encapsulate action methods.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_bye">
 <span class="sig-name descname"><span class="pre">do_bye</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_bye"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_bye" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stop recording and exit:  BYE</p>
+<dd><p>Stop editing tab and exit:  BYE</p>
+<p>The current tab is saved to a file if one has been previously specified by RECORD.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_print">
+<span class="sig-name descname"><span class="pre">do_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_print" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the entirety of the tab: PRINT</p>
 </dd></dl>
 
 <dl class="py method">

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guitab.guitab &mdash; guitab 0.post1+gc41a0b2 documentation</title>
+  <title>guitab.guitab &mdash; guitab 0.post1+g8d63b79 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
@@ -33,7 +33,7 @@
             <a href="../../index.html" class="icon icon-home"> guitab
           </a>
               <div class="version">
-                0.post1+gc41a0b2
+                0.post1+g8d63b79
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -90,6 +90,7 @@
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">tab</span>
 
+
 <div class="viewcode-block" id="GuitabShell"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell">[docs]</a><span class="k">class</span> <span class="nc">GuitabShell</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">Cmd</span><span class="p">):</span>
 
 <div class="viewcode-block" id="GuitabShell.intro"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.intro">[docs]</a>    <span class="n">intro</span> <span class="o">=</span> <span class="s2">&quot;Welcome to guitab, an interactive command line program &quot;</span>\</div>
@@ -98,30 +99,48 @@
 <div class="viewcode-block" id="GuitabShell.prompt"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.prompt">[docs]</a>    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;(guitab) &#39;</span></div>
 <div class="viewcode-block" id="GuitabShell.file"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.file">[docs]</a>    <span class="n">file</span> <span class="o">=</span> <span class="kc">None</span></div>
 
+    <span class="c1"># ----- initialise ---------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completekey</span><span class="o">=</span><span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">completekey</span><span class="o">=</span><span class="n">completekey</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">stdout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">Tab</span><span class="p">()</span>
+
     <span class="c1"># ----- basic commands -----</span>
 <div class="viewcode-block" id="GuitabShell.do_forward"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_forward">[docs]</a>    <span class="k">def</span> <span class="nf">do_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="s1">&#39;Move the turtle forward by the specified distance:  FORWARD 10&#39;</span>
         <span class="k">pass</span></div>
+
 <div class="viewcode-block" id="GuitabShell.do_bye"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_bye">[docs]</a>    <span class="k">def</span> <span class="nf">do_bye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="s1">&#39;Stop recording and exit:  BYE&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Stop editing tab and exit:  BYE</span>
+
+<span class="sd">        The current tab is saved to a file if one has been previously specified by RECORD.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Thank you for using guitab&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_print"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_print">[docs]</a>    <span class="k">def</span> <span class="nf">do_print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the entirety of the tab: PRINT&quot;&quot;&quot;</span>
+        <span class="n">pipe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;less&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">pipe</span><span class="p">)</span>
+        <span class="n">pipe</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># ----- record tab -----</span>
 <div class="viewcode-block" id="GuitabShell.do_record"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_record">[docs]</a>    <span class="k">def</span> <span class="nf">do_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="s1">&#39;Save future commands to filename:  RECORD rose.cmd&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="GuitabShell.do_playback"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_playback">[docs]</a>    <span class="k">def</span> <span class="nf">do_playback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="s1">&#39;Playback commands from a file:  PLAYBACK rose.cmd&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmdqueue</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span></div>
+
 <div class="viewcode-block" id="GuitabShell.precmd"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.precmd">[docs]</a>    <span class="k">def</span> <span class="nf">precmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">and</span> <span class="s1">&#39;playback&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">line</span></div>
+
 <div class="viewcode-block" id="GuitabShell.close"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>

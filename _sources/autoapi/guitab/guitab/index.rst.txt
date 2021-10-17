@@ -162,7 +162,31 @@ Functions
    .. py:method:: do_bye(self, arg)
 
       
-      Stop recording and exit:  BYE
+      Stop editing tab and exit:  BYE
+
+      The current tab is saved to a file if one has been previously specified by RECORD.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_print(self)
+
+      
+      Print the entirety of the tab: PRINT
 
 
 
