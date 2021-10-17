@@ -5,9 +5,9 @@ import re
 from . import global_test_data
 
 
-welcome_message = "Welcome to guitab, an interactive command line program "\
-    "that accelerates the tab writing process. Type help or ? to list "\
-    "commands."
+welcome_message = r"Welcome to guitab, an interactive command line program "\
+    r"that accelerates the tab writing process. Type help or \? to list "\
+    r"commands."
 
 
 def test_guitab_welcome_message_and_quit(monkeypatch, capsys):
@@ -18,7 +18,6 @@ def test_guitab_welcome_message_and_quit(monkeypatch, capsys):
     # This simulates the user entering this input in the terminal
     user_input = iter(['bye'])
     monkeypatch.setattr('builtins.input', lambda _: next(user_input))
-
     guitab_shell = GuitabShell()
     guitab_shell.cmdloop()
     out, err = capsys.readouterr()
@@ -30,11 +29,14 @@ def test_guitab_help_message(monkeypatch, capfd):
     """Confirm that the custom shell program displays a help message and
     then quits"""
 
-    user_input = iter(['-h', '-d'])
+    user_input = iter(['help', 'bye'])
     monkeypatch.setattr('builtins.input', lambda _: next(user_input))
-    main()
+    guitab_shell = GuitabShell()
+    guitab_shell.cmdloop()
     out, err = capfd.readouterr()
-    help_message_regex = re.compile(welcome_message + r"usage: guitab \[-h\]")
+    help_message_regex = re.compile(welcome_message + \
+        r"\n\nDocumented commands \(type help <topic>\):\n"
+        r"========================================\n")
     assert help_message_regex.search(out)
 
 
