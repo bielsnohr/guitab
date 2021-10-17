@@ -12,6 +12,7 @@ import cmd
 
 from . import tab
 
+
 class GuitabShell(cmd.Cmd):
 
     intro = "Welcome to guitab, an interactive command line program "\
@@ -20,30 +21,48 @@ class GuitabShell(cmd.Cmd):
     prompt = '(guitab) '
     file = None
 
+    # ----- initialise ---------
+    def __init__(self, completekey='tab', stdin=None, stdout=None) -> None:
+        super().__init__(completekey=completekey, stdin=stdin, stdout=stdout)
+        self.user_tab = tab.Tab()
+
     # ----- basic commands -----
     def do_forward(self, arg):
         'Move the turtle forward by the specified distance:  FORWARD 10'
         pass
+
     def do_bye(self, arg):
-        'Stop recording and exit:  BYE'
+        """Stop editing tab and exit:  BYE
+
+        The current tab is saved to a file if one has been previously specified by RECORD.
+        """
         print('Thank you for using guitab')
         self.close()
         return True
+
+    def do_print(self):
+        """Print the entirety of the tab: PRINT"""
+        pipe = os.popen('less', mode='w')
+        print(self.user_tab, file=pipe)
+        pipe.close()
 
     # ----- record tab -----
     def do_record(self, arg):
         'Save future commands to filename:  RECORD rose.cmd'
         self.file = open(arg, 'w')
+
     def do_playback(self, arg):
         'Playback commands from a file:  PLAYBACK rose.cmd'
         self.close()
         with open(arg) as f:
             self.cmdqueue.extend(f.read().splitlines())
+
     def precmd(self, line):
         line = line.lower()
         if self.file and 'playback' not in line:
             print(line, file=self.file)
         return line
+
     def close(self):
         if self.file:
             self.file.close()

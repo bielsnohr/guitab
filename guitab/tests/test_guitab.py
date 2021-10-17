@@ -35,21 +35,20 @@ def test_guitab_help_message(monkeypatch, capfd):
     guitab_shell = GuitabShell()
     guitab_shell.cmdloop()
     out, err = capfd.readouterr()
-    help_message_regex = re.compile(welcome_message + \
-        r"\n\nDocumented commands \(type help <topic>\):\n"
-        r"========================================\n")
+    help_message_regex = re.compile(welcome_message +
+                                    r"\n\nDocumented commands \(type help <topic>\):\n"
+                                    r"========================================\n")
     assert help_message_regex.match(out)
 
 
-def test_guitab_print_tab_blank(monkeypatch, capfd):
+def test_guitab_print_tab_blank(capfd):
     """Confirm that the custom shell program displays a blank tab correctly and
     then quits"""
 
-    user_input = iter(['-p', '-d'])
-    monkeypatch.setattr('builtins.input', lambda _: next(user_input))
-    main()
+    guitab_shell = GuitabShell()
+    guitab_shell.do_print()
     out, err = capfd.readouterr()
-    assert out == welcome_message + global_test_data.print_blank_tab
+    assert out == global_test_data.print_blank_tab
 
 
 def test_guitab_print_tab_2_rows(monkeypatch, capfd):
