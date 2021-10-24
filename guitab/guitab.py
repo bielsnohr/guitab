@@ -27,22 +27,32 @@ class GuitabShell(cmd.Cmd):
         self.user_tab = tab.Tab()
 
     # ----- basic commands -----
+    def move(self, direction, arg):
+        if arg is not None:
+            try:
+                num = int(arg)
+                self.user_tab.__getattribute__(direction.lower())(num=num)
+            except ValueError:
+                print(direction.upper() + "requires a single integer input. Given: " + arg, file=self.stdout)
+                return
+        else:
+            self.user_tab.__getattribute__(direction.lower())(num=1)
+
+        self.user_tab.print()
+
     def do_forward(self, arg):
         """The number of counts to go forward in the tab:  FORWARD 10
 
         The default is to move forward 1 space if no input is given to the command.
         """
-        if arg is not None:
-            try:
-                num = int(arg)
-                self.user_tab.forward(num=num)
-            except ValueError:
-                print("FORWARD requires a single integer input. Given: " + arg, file=self.stdout)
-                return
-        else:
-            self.user_tab.forward(num=1)
+        self.move("forward", arg)
 
-        self.user_tab.print()
+    def do_backward(self, arg):
+        """The number of counts to go backward in the tab:  BACKWARD 10
+
+        The default is to move back 1 space if no input is given to the command.
+        """
+        self.move("backward", arg)
 
     def do_bye(self, arg):
         """Stop editing tab and exit:  BYE
@@ -59,7 +69,13 @@ class GuitabShell(cmd.Cmd):
         print(self.user_tab, file=pipe)
         pipe.close()
 
-    # ----- record tab -----
+    # ----- customisation -----
+    def onecmd(self, line: str) -> bool:
+        try:
+            super().onecmd(line)
+        except IndexError as e:
+            print(e, file=self.stdout)
+
     def do_record(self, arg):
         'Save future commands to filename:  RECORD rose.cmd'
         self.file = open(arg, 'w')
