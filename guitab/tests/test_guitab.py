@@ -1,6 +1,4 @@
-import guitab
 from ..guitab import main, GuitabShell
-import pytest
 import re
 from . import global_test_data
 
@@ -55,11 +53,10 @@ def test_guitab_print_tab_2_rows(monkeypatch, capfd):
     """Confirm that the custom shell program displays a 2 row tab correctly and
     then quits"""
 
-    user_input = iter(['-f 78', '-d'])
-    monkeypatch.setattr('builtins.input', lambda _: next(user_input))
-    main()
+    guitab_shell = GuitabShell()
+    guitab_shell.do_forward("78")
     out, err = capfd.readouterr()
-    assert out == welcome_message + global_test_data.print_tab_2_rows
+    assert out == global_test_data.print_tab_2_rows
 
 
 def test_guitab_write_chord(monkeypatch, capfd):

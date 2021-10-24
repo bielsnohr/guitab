@@ -28,8 +28,21 @@ class GuitabShell(cmd.Cmd):
 
     # ----- basic commands -----
     def do_forward(self, arg):
-        'Move the turtle forward by the specified distance:  FORWARD 10'
-        pass
+        """The number of counts to go forward in the tab:  FORWARD 10
+
+        The default is to move forward 1 space if no input is given to the command.
+        """
+        if arg is not None:
+            try:
+                num = int(arg)
+                self.user_tab.forward(num=num)
+            except ValueError:
+                print("FORWARD requires a single integer input. Given: " + arg, file=self.stdout)
+                return
+        else:
+            self.user_tab.forward(num=1)
+
+        self.user_tab.print()
 
     def do_bye(self, arg):
         """Stop editing tab and exit:  BYE
