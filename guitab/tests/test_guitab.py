@@ -1,4 +1,4 @@
-from ..guitab import main, GuitabShell
+from ..guitab import GuitabShell
 import re
 from . import global_test_data
 
@@ -63,8 +63,7 @@ def test_guitab_write_chord(monkeypatch, capfd):
     """Confirm that the custom shell program can write a C chord, display it
     correctly and then quit"""
 
-    user_input = iter(['-c - 1 - 2 3 x', '-d'])
-    monkeypatch.setattr('builtins.input', lambda _: next(user_input))
-    main()
+    guitab_shell = GuitabShell()
+    guitab_shell.do_chord("- 1 - 2 3 x")
     out, err = capfd.readouterr()
-    assert out == welcome_message + global_test_data.print_tab_c_chord
+    assert out == global_test_data.print_tab_c_chord
