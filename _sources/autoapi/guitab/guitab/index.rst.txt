@@ -136,11 +136,82 @@ Functions
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: move(self, direction, arg)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
    .. py:method:: do_forward(self, arg)
 
       
-      Move the turtle forward by the specified distance:  FORWARD 10
+      The number of counts to go forward in the tab:  FORWARD 10
 
+      The default is to move forward 1 space if no input is given to the command.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_backward(self, arg)
+
+      
+      The number of counts to go backward in the tab:  BACKWARD 10
+
+      The default is to move back 1 space if no input is given to the command.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_chord(self, arg)
+
+      
+      The chord (i.e. finger positions) to write to the current position in the tab:  CHORD x 3 2 0 1 0
+
+      The input order of strings runs from high E to low E.
 
 
 
@@ -188,6 +259,34 @@ Functions
       
       Print the entirety of the tab: PRINT
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: onecmd(self, line: str) -> bool
+
+      
+      Interpret the argument as though it had been typed in response
+      to the prompt.
+
+      This may be overridden, but should not normally need to be;
+      see the precmd() and postcmd() methods for useful execution hooks.
+      The return value is a flag indicating whether interpretation of
+      commands by the interpreter should stop.
 
 
 

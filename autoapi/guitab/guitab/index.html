@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guitab.guitab &mdash; guitab 0.post1+g8d63b79 documentation</title>
+  <title>guitab.guitab &mdash; guitab 0.post1+g25918ca documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
@@ -36,7 +36,7 @@
             <a href="../../../index.html" class="icon icon-home"> guitab
           </a>
               <div class="version">
-                0.post1+g8d63b79
+                0.post1+g25918ca
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -152,9 +152,29 @@ in order to inherit Cmd’s methods and encapsulate action methods.</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.move" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_forward">
 <span class="sig-name descname"><span class="pre">do_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move the turtle forward by the specified distance:  FORWARD 10</p>
+<dd><p>The number of counts to go forward in the tab:  FORWARD 10</p>
+<p>The default is to move forward 1 space if no input is given to the command.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_backward">
+<span class="sig-name descname"><span class="pre">do_backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of counts to go backward in the tab:  BACKWARD 10</p>
+<p>The default is to move back 1 space if no input is given to the command.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_chord">
+<span class="sig-name descname"><span class="pre">do_chord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_chord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_chord" title="Permalink to this definition">¶</a></dt>
+<dd><p>The chord (i.e. finger positions) to write to the current position in the tab:  CHORD x 3 2 0 1 0</p>
+<p>The input order of strings runs from high E to low E.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -168,6 +188,17 @@ in order to inherit Cmd’s methods and encapsulate action methods.</p>
 <dt class="sig sig-object py" id="guitab.guitab.GuitabShell.do_print">
 <span class="sig-name descname"><span class="pre">do_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.do_print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.do_print" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the entirety of the tab: PRINT</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="guitab.guitab.GuitabShell.onecmd">
+<span class="sig-name descname"><span class="pre">onecmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../../_modules/guitab/guitab.html#GuitabShell.onecmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guitab.guitab.GuitabShell.onecmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpret the argument as though it had been typed in response
+to the prompt.</p>
+<p>This may be overridden, but should not normally need to be;
+see the precmd() and postcmd() methods for useful execution hooks.
+The return value is a flag indicating whether interpretation of
+commands by the interpreter should stop.</p>
 </dd></dl>
 
 <dl class="py method">

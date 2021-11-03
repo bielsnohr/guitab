@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guitab.guitab &mdash; guitab 0.post1+g8d63b79 documentation</title>
+  <title>guitab.guitab &mdash; guitab 0.post1+g25918ca documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
@@ -33,7 +33,7 @@
             <a href="../../index.html" class="icon icon-home"> guitab
           </a>
               <div class="version">
-                0.post1+g8d63b79
+                0.post1+g25918ca
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -105,9 +105,54 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">Tab</span><span class="p">()</span>
 
     <span class="c1"># ----- basic commands -----</span>
+<div class="viewcode-block" id="GuitabShell.move"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">lower</span><span class="p">())(</span><span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;requires a single integer input. Given: &quot;</span> <span class="o">+</span> <span class="n">arg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">lower</span><span class="p">())(</span><span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
 <div class="viewcode-block" id="GuitabShell.do_forward"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_forward">[docs]</a>    <span class="k">def</span> <span class="nf">do_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="s1">&#39;Move the turtle forward by the specified distance:  FORWARD 10&#39;</span>
-        <span class="k">pass</span></div>
+        <span class="sd">&quot;&quot;&quot;The number of counts to go forward in the tab:  FORWARD 10</span>
+
+<span class="sd">        The default is to move forward 1 space if no input is given to the command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s2">&quot;forward&quot;</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_backward"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_backward">[docs]</a>    <span class="k">def</span> <span class="nf">do_backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The number of counts to go backward in the tab:  BACKWARD 10</span>
+
+<span class="sd">        The default is to move back 1 space if no input is given to the command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s2">&quot;backward&quot;</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_chord"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_chord">[docs]</a>    <span class="k">def</span> <span class="nf">do_chord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The chord (i.e. finger positions) to write to the current position in the tab:  CHORD x 3 2 0 1 0</span>
+
+<span class="sd">        The input order of strings runs from high E to low E.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: The CHORD command requires 6 positional arguments.&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: invalid argument string to CHORD&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">clength</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: A chord is &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">clength</span> <span class="o">+</span> <span class="s2">&quot; long.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">allowed</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Invalid note/finger position provided: &quot;</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="GuitabShell.do_bye"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_bye">[docs]</a>    <span class="k">def</span> <span class="nf">do_bye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Stop editing tab and exit:  BYE</span>
@@ -124,7 +169,13 @@
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">pipe</span><span class="p">)</span>
         <span class="n">pipe</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-    <span class="c1"># ----- record tab -----</span>
+    <span class="c1"># ----- customisation -----</span>
+<div class="viewcode-block" id="GuitabShell.onecmd"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.onecmd">[docs]</a>    <span class="k">def</span> <span class="nf">onecmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="GuitabShell.do_record"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_record">[docs]</a>    <span class="k">def</span> <span class="nf">do_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="s1">&#39;Save future commands to filename:  RECORD rose.cmd&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span></div>
@@ -145,7 +196,6 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span></div></div>
-
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Main function for guitab module</span>
