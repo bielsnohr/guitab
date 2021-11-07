@@ -119,6 +119,7 @@ class GuitabShell(cmd.Cmd):
             self.file.close()
             self.file = None
 
+
 def main():
     """Main function for guitab module
 
