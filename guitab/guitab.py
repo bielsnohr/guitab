@@ -94,9 +94,11 @@ class GuitabShell(cmd.Cmd):
     # ----- customisation -----
     def onecmd(self, line: str) -> bool:
         try:
-            super().onecmd(line)
+            val = super().onecmd(line)
         except IndexError as e:
             print(e, file=self.stdout)
+        else:
+            return val
 
     def do_record(self, arg):
         'Save future commands to filename:  RECORD rose.cmd'
