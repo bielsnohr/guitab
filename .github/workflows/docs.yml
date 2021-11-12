@@ -5,9 +5,7 @@
 
 name: docs
 
-on:
-  push:
-    branch: master
+on: push
 
 jobs:
   docs:
@@ -28,6 +26,7 @@ jobs:
     - name: Build Docs
       run: make -C docs/ html
     - name: Deploy Docs
+      if: github.ref == 'refs/heads/master'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
