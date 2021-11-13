@@ -26,7 +26,7 @@ class GuitabShell(cmd.Cmd):
         super().__init__(completekey=completekey, stdin=stdin, stdout=stdout)
         self.user_tab = tab.Tab()
 
-    # ----- basic commands -----
+    # ----- functional commands -----
     def move(self, direction, arg):
         if arg is not None:
             try:
@@ -76,6 +76,7 @@ class GuitabShell(cmd.Cmd):
             self.user_tab.write(arg)
             self.user_tab.print()
 
+    # ----- utility functions -----
     def do_bye(self, arg):
         """Stop editing tab and exit:  BYE
 
@@ -85,14 +86,53 @@ class GuitabShell(cmd.Cmd):
         self.close()
         return True
 
+    # TODO this is OS dependent and should be extended for mac and Windows
     def do_print(self):
         """Print the entirety of the tab: PRINT"""
         pipe = os.popen('less', mode='w')
         print(self.user_tab, file=pipe)
         pipe.close()
 
+    # ----- file handling -----
+    def do_load(self, arg: str):
+        """Load only tab data from specified file (not metadata)
+
+        Parameters
+        ----------
+        arg : str
+            File name for file to load tab data from
+
+        Returns
+        -------
+        None
+        """
+        if arg is None:
+            print("ERROR: The LOAD command requires an argument", file=self.stdout)
+            return
+        else:
+            self.user_tab.get_tab(arg, overwrite_info=False)
+
+    def do_loadall(self, arg: str):
+        """Load tab data and metadata from specified file
+
+        Parameters
+        ----------
+        arg : str
+            File name for file to load tab data from
+
+        Returns
+        -------
+        None
+        """
+        if arg is None:
+            print("ERROR: The LOADALL command requires an argument", file=self.stdout)
+            return
+        else:
+            self.user_tab.get_tab(arg, overwrite_info=True)
+
     # ----- customisation -----
     def onecmd(self, line: str) -> bool:
+        """Catch acceptable exceptions caused by users"""
         try:
             val = super().onecmd(line)
         except IndexError as e:

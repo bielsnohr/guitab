@@ -1,4 +1,5 @@
 """Global test data for tab and guitab"""
+from pathlib import Path
 
 str_blank_tab = 'e|-\nB|-\nG|-\nD|-\nA|-\nE|-\n  *\n'
 str_tab_1_row = \
@@ -54,7 +55,9 @@ str_tab_file_load = \
     'A|---2\n'\
     'E|---3\n'\
     '\n'
-file_info = {'filename': 'test_guitab_file.txt', 'title': 'The Best Sond in the World', 'author': 'John Doe', 'date': '2021-11-07'}
+test_file = Path(__file__).parent / "test_guitab_file.txt"
+file_info = {'filename': str(test_file), 'title': 'The Best Song in the World', 'author': 'John Doe',
+             'date': '2021-11-07'}
 print_blank_tab = str_blank_tab + '\n'
 print_tab_2_rows = str_tab_2_rows + '\n'
 print_tab_3_rows = \

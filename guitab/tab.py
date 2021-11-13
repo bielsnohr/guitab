@@ -287,7 +287,8 @@ class Tab(object):
                 else:
                     self.info[i] = kwargs[i]
 
-# TODO object IO should be handled in a separate module
+    # TODO object IO should be handled in a separate module
+    # TODO this should probably raise an exception if the file doesn't exist!
     def get_tab(self, filename, overwrite_info=True, overwrite_data=True):
         """Open a guitab text file and extract the tab data from it.
 

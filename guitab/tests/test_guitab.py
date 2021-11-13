@@ -1,6 +1,7 @@
 from ..guitab import GuitabShell
 import re
 from . import global_test_data
+from pathlib import Path
 
 
 welcome_message = r"Welcome to guitab, an interactive command line program "\
@@ -59,7 +60,7 @@ def test_guitab_print_tab_2_rows(monkeypatch, capfd):
     assert out == global_test_data.print_tab_2_rows
 
 
-def test_guitab_write_chord(monkeypatch, capfd):
+def test_guitab_write_chord(capfd):
     """Confirm that the custom shell program can write a C chord, display it
     correctly and then quit"""
 
@@ -67,3 +68,22 @@ def test_guitab_write_chord(monkeypatch, capfd):
     guitab_shell.do_chord("- 1 - 2 3 x")
     out, err = capfd.readouterr()
     assert out == global_test_data.print_tab_c_chord
+
+
+def test_guitab_load():
+    """Confirm that the custom shell program can correctly load tab data"""
+
+    test_file = Path(__file__).parent / "test_guitab_file.txt"
+    guitab_shell = GuitabShell()
+    guitab_shell.do_load(str(test_file))
+    assert str(guitab_shell.user_tab) == global_test_data.str_tab_file_load
+
+
+def test_guitab_loadall():
+    """Confirm that the custom shell program can correctly load tab data"""
+
+    test_file = Path(__file__).parent / "test_guitab_file.txt"
+    guitab_shell = GuitabShell()
+    guitab_shell.do_loadall(str(test_file))
+    assert str(guitab_shell.user_tab) == global_test_data.str_tab_file_load
+    assert guitab_shell.user_tab.info == global_test_data.file_info
