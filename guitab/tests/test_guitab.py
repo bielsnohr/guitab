@@ -39,13 +39,15 @@ def test_guitab_help_message(monkeypatch, capfd):
                                     r"========================================\n")
     assert help_message_regex.match(out)
 
+# TODO add a test for the do_print command in the style above
+
 
 def test_guitab_print_tab_blank(capfd):
     """Confirm that the custom shell program displays a blank tab correctly and
     then quits"""
 
     guitab_shell = GuitabShell()
-    guitab_shell.do_print()
+    guitab_shell.do_print('')
     out, err = capfd.readouterr()
     assert out == global_test_data.print_blank_tab
 
