@@ -87,7 +87,7 @@ class GuitabShell(cmd.Cmd):
         return True
 
     # TODO this is OS dependent and should be extended for mac and Windows
-    def do_print(self):
+    def do_print(self, arg):
         """Print the entirety of the tab: PRINT"""
         pipe = os.popen('less', mode='w')
         print(self.user_tab, file=pipe)
