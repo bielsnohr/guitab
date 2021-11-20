@@ -13,6 +13,9 @@ import cmd
 from . import tab
 
 
+# TODO it looks like Cmd will pass a blank string rather than None if no
+# arguments are given to a command. I need to modify argument parsing below and
+# tests to account for this.
 class GuitabShell(cmd.Cmd):
 
     intro = "Welcome to guitab, an interactive command line program "\
@@ -28,12 +31,12 @@ class GuitabShell(cmd.Cmd):
 
     # ----- functional commands -----
     def move(self, direction, arg):
-        if arg is not None:
+        if arg != '':
             try:
                 num = int(arg)
                 self.user_tab.__getattribute__(direction.lower())(num=num)
             except ValueError:
-                print(direction.upper() + "requires a single integer input. Given: " + arg, file=self.stdout)
+                print(direction.upper() + " requires a single integer input. Given: " + arg, file=self.stdout)
                 return
         else:
             self.user_tab.__getattribute__(direction.lower())(num=1)

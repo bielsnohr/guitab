@@ -39,8 +39,6 @@ def test_guitab_help_message(monkeypatch, capfd):
                                     r"========================================\n")
     assert help_message_regex.match(out)
 
-# TODO add a test for the do_print command in the style above
-
 
 def test_guitab_print_tab_blank(capfd):
     """Confirm that the custom shell program displays a blank tab correctly and
@@ -60,6 +58,16 @@ def test_guitab_print_tab_2_rows(monkeypatch, capfd):
     guitab_shell.do_forward("78")
     out, err = capfd.readouterr()
     assert out == global_test_data.print_tab_2_rows
+
+
+def test_guitab_forward_no_arg(monkeypatch, capfd):
+    """Confirm that the custom shell program displays a 2 row tab correctly and
+    then quits"""
+
+    guitab_shell = GuitabShell()
+    guitab_shell.do_forward('')
+    out, err = capfd.readouterr()
+    assert out == global_test_data.print_tab_1_forward
 
 
 def test_guitab_write_chord(capfd):
