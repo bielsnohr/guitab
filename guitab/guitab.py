@@ -9,6 +9,7 @@ result being written to a text file.
 import argparse
 import os
 import cmd
+from typing import Type
 
 from . import tab
 
@@ -62,22 +63,16 @@ class GuitabShell(cmd.Cmd):
 
         The input order of strings runs from high E to low E.
         """
-        if arg is None:
-            print("ERROR: The CHORD command requires 6 positional arguments.", file=self.stdout)
-            return
         try:
             arg = arg.split()
         except Exception:
-            print("ERROR: invalid argument string to CHORD")
-        if len(arg) != self.user_tab.clength:
-            print("ERROR: A chord is " + self.user_tab.clength + " long.")
+            print("ERROR: Invalid argument string to CHORD", file=self.stdout)
             return
-        else:
-            for i in arg:
-                if i not in self.user_tab.allowed:
-                    print("ERROR: Invalid note/finger position provided: " + i, file=self.stdout)
+        try:
             self.user_tab.write(arg)
             self.user_tab.print()
+        except TypeError as e:
+            print(e, file=self.stdout)
 
     # ----- utility functions -----
     def do_bye(self, arg):

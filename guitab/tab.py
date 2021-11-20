@@ -176,11 +176,10 @@ class Tab(object):
 
         # Check that the chord has the correct format
         if len(chord) != self.clength:
-            # TODO fill out error information
-            raise TypeError
+            raise TypeError(f"Invalid number of finger positions provided: {len(chord)}. Expected {self.clength}.")
         for i in chord:
             if i not in self.allowed:
-                raise TypeError
+                raise TypeError(f"Invalid finger position provided: {i}")
 
         # If the index is unset, then use the default value of the current
         # self.i index

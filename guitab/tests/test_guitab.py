@@ -61,8 +61,8 @@ def test_guitab_print_tab_2_rows(monkeypatch, capfd):
 
 
 def test_guitab_forward_no_arg(monkeypatch, capfd):
-    """Confirm that the custom shell program displays a 2 row tab correctly and
-    then quits"""
+    """Confirm that the custom shell program handles no argument to the chord
+    command correctly"""
 
     guitab_shell = GuitabShell()
     guitab_shell.do_forward('')
@@ -78,6 +78,19 @@ def test_guitab_write_chord(capfd):
     guitab_shell.do_chord("- 1 - 2 3 x")
     out, err = capfd.readouterr()
     assert out == global_test_data.print_tab_c_chord
+
+
+def test_guitab_write_invalid_chord(capfd):
+    """Confirm that the correct warning message is generated when passing
+    invalid chord input to the write command"""
+
+    guitab_shell = GuitabShell()
+    guitab_shell.do_chord("")
+    out, err = capfd.readouterr()
+    assert out == "Invalid number of finger positions provided: 0. Expected 6.\n"
+    guitab_shell.do_chord("t t t t t t")
+    out, err = capfd.readouterr()
+    assert out == "Invalid finger position provided: t\n"
 
 
 def test_guitab_load():
