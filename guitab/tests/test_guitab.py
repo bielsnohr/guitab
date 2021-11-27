@@ -102,6 +102,15 @@ def test_guitab_load():
     assert str(guitab_shell.user_tab) == global_test_data.str_tab_file_load
 
 
+def test_guitab_load_noarg(capfd):
+    """Confirm that the custom shell program correctly handles no arg to LOAD command"""
+
+    guitab_shell = GuitabShell()
+    guitab_shell.do_load('')
+    out, err = capfd.readouterr()
+    assert out == "ERROR: The LOAD command requires an argument\n"
+
+
 def test_guitab_loadall():
     """Confirm that the custom shell program can correctly load tab data"""
 

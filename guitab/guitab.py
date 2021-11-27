@@ -9,7 +9,6 @@ result being written to a text file.
 import argparse
 import os
 import cmd
-from typing import Type
 
 from . import tab
 
@@ -104,7 +103,7 @@ class GuitabShell(cmd.Cmd):
         -------
         None
         """
-        if arg is None:
+        if arg == '':
             print("ERROR: The LOAD command requires an argument", file=self.stdout)
             return
         else:
