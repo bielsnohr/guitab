@@ -2,6 +2,7 @@ from ..guitab import GuitabShell
 import re
 from . import global_test_data
 from pathlib import Path
+import filecmp
 
 
 welcome_message = r"Welcome to guitab, an interactive command line program "\
@@ -119,3 +120,15 @@ def test_guitab_loadall():
     guitab_shell.do_loadall(str(test_file))
     assert str(guitab_shell.user_tab) == global_test_data.str_tab_file_load
     assert guitab_shell.user_tab.info == global_test_data.file_info
+
+
+def test_guitab_save(tmp_path):
+    """Confirm that the custom shell program can correctly save tab data"""
+
+    save_file = tmp_path / "test_guitab_file.txt"
+    guitab_shell = GuitabShell()
+    guitab_shell.user_tab.info = {key: val for key, val in global_test_data.file_info.items()}
+    guitab_shell.user_tab.write(['-', '1', '-', '2', '3', 'x'])
+    guitab_shell.user_tab.write(['3', '3', '-', '-', '2', '3'], index=81)
+    guitab_shell.do_save(str(save_file))
+    assert filecmp.cmp(save_file, Path(__file__).parent / "test_guitab_file.txt")

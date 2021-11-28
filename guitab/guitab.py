@@ -13,21 +13,18 @@ import cmd
 from . import tab
 
 
-# TODO it looks like Cmd will pass a blank string rather than None if no
-# arguments are given to a command. I need to modify argument parsing below and
-# tests to account for this.
 class GuitabShell(cmd.Cmd):
 
     intro = "Welcome to guitab, an interactive command line program "\
         "that accelerates the tab writing process. Type help or ? to list "\
         "commands."
     prompt = '(guitab) '
-    file = None
 
     # ----- initialise ---------
     def __init__(self, completekey='tab', stdin=None, stdout=None) -> None:
         super().__init__(completekey=completekey, stdin=stdin, stdout=stdout)
         self.user_tab = tab.Tab()
+        self.file = None
 
     # ----- functional commands -----
     def move(self, direction, arg):
@@ -79,8 +76,7 @@ class GuitabShell(cmd.Cmd):
 
         The current tab is saved to a file if one has been previously specified by RECORD.
         """
-        print('Thank you for using guitab')
-        self.close()
+        print('Thank you for using guitab', file=self.stdout)
         return True
 
     # TODO this is OS dependent and should be extended for mac and Windows
@@ -121,11 +117,32 @@ class GuitabShell(cmd.Cmd):
         -------
         None
         """
-        if arg is None:
+        if arg == '':
             print("ERROR: The LOADALL command requires an argument", file=self.stdout)
             return
         else:
             self.user_tab.get_tab(arg, overwrite_info=True)
+
+    def do_save(self, arg: str):
+        """Save tab data and metadata to specified file
+
+        Parameters
+        ----------
+        arg : str
+            File name for file to save tab data to
+
+        Returns
+        -------
+        None
+        """
+        if arg == '':
+            if self.file is None:
+                print("ERROR: The SAVE command requires an argument if a file hasn't been set previously", file=self.stdout)
+                return
+            else:
+                self.user_tab.save_tab(filename=self.file)
+        else:
+            self.user_tab.save_tab(filename=arg)
 
     # ----- customisation -----
     def onecmd(self, line: str) -> bool:
@@ -143,20 +160,11 @@ class GuitabShell(cmd.Cmd):
 
     def do_playback(self, arg):
         'Playback commands from a file:  PLAYBACK rose.cmd'
-        self.close()
         with open(arg) as f:
             self.cmdqueue.extend(f.read().splitlines())
 
     def precmd(self, line):
-        line = line.lower()
-        if self.file and 'playback' not in line:
-            print(line, file=self.file)
-        return line
-
-    def close(self):
-        if self.file:
-            self.file.close()
-            self.file = None
+        return line.lower()
 
 
 def main():
