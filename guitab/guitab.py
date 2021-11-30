@@ -88,6 +88,24 @@ class GuitabShell(cmd.Cmd):
         else:
             self.user_tab.set_info(author=arg)
 
+    def do_title(self, arg: str):
+        """Set the title for the tab
+
+        Parameters
+        ----------
+        arg : str
+            Title of the tab
+
+        Returns
+        -------
+        None
+        """
+        if arg == '':
+            print("ERROR: The TITLE command requires an argument", file=self.stdout)
+            return
+        else:
+            self.user_tab.set_info(title=arg)
+
     # ----- utility functions -----
     def do_bye(self, arg):
         """Stop editing tab and exit:  BYE
