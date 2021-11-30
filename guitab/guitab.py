@@ -82,11 +82,7 @@ class GuitabShell(cmd.Cmd):
         -------
         None
         """
-        if arg == '':
-            print("ERROR: The AUTHOR command requires an argument", file=self.stdout)
-            return
-        else:
-            self.user_tab.set_info(author=arg)
+        self.set_info(key='author', value=arg)
 
     def do_title(self, arg: str):
         """Set the title for the tab
@@ -100,11 +96,14 @@ class GuitabShell(cmd.Cmd):
         -------
         None
         """
-        if arg == '':
-            print("ERROR: The TITLE command requires an argument", file=self.stdout)
+        self.set_info(key='title', value=arg)
+
+    def set_info(self, key: str, value: str):
+        if value == '':
+            print("ERROR: The {key.upper()} command requires an argument", file=self.stdout)
             return
         else:
-            self.user_tab.set_info(title=arg)
+            self.user_tab.set_info(**{key: value})
 
     # ----- utility functions -----
     def do_bye(self, arg):
@@ -173,7 +172,8 @@ class GuitabShell(cmd.Cmd):
         """
         if arg == '':
             if self.file is None:
-                print("ERROR: The SAVE command requires an argument if a file hasn't been set previously", file=self.stdout)
+                print("ERROR: The SAVE command requires an argument if a file hasn't been set previously",
+                      file=self.stdout)
                 return
             else:
                 self.user_tab.save_tab(filename=self.file)
