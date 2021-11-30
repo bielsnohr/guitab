@@ -70,6 +70,24 @@ class GuitabShell(cmd.Cmd):
         except TypeError as e:
             print(e, file=self.stdout)
 
+    def do_author(self, arg: str):
+        """Set the author for the tab
+
+        Parameters
+        ----------
+        arg : str
+            Author name
+
+        Returns
+        -------
+        None
+        """
+        if arg == '':
+            print("ERROR: The AUTHOR command requires an argument", file=self.stdout)
+            return
+        else:
+            self.user_tab.set_info(author=arg)
+
     # ----- utility functions -----
     def do_bye(self, arg):
         """Stop editing tab and exit:  BYE
