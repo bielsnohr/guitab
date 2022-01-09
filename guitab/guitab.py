@@ -54,6 +54,7 @@ class GuitabShell(cmd.Cmd):
         """
         self.move("backward", arg)
 
+    # TODO extend this to take single letter chord names
     def do_chord(self, arg):
         """The chord (i.e. finger positions) to write to the current position in the tab:  CHORD x 3 2 0 1 0
 
@@ -190,15 +191,6 @@ class GuitabShell(cmd.Cmd):
         else:
             return val
 
-    def do_record(self, arg):
-        'Save future commands to filename:  RECORD rose.cmd'
-        self.file = open(arg, 'w')
-
-    def do_playback(self, arg):
-        'Playback commands from a file:  PLAYBACK rose.cmd'
-        with open(arg) as f:
-            self.cmdqueue.extend(f.read().splitlines())
-
     def precmd(self, line):
         return line.lower()
 
@@ -221,7 +213,6 @@ def main():
     parser = argparse.ArgumentParser(prog='guitab',
                                      description='description of guitab')
 
-    # TODO add an argument that can take in single letter chord names
     parser.add_argument('-c', '--chord', nargs=6, choices=allowed, help='The'
                         ' chord/fingering for the current count. If'
                         ' present, there must be 6 positional arguments'
