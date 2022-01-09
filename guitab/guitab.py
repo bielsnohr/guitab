@@ -9,6 +9,7 @@ result being written to a text file.
 import argparse
 import os
 import cmd
+from datetime import datetime as dt
 
 from . import tab
 
@@ -24,6 +25,7 @@ class GuitabShell(cmd.Cmd):
     def __init__(self, completekey='tab', stdin=None, stdout=None) -> None:
         super().__init__(completekey=completekey, stdin=stdin, stdout=stdout)
         self.user_tab = tab.Tab()
+        # TODO tidy up how this file parameter is used below and how the file name in general is retained
         self.file = None
 
     # ----- functional commands -----
@@ -98,6 +100,25 @@ class GuitabShell(cmd.Cmd):
         None
         """
         self.set_info(key='title', value=arg)
+
+    def do_date(self, arg: str):
+        """Set the date for the tab
+
+        Parameters
+        ----------
+        arg : str
+            Date the tab was created or updated in ISO 8601 format (i.e. YYYY-MM-DD)
+
+        Returns
+        -------
+        None
+        """
+        try:
+            dt.strptime(arg, '%Y-%m-%d')
+        except ValueError:
+            print("Incorrect date string. Must be of format YYYY-MM-DD.", file=self.stdout)
+        else:
+            self.set_info(key='date', value=arg)
 
     def set_info(self, key: str, value: str):
         if value == '':

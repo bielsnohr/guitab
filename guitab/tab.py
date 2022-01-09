@@ -253,7 +253,7 @@ class Tab(object):
             self.tab_data += [self._blank for x in range(self.i - self.imax)]
             self.imax = self.i
 
-# TODO present: check that this functions properly
+    # TODO check that this functions properly
     def set_info(self, **kwargs):
         """Set relevant information for the Tab object, such as author, date,
         etc.

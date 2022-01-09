@@ -99,6 +99,25 @@ def test_guitab_set_title():
     assert guitab_shell.user_tab.info['title'] == tab_title
 
 
+def test_guitab_set_date():
+    """Confirm that the custom shell program sets the date metadata"""
+
+    guitab_shell = GuitabShell()
+    tab_date = '2022-01-09'
+    guitab_shell.do_date(tab_date)
+    assert guitab_shell.user_tab.info['date'] == tab_date
+
+
+def test_guitab_bad_date(capfd):
+    """Confirm that the custom shell a bad date string"""
+
+    guitab_shell = GuitabShell()
+    tab_date = '09-01-2021'
+    guitab_shell.do_date(tab_date)
+    out, err = capfd.readouterr()
+    assert out == "Incorrect date string. Must be of format YYYY-MM-DD.\n"
+
+
 def test_guitab_write_invalid_chord(capfd):
     """Confirm that the correct warning message is generated when passing
     invalid chord input to the write command"""
