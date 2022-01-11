@@ -115,7 +115,7 @@ def test_guitab_bad_date(capfd):
     tab_date = '09-01-2021'
     guitab_shell.do_date(tab_date)
     out, err = capfd.readouterr()
-    assert out == "Incorrect date string. Must be of format YYYY-MM-DD.\n"
+    assert out == "ERROR: Incorrect date string. Must be of format YYYY-MM-DD.\n"
 
 
 def test_guitab_write_invalid_chord(capfd):
@@ -169,3 +169,12 @@ def test_guitab_save(tmp_path):
     guitab_shell.user_tab.write(['3', '3', '-', '-', '2', '3'], index=81)
     guitab_shell.do_save(str(save_file))
     assert filecmp.cmp(save_file, Path(__file__).parent / "test_guitab_file.txt")
+
+
+def test_guitab_incorrect_save(capfd):
+    """Confirm that the custom shell program throws an error message for incorrect save"""
+
+    guitab_shell = GuitabShell()
+    guitab_shell.do_save('')
+    out, err = capfd.readouterr()
+    assert out == "ERROR: The SAVE command requires an argument if a file hasn't been set previously\n"

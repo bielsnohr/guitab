@@ -116,7 +116,7 @@ class GuitabShell(cmd.Cmd):
         try:
             dt.strptime(arg, '%Y-%m-%d')
         except ValueError:
-            print("Incorrect date string. Must be of format YYYY-MM-DD.", file=self.stdout)
+            print("ERROR: Incorrect date string. Must be of format YYYY-MM-DD.", file=self.stdout)
         else:
             self.set_info(key='date', value=arg)
 
@@ -201,6 +201,7 @@ class GuitabShell(cmd.Cmd):
                 self.user_tab.save_tab(filename=self.file)
         else:
             self.user_tab.save_tab(filename=arg)
+            self.file = arg
 
     # ----- customisation -----
     def onecmd(self, line: str) -> bool:
