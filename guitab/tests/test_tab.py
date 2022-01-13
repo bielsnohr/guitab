@@ -2,6 +2,7 @@ from ..tab import Tab
 import pytest
 import datetime as dt
 from . import global_test_data
+from pathlib import Path
 
 
 @pytest.fixture
@@ -164,3 +165,21 @@ def test_print_tab_3_total_rows(blank_tab, capfd):
     blank_tab.print()
     out, err = capfd.readouterr()
     assert out == global_test_data.print_tab_3_rows
+
+
+def test_load_from_file(blank_tab, capfd):
+    """Confirm that the class object can read just the tab data from a compatible file"""
+    test_file = Path(__file__).parent / "test_guitab_file.txt"
+    blank_tab.get_tab(str(test_file), overwrite_info=False)
+    assert str(blank_tab) == global_test_data.str_tab_file_load
+    assert blank_tab.info != global_test_data.file_info
+
+
+def test_load_all_from_file(blank_tab, capfd):
+    """Confirm that the class object can read the tab data and metadata from a compatible file"""
+    test_file = Path(__file__).parent / "test_guitab_file.txt"
+    blank_tab.get_tab(str(test_file), overwrite_info=True)
+    assert str(blank_tab) == global_test_data.str_tab_file_load
+    assert blank_tab.info == global_test_data.file_info
+
+# TODO add test that correct exception is raised if file is not present

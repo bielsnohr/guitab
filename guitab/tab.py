@@ -176,11 +176,10 @@ class Tab(object):
 
         # Check that the chord has the correct format
         if len(chord) != self.clength:
-            # TODO fill out error information
-            raise TypeError
+            raise TypeError(f"Invalid number of finger positions provided: {len(chord)}. Expected {self.clength}.")
         for i in chord:
             if i not in self.allowed:
-                raise TypeError
+                raise TypeError(f"Invalid finger position provided: {i}")
 
         # If the index is unset, then use the default value of the current
         # self.i index
@@ -254,7 +253,7 @@ class Tab(object):
             self.tab_data += [self._blank for x in range(self.i - self.imax)]
             self.imax = self.i
 
-# TODO present: check that this functions properly
+    # TODO check that this functions properly
     def set_info(self, **kwargs):
         """Set relevant information for the Tab object, such as author, date,
         etc.
@@ -287,7 +286,8 @@ class Tab(object):
                 else:
                     self.info[i] = kwargs[i]
 
-# TODO object IO should be handled in a separate module
+    # TODO object IO should be handled in a separate module
+    # TODO this should probably raise an exception if the file doesn't exist!
     def get_tab(self, filename, overwrite_info=True, overwrite_data=True):
         """Open a guitab text file and extract the tab data from it.
 
