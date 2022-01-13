@@ -10,21 +10,21 @@ interface. It is started by running the following from the command line::
 This should display a brief splash screen welcoming you to ``guitab`` and drop
 you to a new prompt that looks like this::
 
-   [tab]: 
+   (guitab)
 
 From there, you execute commands to gradually build up your guitar tab. The
-full list of commands can be displayed by typing ``-h<Enter>``.
+full list of commands can be displayed by typing ``help<Enter>``.
 
-You can move backwards and forwards in the tab with the commands ``-b`` and
-``-f``, respectively. These commands also accept numerical arguments to specify
+You can move backwards and forwards in the tab with the commands ``back`` and
+``forward``, respectively. These commands also accept numerical arguments to specify
 the number of places to move. After issuing one of these commands, a textual
 representation of the tab will be printed out, with a ``*`` character on the
 final line indicating where in the tab you currently are.
 
 The whole tab can be printed at anytime (piped through ``less``) with the
-``-p`` command.
+``print`` command.
 
-Chords are added with the command ``-c [list of fret numbers]``. 
+Chords are added with the command ``chord [list of fret numbers]``. 
 
 ---
 API
