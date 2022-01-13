@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guitab.guitab &mdash; guitab 0.post1+gbf18dcf documentation</title>
+  <title>guitab.guitab &mdash; guitab 0.post1+g98ae5c5 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
@@ -33,7 +33,7 @@
             <a href="../../index.html" class="icon icon-home"> guitab
           </a>
               <div class="version">
-                0.post1+gbf18dcf
+                0.post1+g98ae5c5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -84,9 +84,9 @@
 <span class="sd">result being written to a text file.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">cmd</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">tab</span>
 
@@ -97,21 +97,22 @@
         <span class="s2">&quot;that accelerates the tab writing process. Type help or ? to list &quot;</span>\
         <span class="s2">&quot;commands.&quot;</span>
 <div class="viewcode-block" id="GuitabShell.prompt"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.prompt">[docs]</a>    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;(guitab) &#39;</span></div>
-<div class="viewcode-block" id="GuitabShell.file"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.file">[docs]</a>    <span class="n">file</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="c1"># ----- initialise ---------</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completekey</span><span class="o">=</span><span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">completekey</span><span class="o">=</span><span class="n">completekey</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">stdout</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">Tab</span><span class="p">()</span>
+        <span class="c1"># TODO tidy up how this file parameter is used below and how the file name in general is retained</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="c1"># ----- basic commands -----</span>
+    <span class="c1"># ----- functional commands -----</span>
 <div class="viewcode-block" id="GuitabShell.move"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">lower</span><span class="p">())(</span><span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;requires a single integer input. Given: &quot;</span> <span class="o">+</span> <span class="n">arg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; requires a single integer input. Given: &quot;</span> <span class="o">+</span> <span class="n">arg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
                 <span class="k">return</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">lower</span><span class="p">())(</span><span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -132,45 +133,156 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s2">&quot;backward&quot;</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span></div>
 
+    <span class="c1"># TODO extend this to take single letter chord names</span>
 <div class="viewcode-block" id="GuitabShell.do_chord"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_chord">[docs]</a>    <span class="k">def</span> <span class="nf">do_chord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The chord (i.e. finger positions) to write to the current position in the tab:  CHORD x 3 2 0 1 0</span>
 
 <span class="sd">        The input order of strings runs from high E to low E.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: The CHORD command requires 6 positional arguments.&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
-            <span class="k">return</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: invalid argument string to CHORD&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">clength</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: A chord is &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">clength</span> <span class="o">+</span> <span class="s2">&quot; long.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Invalid argument string to CHORD&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_author"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_author">[docs]</a>    <span class="k">def</span> <span class="nf">do_author</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the author for the tab</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg : str</span>
+<span class="sd">            Author name</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_title"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_title">[docs]</a>    <span class="k">def</span> <span class="nf">do_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the title for the tab</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg : str</span>
+<span class="sd">            Title of the tab</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_date"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_date">[docs]</a>    <span class="k">def</span> <span class="nf">do_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the date for the tab</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg : str</span>
+<span class="sd">            Date the tab was created or updated in ISO 8601 format (i.e. YYYY-MM-DD)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dt</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Incorrect date string. Must be of format YYYY-MM-DD.&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.set_info"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.set_info">[docs]</a>    <span class="k">def</span> <span class="nf">set_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: The {key.upper()} command requires an argument&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">allowed</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Invalid note/finger position provided: &quot;</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span></div>
 
+    <span class="c1"># ----- utility functions -----</span>
 <div class="viewcode-block" id="GuitabShell.do_bye"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_bye">[docs]</a>    <span class="k">def</span> <span class="nf">do_bye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Stop editing tab and exit:  BYE</span>
 
 <span class="sd">        The current tab is saved to a file if one has been previously specified by RECORD.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Thank you for using guitab&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Thank you for using guitab&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="GuitabShell.do_print"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_print">[docs]</a>    <span class="k">def</span> <span class="nf">do_print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># TODO this is OS dependent and should be extended for mac and Windows</span>
+<div class="viewcode-block" id="GuitabShell.do_print"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_print">[docs]</a>    <span class="k">def</span> <span class="nf">do_print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the entirety of the tab: PRINT&quot;&quot;&quot;</span>
         <span class="n">pipe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;less&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">pipe</span><span class="p">)</span>
         <span class="n">pipe</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
+    <span class="c1"># ----- file handling -----</span>
+<div class="viewcode-block" id="GuitabShell.do_load"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_load">[docs]</a>    <span class="k">def</span> <span class="nf">do_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load only tab data from specified file (not metadata)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg : str</span>
+<span class="sd">            File name for file to load tab data from</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: The LOAD command requires an argument&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">get_tab</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">overwrite_info</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_loadall"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_loadall">[docs]</a>    <span class="k">def</span> <span class="nf">do_loadall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load tab data and metadata from specified file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg : str</span>
+<span class="sd">            File name for file to load tab data from</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: The LOADALL command requires an argument&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">get_tab</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">overwrite_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GuitabShell.do_save"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_save">[docs]</a>    <span class="k">def</span> <span class="nf">do_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save tab data and metadata to specified file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg : str</span>
+<span class="sd">            File name for file to save tab data to</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: The SAVE command requires an argument if a file hasn&#39;t been set previously&quot;</span><span class="p">,</span>
+                      <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">arg</span></div>
+
     <span class="c1"># ----- customisation -----</span>
 <div class="viewcode-block" id="GuitabShell.onecmd"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.onecmd">[docs]</a>    <span class="k">def</span> <span class="nf">onecmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Catch acceptable exceptions caused by users&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">val</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -178,180 +290,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">val</span></div>
 
-<div class="viewcode-block" id="GuitabShell.do_record"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_record">[docs]</a>    <span class="k">def</span> <span class="nf">do_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="s1">&#39;Save future commands to filename:  RECORD rose.cmd&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GuitabShell.do_playback"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.do_playback">[docs]</a>    <span class="k">def</span> <span class="nf">do_playback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="s1">&#39;Playback commands from a file:  PLAYBACK rose.cmd&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cmdqueue</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span></div>
-
 <div class="viewcode-block" id="GuitabShell.precmd"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.precmd">[docs]</a>    <span class="k">def</span> <span class="nf">precmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">and</span> <span class="s1">&#39;playback&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">line</span></div>
-
-<div class="viewcode-block" id="GuitabShell.close"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.GuitabShell.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span></div></div>
-
-
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../autoapi/guitab/guitab/index.html#guitab.guitab.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Main function for guitab module</span>
-
-<span class="sd">    This initiates a REPL-like program that takes in user input to build the</span>
-<span class="sd">    tablature using a `Tab` object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Welcome to guitab, an interactive command line program that &quot;</span>
-          <span class="s2">&quot;accelerates the tab writing process. Type -h or --help for &quot;</span>
-          <span class="s2">&quot;details of how to run the program.&quot;</span><span class="p">)</span>
-
-    <span class="c1"># TODO this should be set in the tab class, not here</span>
-    <span class="n">allowed</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">)]</span>
-
-    <span class="c1"># define the argument parser object</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;guitab&#39;</span><span class="p">,</span>
-                                     <span class="n">description</span><span class="o">=</span><span class="s1">&#39;description of guitab&#39;</span><span class="p">)</span>
-
-    <span class="c1"># TODO add an argument that can take in single letter chord names</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--chord&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">allowed</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The&#39;</span>
-                        <span class="s1">&#39; chord/fingering for the current count. If&#39;</span>
-                        <span class="s1">&#39; present, there must be 6 positional arguments&#39;</span>
-                        <span class="s1">&#39;--one for each string. Input order runs from high &#39;</span>
-                        <span class="s1">&#39;e to low E.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-q&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Save tab then quit guitab. Name of file&#39;</span>
-                        <span class="s1">&#39; can be set as optional argument.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Flag&#39;</span>
-                        <span class="s1">&#39; to quit guitab without saving progress.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Flag&#39;</span>
-                        <span class="s1">&#39; to print the entirety of the current tab.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The&#39;</span>
-                        <span class="s1">&#39; number of counts to go back in the tab &#39;</span>
-                        <span class="s1">&#39;(the default is 1 if the flag is present).&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The&#39;</span>
-                        <span class="s1">&#39; number of counts to go forward in the tab &#39;</span>
-                        <span class="s1">&#39;(the default is 1 if the flag is present).&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--outfile&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file for the tab&#39;</span>
-                        <span class="s1">&#39; to be written to.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="s1">&#39;--title&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The title of the tab to be&#39;</span>
-                        <span class="s1">&#39; stored in the output file.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;--author&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The name of the tab author to be&#39;</span>
-                        <span class="s1">&#39; stored in the output file.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-D&#39;</span><span class="p">,</span> <span class="s1">&#39;--date&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The date associated with the tab &#39;</span>
-                        <span class="s1">&#39; that will be stored in the output file. ISO format. &#39;</span>
-                        <span class="s1">&#39;Today</span><span class="se">\&#39;</span><span class="s1">s date will be used for tab if not set.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--save&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Save the tab to file. Name of file&#39;</span>
-                        <span class="s1">&#39; can be set as optional argument.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--load&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Load a tab from the filename &#39;</span>
-                        <span class="s1">&#39;argument. Any tab metadata (author, etc) from the &#39;</span>
-                        <span class="s1">&#39;current guitab session will not be overwritten.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-L&#39;</span><span class="p">,</span> <span class="s1">&#39;--loadall&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Load a tab and all metadata from &#39;</span>
-                        <span class="s1">&#39;the filename argument. Any tab metadata (author, etc)&#39;</span>
-                        <span class="s1">&#39; from the current guitab session will be overwritten.&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Initialize the tab object and any other relevant variables (although</span>
-    <span class="c1"># these should be soon implemented in the tab class itself) before entering</span>
-    <span class="c1"># main program loop</span>
-    <span class="n">user_tab</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">Tab</span><span class="p">()</span>
-
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-
-        <span class="n">inp</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;[tab]: &#39;</span><span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">inp</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-        <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
-            <span class="k">continue</span>
-
-        <span class="c1"># Quit without saving</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">d</span><span class="p">:</span>
-            <span class="k">break</span>
-
-        <span class="c1"># Set the file name</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">:</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">))</span>
-
-        <span class="c1"># Set the author name</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">author</span><span class="p">:</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">author</span><span class="p">))</span>
-
-        <span class="c1"># Set the date</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">date</span><span class="p">:</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-        <span class="c1"># Set the title</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">))</span>
-
-        <span class="c1"># Save and quit</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">q</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">()</span>
-                <span class="k">break</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">q</span><span class="p">))</span>
-                <span class="k">break</span>
-
-        <span class="c1"># Save file and set filename if given</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">save</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">()</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">user_tab</span><span class="o">.</span><span class="n">save_tab</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">save</span><span class="p">))</span>
-
-        <span class="c1"># Print the entirety of the tab</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">p</span><span class="p">:</span>
-            <span class="n">pipe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;less&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">user_tab</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">pipe</span><span class="p">)</span>
-            <span class="n">pipe</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-        <span class="c1"># Move current position backwards in tab</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">b</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">user_tab</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
-            <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">inst</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
-                <span class="k">continue</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
-
-        <span class="c1"># Move current position forwards in tab</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">f</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">user_tab</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">inst</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
-                <span class="k">continue</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
-
-        <span class="c1"># Write a chord to the current position</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">chord</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">user_tab</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">chord</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">inst</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
-                <span class="k">continue</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
-
-        <span class="c1"># Load the tab but don&#39;t overwrite metadata</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">load</span><span class="p">:</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">get_tab</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">load</span><span class="p">),</span> <span class="n">overwrite_info</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-        <span class="c1"># Load the tab and overwrite metadata</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">loadall</span><span class="p">:</span>
-            <span class="n">user_tab</span><span class="o">.</span><span class="n">get_tab</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">loadall</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

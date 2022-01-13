@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guitab.tab &mdash; guitab 0.post1+gbf18dcf documentation</title>
+  <title>guitab.tab &mdash; guitab 0.post1+g98ae5c5 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
@@ -33,7 +33,7 @@
             <a href="../../index.html" class="icon icon-home"> guitab
           </a>
               <div class="version">
-                0.post1+gbf18dcf
+                0.post1+g98ae5c5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -254,11 +254,10 @@
 
         <span class="c1"># Check that the chord has the correct format</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="p">:</span>
-            <span class="c1"># TODO fill out error information</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid number of finger positions provided: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span><span class="si">}</span><span class="s2">. Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">clength</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chord</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid finger position provided: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># If the index is unset, then use the default value of the current</span>
         <span class="c1"># self.i index</span>
@@ -332,7 +331,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">tab_data</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_blank</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">imax</span><span class="p">)]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">imax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span></div>
 
-<span class="c1"># TODO present: check that this functions properly</span>
+    <span class="c1"># TODO check that this functions properly</span>
 <div class="viewcode-block" id="Tab.set_info"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.set_info">[docs]</a>    <span class="k">def</span> <span class="nf">set_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set relevant information for the Tab object, such as author, date,</span>
 <span class="sd">        etc.</span>
@@ -365,7 +364,8 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
 
-<span class="c1"># TODO object IO should be handled in a separate module</span>
+    <span class="c1"># TODO object IO should be handled in a separate module</span>
+    <span class="c1"># TODO this should probably raise an exception if the file doesn&#39;t exist!</span>
 <div class="viewcode-block" id="Tab.get_tab"><a class="viewcode-back" href="../../autoapi/guitab/tab/index.html#guitab.tab.Tab.get_tab">[docs]</a>    <span class="k">def</span> <span class="nf">get_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">overwrite_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Open a guitab text file and extract the tab data from it.</span>
 

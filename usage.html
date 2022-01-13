@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; guitab 0.post1+gbf18dcf documentation</title>
+  <title>Usage &mdash; guitab 0.post1+g98ae5c5 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -36,7 +36,7 @@
             <a href="index.html" class="icon icon-home"> guitab
           </a>
               <div class="version">
-                0.post1+gbf18dcf
+                0.post1+g98ae5c5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -89,19 +89,19 @@ interface. It is started by running the following from the command line:</p>
 </div>
 <p>This should display a brief splash screen welcoming you to <code class="docutils literal notranslate"><span class="pre">guitab</span></code> and drop
 you to a new prompt that looks like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">tab</span><span class="p">]:</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">guitab</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>From there, you execute commands to gradually build up your guitar tab. The
-full list of commands can be displayed by typing <code class="docutils literal notranslate"><span class="pre">-h&lt;Enter&gt;</span></code>.</p>
-<p>You can move backwards and forwards in the tab with the commands <code class="docutils literal notranslate"><span class="pre">-b</span></code> and
-<code class="docutils literal notranslate"><span class="pre">-f</span></code>, respectively. These commands also accept numerical arguments to specify
+full list of commands can be displayed by typing <code class="docutils literal notranslate"><span class="pre">help&lt;Enter&gt;</span></code>.</p>
+<p>You can move backwards and forwards in the tab with the commands <code class="docutils literal notranslate"><span class="pre">back</span></code> and
+<code class="docutils literal notranslate"><span class="pre">forward</span></code>, respectively. These commands also accept numerical arguments to specify
 the number of places to move. After issuing one of these commands, a textual
 representation of the tab will be printed out, with a <code class="docutils literal notranslate"><span class="pre">*</span></code> character on the
 final line indicating where in the tab you currently are.</p>
 <p>The whole tab can be printed at anytime (piped through <code class="docutils literal notranslate"><span class="pre">less</span></code>) with the
-<code class="docutils literal notranslate"><span class="pre">-p</span></code> command.</p>
-<p>Chords are added with the command <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">[list</span> <span class="pre">of</span> <span class="pre">fret</span> <span class="pre">numbers]</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">print</span></code> command.</p>
+<p>Chords are added with the command <code class="docutils literal notranslate"><span class="pre">chord</span> <span class="pre">[list</span> <span class="pre">of</span> <span class="pre">fret</span> <span class="pre">numbers]</span></code>.</p>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <p>If instead you want a Python object to store and manipulate tab data, you can

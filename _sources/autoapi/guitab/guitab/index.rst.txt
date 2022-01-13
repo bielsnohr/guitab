@@ -27,14 +27,6 @@ Classes
 
 
 
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   guitab.guitab.main
-
-
 
 .. py:class:: GuitabShell(completekey='tab', stdin=None, stdout=None)
 
@@ -92,29 +84,6 @@ Functions
 
    .. py:attribute:: prompt
       :annotation: = (guitab) 
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-   .. py:attribute:: file
-      
 
       
 
@@ -230,6 +199,121 @@ Functions
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: do_author(self, arg: str)
+
+      
+      Set the author for the tab
+
+
+      :Parameters:
+
+          **arg** : str
+              Author name
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_title(self, arg: str)
+
+      
+      Set the title for the tab
+
+
+      :Parameters:
+
+          **arg** : str
+              Title of the tab
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_date(self, arg: str)
+
+      
+      Set the date for the tab
+
+
+      :Parameters:
+
+          **arg** : str
+              Date the tab was created or updated in ISO 8601 format (i.e. YYYY-MM-DD)
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: set_info(self, key: str, value: str)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
    .. py:method:: do_bye(self, arg)
 
       
@@ -254,7 +338,7 @@ Functions
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: do_print(self)
+   .. py:method:: do_print(self, arg)
 
       
       Print the entirety of the tab: PRINT
@@ -277,61 +361,103 @@ Functions
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: do_load(self, arg: str)
+
+      
+      Load only tab data from specified file (not metadata)
+
+
+      :Parameters:
+
+          **arg** : str
+              File name for file to load tab data from
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_loadall(self, arg: str)
+
+      
+      Load tab data and metadata from specified file
+
+
+      :Parameters:
+
+          **arg** : str
+              File name for file to load tab data from
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: do_save(self, arg: str)
+
+      
+      Save tab data and metadata to specified file
+
+
+      :Parameters:
+
+          **arg** : str
+              File name for file to save tab data to
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
    .. py:method:: onecmd(self, line: str) -> bool
 
       
-      Interpret the argument as though it had been typed in response
-      to the prompt.
-
-      This may be overridden, but should not normally need to be;
-      see the precmd() and postcmd() methods for useful execution hooks.
-      The return value is a flag indicating whether interpretation of
-      commands by the interpreter should stop.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-   .. py:method:: do_record(self, arg)
-
-      
-      Save future commands to filename:  RECORD rose.cmd
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-   .. py:method:: do_playback(self, arg)
-
-      
-      Playback commands from a file:  PLAYBACK rose.cmd
+      Catch acceptable exceptions caused by users
 
 
 
@@ -375,51 +501,4 @@ Functions
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: close(self)
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-.. py:function:: main()
-
-   
-   Main function for guitab module
-
-   This initiates a REPL-like program that takes in user input to build the
-   tablature using a `Tab` object
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
