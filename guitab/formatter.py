@@ -7,9 +7,13 @@ from typing import Dict, List
 class TabFormatter(ABC):
     """Abstract base class that defines the interface for formatting Tab objects
     """
+    def __init__(self) -> None:
+        self._tab_metadata = {k: '' for k in ('author', 'date', 'title')}
 
     def set_metadata(self, author: str, date: str, title: str) -> None:
-        pass
+        self._tab_metadata['author'] = author
+        self._tab_metadata['date'] = date
+        self._tab_metadata['title'] = title
 
     def get_metadata(self) -> Dict[str, str]:
         pass
