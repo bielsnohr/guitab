@@ -66,6 +66,7 @@ class Tab(object):
 
         # the dictionary that holds the information about the tab; set defaults
         today = str(dt.date.today())
+        # TODO consider turning this into a data class
         self.info = {'filename': 'myTab.txt', 'title': 'My Tab', 'author':
                      'Me', 'date': today}
 
