@@ -58,7 +58,8 @@ str_tab_file_load = \
 test_file = Path(__file__).parent / "test_guitab_file.txt"
 file_info = {'filename': str(test_file), 'title': 'The Best Song in the World', 'author': 'John Doe',
              'date': '2021-11-07'}
-tab_info = {'title': 'The Best Song in the World', 'author': 'John Doe', 'date': '2021-11-07'}
+tab_info = {'title': 'The Best Song in the World', 'author': 'John Doe', 'date': '2021-11-07',
+            'tuning': ('e', 'B', 'G', 'D', 'A', 'E')}
 print_blank_tab = str_blank_tab + '\n'
 print_tab_2_rows = str_tab_2_rows + '\n'
 print_tab_3_rows = \
@@ -92,3 +93,7 @@ print_tab_1_forward = \
     'A|--\n'\
     'E|--\n'\
     '   *\n\n'
+# TODO get the internal data representation of the 'test_guitab_file.txt'
+tab_data = [
+    []
+]

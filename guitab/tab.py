@@ -27,6 +27,9 @@ class Tab(object):
     display of a guitar tab in Python.
     """
 
+    """The default tuning for a guitar"""
+    DEFAULT_TUNING = ('e', 'B', 'G', 'D', 'A', 'E')
+
     def __init__(self, clength=6):
         """Constructor for Tab class object
 
@@ -53,7 +56,7 @@ class Tab(object):
 
         # string tuning indicator to be printed at the beginning of each tab
         # line
-        self._leader = ('e|', 'B|', 'G|', 'D|', 'A|', 'E|')
+        self._leader = tuple((note + '|' for note in Tab.DEFAULT_TUNING))
 
         # allowed entries for a chord list
         self.allowed = ['-', 'h', 'p', 'x'] + [str(x) for x in range(25)]
