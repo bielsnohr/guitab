@@ -38,6 +38,17 @@ class TabFormatter(ABC):
         pass
 
     def set_data(self, data: List[List[str]]) -> None:
+        """Set the Tab data to be formatted in the Formatter
+
+        Parameters
+        ----------
+        data : List[List[str]]
+            The Tab data to be formatted. This input data is held in the same
+            manner as the internal Tab class holds it: the top level list holds
+            all of the chords that make up the tab, each element is a list of
+            strings that represents one of those chords, with each string one of
+            the finger positions for each guitar string.
+        """
         # TODO would probably be better to create a copy of the data because this is a mutable type
         self._tab_data = data
 
