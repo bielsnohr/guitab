@@ -34,6 +34,9 @@ class TabFormatter(ABC):
         self._tab_metadata['title'] = title
         self._tab_metadata['tuning'] = tuning
 
+    def get_metadata(self) -> Dict[str, str]:
+        pass
+
     def set_data(self, data: List[List[str]]) -> None:
         """Set the Tab data to be formatted in the Formatter
 
@@ -48,6 +51,9 @@ class TabFormatter(ABC):
         """
         # TODO would probably be better to create a copy of the data because this is a mutable type
         self._tab_data = data
+
+    def get_data(self) -> List[List[str]]:
+        pass
 
     @abstractmethod
     def save(self, file: PathLike) -> None:
