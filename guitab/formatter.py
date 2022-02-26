@@ -1,8 +1,12 @@
 """Format Tab objects for output to file"""
 from abc import ABC, abstractmethod
-from os import PathLike
-from typing import Dict, List
+from pathlib import Path
+from typing import Dict, List, IO, AnyStr, Union
 from .tab import Tab
+
+
+Pathish = Union[AnyStr, Path]  # in lieu of yet-unimplemented PEP 519
+FileSpec = Union[IO, Pathish]
 
 
 class TabFormatter(ABC):
@@ -55,10 +59,27 @@ class TabFormatter(ABC):
     def get_data(self) -> List[List[str]]:
         pass
 
-    @abstractmethod
-    def save(self, file: PathLike) -> None:
+    def save(self, fileobj: FileSpec) -> None:
+        """Save the formatted tab to a file object
+
+        This is the public method that should be used for saving tabs since it
+        accepts both string-like and file-like inputs.
+
+        Parameters
+        ----------
+        fileobj : Union[AnyStr, Path, IO]
+            The file (either the open actual file object or string path) to
+            which to write the formatted tab.
+        """
+        if isinstance(fileobj, (str, bytes, Path)):
+            with open(fileobj, 'w') as f:
+                self._write_formatted_tab(f)
+        else:
+            self._write_formatted_tab(fileobj)
+
+    def load(self, fileobj: FileSpec) -> None:
         pass
 
     @abstractmethod
-    def load(self, file: PathLike) -> None:
+    def _write_formatted_tab(self, fileobj: IO) -> None:
         pass
