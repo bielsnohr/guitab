@@ -1,4 +1,7 @@
-from ..formatter import TabFormatter
+import filecmp
+from pathlib import Path
+from guitab.tests.test_tab import test_str_blank_tab
+from ..formatter import TabFormatter, TxtTabFormatter
 import pytest
 from . import global_test_data
 
@@ -20,3 +23,16 @@ def test_valid_set_data(blank_tab_formatter):
     """Check that the set_data() method of the ABC TabFormatter correctly sets tab data"""
     blank_tab_formatter.set_data(global_test_data.tab_data)
     assert blank_tab_formatter._tab_data == global_test_data.tab_data
+
+
+def test_TxtTabFormatter_write_formatted_tab(tmp_path):
+    """Check that the TxtTabFormatter writes a properly formatted textual
+    representation of the tab to the output stream
+    """
+    save_file = tmp_path / "test_guitab_file.txt"
+    txt_formatter = TxtTabFormatter()
+    txt_formatter.set_metadata(**global_test_data.tab_info)
+    txt_formatter.set_data(global_test_data.tab_data)
+    with open(save_file, mode='x') as fileobj:
+        txt_formatter._write_formatted_tab(fileobj=fileobj)
+    assert filecmp.cmp(save_file, Path(__file__).parent / "test_guitab_file.txt")
