@@ -2,7 +2,6 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, List, IO, AnyStr, Union
-from .tab import Tab
 
 
 Pathish = Union[AnyStr, Path]  # in lieu of yet-unimplemented PEP 519
@@ -17,7 +16,7 @@ class TabFormatter(ABC):
         self._tab_metadata = {k: '' for k in ('author', 'date', 'title', 'tuning')}
         self._tab_data = []
 
-    def set_metadata(self, author: str, date: str, title: str, tuning: List[str] = Tab.DEFAULT_TUNING) -> None:
+    def set_metadata(self, author: str, date: str, title: str, tuning: List[str]) -> None:
         """Set the metadata for a tab in the TabFormatter object
 
         Parameters
@@ -81,5 +80,53 @@ class TabFormatter(ABC):
         pass
 
     @abstractmethod
+    def _write_formatted_tab(self, fileobj: IO) -> None:
+        pass
+
+
+class TxtTabFormatter(TabFormatter):
+    """Class for formatting a tab to a text file."""
+
+    DEFAULT_LINE_LENGTH = 78
+
+    @classmethod
+    def convert_tab_to_string(cls, tab_data: List[List[AnyStr]],
+                              tuning: List[AnyStr],
+                              index: int = None,
+                              line_length: int = DEFAULT_LINE_LENGTH) -> AnyStr:
+        number_of_loops = ((len(tab_data) - 1) // line_length) + 1
+        if index is not None:
+            loop_position = index // line_length
+        tab_string = ''
+        chord_length = len(tab_data[0])
+
+        # loop through the rows of tabs that will be created by breaking them
+        # into suitable line lengths
+        for i in range(number_of_loops):
+
+            start = i * line_length
+            if i == number_of_loops - 1:
+                end = len(tab_data)
+            else:
+                end = start + line_length
+
+            for j in range(chord_length):
+
+                tab_string = tab_string + tuning[j] + '|'
+                for k in range(start, end):
+                    tab_string = tab_string + tab_data[k][j]
+                tab_string = tab_string + '\n'
+
+            if index is not None and i == loop_position:
+                pad = index - start + 2
+                tab_string = tab_string + ' ' * pad + '*'
+
+            if i == number_of_loops - 1:
+                tab_string = tab_string + '\n'
+            else:
+                tab_string = tab_string + '\n\n'
+
+        return tab_string
+
     def _write_formatted_tab(self, fileobj: IO) -> None:
         pass

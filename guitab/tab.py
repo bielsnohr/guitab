@@ -5,6 +5,8 @@ import datetime as dt
 import warnings
 import re
 
+from . import formatter
+
 
 """Compiled regex search to remove position cursor in tab"""
 rm_position = re.compile(r'(^\s+)\*(\s*$)', flags=re.MULTILINE)
@@ -76,38 +78,8 @@ class Tab(object):
     def __str__(self):
         """Formatted string of the Tab object data
         """
-
-        num_loops = (self.imax // self._MAX) + 1
-        pos_loop = self.i // self._MAX
-        tab_string = ''
-
-        # loop through the rows of tabs that will be created by breaking them
-        # into suitable line lengths
-        for i in range(num_loops):
-
-            start = i * self._MAX
-            if i == num_loops - 1:
-                end = self.imax + 1
-            else:
-                end = start + self._MAX
-
-            for j in range(self.clength):
-
-                tab_string = tab_string + self._leader[j]
-                for k in range(start, end):
-                    tab_string = tab_string + self.tab_data[k][j]
-                tab_string = tab_string + '\n'
-
-            if i == pos_loop:
-                pad = self.i - start + 2
-                tab_string = tab_string + ' ' * pad + '*'
-
-            if i == num_loops - 1:
-                tab_string = tab_string + '\n'
-            else:
-                tab_string = tab_string + '\n\n'
-
-        return tab_string
+        return formatter.TxtTabFormatter.convert_tab_to_string(tab_data=self.tab_data, tuning=self.DEFAULT_TUNING,
+                                                               index=self.i)
 
     def print(self):
         """Format Tab object data for limited printing.
