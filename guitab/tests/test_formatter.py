@@ -1,6 +1,5 @@
 import filecmp
 from pathlib import Path
-from guitab.tests.test_tab import test_str_blank_tab
 from ..formatter import TabFormatter, TxtTabFormatter
 import pytest
 from . import global_test_data

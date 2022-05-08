@@ -94,6 +94,26 @@ class TxtTabFormatter(TabFormatter):
                               tuning: List[AnyStr],
                               index: int = None,
                               line_length: int = DEFAULT_LINE_LENGTH) -> AnyStr:
+        """Convert a Tab object's tab data (not metadata) into a string representation
+
+        Parameters
+        ----------
+        tab_data : List[List[AnyStr]]
+            The Tab object's tab data
+        tuning : List[AnyStr]
+            The tuning to be used for the guitar
+        index : int, optional
+            The current writing position in the tab, by default None. If
+            present, an asterix ('*') will be placed under one of the tab bars
+            where this current position is.
+        line_length : int, optional
+            The width of the line at which the tab should be wrapped, by default DEFAULT_LINE_LENGTH
+
+        Returns
+        -------
+        AnyStr
+            The string representation of the tab data
+        """
         number_of_loops = ((len(tab_data) - 1) // line_length) + 1
         if index is not None:
             loop_position = index // line_length
