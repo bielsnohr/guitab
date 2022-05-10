@@ -88,6 +88,7 @@ class TxtTabFormatter(TabFormatter):
     """Class for formatting a tab to a text file."""
 
     DEFAULT_LINE_LENGTH = 78
+    BREAK_LINE = 80 * '='
 
     @classmethod
     def convert_tab_to_string(cls, tab_data: List[List[AnyStr]],
@@ -149,4 +150,20 @@ class TxtTabFormatter(TabFormatter):
         return tab_string
 
     def _write_formatted_tab(self, fileobj: IO) -> None:
-        pass
+        """Write the tab data formatted as a UTF-8 text file
+
+        Parameters
+        ----------
+        fileobj : IO
+            The text file object to which the tab will be written
+        """
+        tab_str = TxtTabFormatter.convert_tab_to_string(
+            tab_data=self._tab_data, tuning=self._tab_metadata['tuning'])
+        file_text = \
+            TxtTabFormatter.BREAK_LINE + '\n' + \
+            'Title : {title}\n' + \
+            'Author: {author}\n' + \
+            'Date  : {date}\n' + \
+            TxtTabFormatter.BREAK_LINE + '\n\n' + \
+            '{tabdata}'
+        fileobj.write(file_text.format(tabdata=tab_str, **self._tab_metadata))
