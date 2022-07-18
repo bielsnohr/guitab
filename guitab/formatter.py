@@ -16,7 +16,7 @@ class TabFormatter(ABC):
         self._tab_metadata = {k: '' for k in ('author', 'date', 'title', 'tuning')}
         self._tab_data = []
 
-    def set_metadata(self, author: str, date: str, title: str, tuning: List[str]) -> None:
+    def set_metadata(self, author: str, date: str, title: str, tuning: List[str], **kwargs) -> None:
         """Set the metadata for a tab in the TabFormatter object
 
         Parameters

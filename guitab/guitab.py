@@ -197,6 +197,8 @@ class GuitabShell(cmd.Cmd):
                       file=self.stdout)
                 return
             else:
+                # TODO Should implement a check whether the file already exists
+                # and then somehow prompt again for confirmation
                 self.user_tab.save_tab(filename=self.file)
         else:
             self.user_tab.save_tab(filename=arg)

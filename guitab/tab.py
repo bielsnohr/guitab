@@ -363,15 +363,17 @@ class Tab(object):
             return data
 
     # TODO think about encoding here? Current is 'us-ascii'
-    def save_tab(self, filename=None, **kwargs):
+    def save_tab(self, filename, frmttr: formatter.TabFormatter = None, **kwargs):
         """Write the current tab data to a text file.
 
 
         Parameters
         ----------
-        filename : str, optional
-            The name of the file to write to. If not provided, the filename
-            currently in the Tab object info is used.
+        filename : str
+            The name of the file to write to. Absolute or relative path allowed.
+        formatter : formatter.TabFormatter, optional
+            The object that formats the output written to file. This therefore
+            determines the file format.
         **kwargs : dict, optional
             title : the title of the tab (str)
             author : the author of the tab (str)
@@ -379,47 +381,12 @@ class Tab(object):
         """
 
         # set the relevant tab info that has been passed to this function
-        if filename is None:
+        if kwargs is not None:
             self.set_info(**kwargs)
-        else:
-            self.set_info(filename=filename, **kwargs)
 
-        # check if the file already exists and give options
-        # TODO move this to main CLI program, see NOTE for 2019-04-09
-        tabfilename = self.info['filename']
-        while(True):
-            try:
-                tabfile = open(tabfilename, 'x')
-            except FileExistsError:
-                message = "File already exists: '{}'\nOverwrite? [Y/n] ".format(tabfilename)
-                inp = input(message)
-                if inp.lower() == 'y':
-                    tabfile = open(tabfilename, 'w')
-                    break
-                elif inp.lower() == 'n':
-                    # TODO this is probably not security conscious; make more
-                    # robust
-                    inp2 = input('Please provide a different filename: ')
-                    tabfilename = inp2
-                    self.info['filename'] = inp2
-                    continue
-                else:
-                    print('\nInvalid input. Please try again.')
-                    continue
-            else:
-                break
+        if frmttr is None:
+            frmttr = formatter.TxtTabFormatter()
 
-        fileformat = 80 * '=' + '\n' + \
-            'Title : {title}\n' + \
-            'Author: {author}\n' + \
-            'Date  : {date}\n' + \
-            80 * '=' + '\n\n' + \
-            '{tabdata}'
-
-        # remove the current position character from the output of str(self)
-        tabdata = rm_position.sub(r'\1 \2', str(self))
-
-        # finally, write all relevant information to the file
-        tabfile.write(fileformat.format(tabdata=tabdata, **self.info))
-
-        tabfile.close()
+        frmttr.set_data(self.tab_data)
+        frmttr.set_metadata(tuning=self.DEFAULT_TUNING, **self.info)
+        frmttr.save(filename)
