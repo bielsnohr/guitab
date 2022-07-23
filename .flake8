@@ -6,5 +6,6 @@ exclude =
     dist,
     versioneer.py,
     guitab/_version.py,
-    docs/source/conf.py
+    docs/source/conf.py,
+    venv
 max-line-length = 115

@@ -24,6 +24,12 @@ def test_valid_set_data(blank_tab_formatter):
     assert blank_tab_formatter._tab_data == global_test_data.tab_data
 
 
+def test_valid_get_data(blank_tab_formatter: TabFormatter):
+    """Check that the get_data() method of the ABC TabFormatter correctly retrieves tab data"""
+    blank_tab_formatter._tab_data = global_test_data.tab_data
+    assert blank_tab_formatter.get_data() == global_test_data.tab_data
+
+
 def test_TxtTabFormatter_write_formatted_tab(tmp_path):
     """Check that the TxtTabFormatter writes a properly formatted textual
     representation of the tab to the output stream

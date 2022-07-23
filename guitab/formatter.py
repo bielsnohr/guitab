@@ -1,5 +1,6 @@
 """Format Tab objects for output to file"""
 from abc import ABC, abstractmethod
+from copy import copy
 from pathlib import Path
 from typing import Dict, List, IO, AnyStr, Union
 
@@ -52,11 +53,20 @@ class TabFormatter(ABC):
             strings that represents one of those chords, with each string one of
             the finger positions for each guitar string.
         """
-        # TODO would probably be better to create a copy of the data because this is a mutable type
-        self._tab_data = data
+        self._tab_data = copy(data)
 
     def get_data(self) -> List[List[str]]:
-        pass
+        """Get the Tab data currently stored in the Formatter object
+
+        Returns
+        -------
+        List[List[str]]
+            The tab data as a Tab object understands it. See :py:meth:`set_data`
+            for description of this data.
+        """
+        # TODO should there be validation of the internal data here? Or perhaps
+        # at the point it is set in the Formatter object?
+        return copy(self._tab_data)
 
     def save(self, fileobj: FileSpec) -> None:
         """Save the formatted tab to a file object
