@@ -39,7 +39,14 @@ class TabFormatter(ABC):
         self._tab_metadata['tuning'] = tuning
 
     def get_metadata(self) -> Dict[str, str]:
-        pass
+        """Retrieve the metadata for a Tab
+
+        Returns
+        -------
+        Dict[str, str]
+            Tab metadata
+        """
+        return copy(self._tab_metadata)
 
     def set_data(self, data: List[List[str]]) -> None:
         """Set the Tab data to be formatted in the Formatter
@@ -53,6 +60,7 @@ class TabFormatter(ABC):
             strings that represents one of those chords, with each string one of
             the finger positions for each guitar string.
         """
+        # TODO add some data validation here
         self._tab_data = copy(data)
 
     def get_data(self) -> List[List[str]]:

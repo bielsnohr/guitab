@@ -18,6 +18,12 @@ def test_valid_set_metadata(blank_tab_formatter):
     assert blank_tab_formatter._tab_metadata == global_test_data.tab_info
 
 
+def test_valid_get_metadata(blank_tab_formatter: TabFormatter):
+    """Check that the get_metadata() method of the ABC TabFormatter correctly returns tab metadata"""
+    blank_tab_formatter._tab_metadata = global_test_data.tab_info
+    assert blank_tab_formatter.get_metadata() == global_test_data.tab_info
+
+
 def test_valid_set_data(blank_tab_formatter):
     """Check that the set_data() method of the ABC TabFormatter correctly sets tab data"""
     blank_tab_formatter.set_data(global_test_data.tab_data)
