@@ -1,3 +1,5 @@
+import subprocess
+
 from ..guitab import GuitabShell
 import re
 from . import global_test_data
@@ -8,6 +10,12 @@ import filecmp
 welcome_message = r"Welcome to guitab, an interactive command line program "\
     r"that accelerates the tab writing process. Type help or \? to list "\
     r"commands."
+
+
+def test_guitab_entrypoint():
+    """Confirm that the `guitab` executable launches and exits correctly"""
+    proc = subprocess.run(["guitab"], input="bye", text=True)
+    assert proc.returncode == 0
 
 
 def test_guitab_welcome_message_and_quit(monkeypatch, capsys):
