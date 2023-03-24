@@ -344,7 +344,7 @@ class Tab(object):
 
             # Discard anything until the end of the header (allows for user
             # notes)
-            while(True):
+            while True:
                 line = tabfile.readline()
                 if line == (80 * '=' + '\n'):
                     break
@@ -354,7 +354,7 @@ class Tab(object):
             # Collect the tab data contained in the file
             data = []
             imax = 0
-            while(True):
+            while True:
 
                 line = tabfile.readline()
 
@@ -411,7 +411,7 @@ class Tab(object):
         # check if the file already exists and give options
         # TODO move this to main CLI program, see NOTE for 2019-04-09
         tabfilename = self.info['filename']
-        while(True):
+        while True:
             try:
                 tabfile = open(tabfilename, 'x')
             except FileExistsError:
