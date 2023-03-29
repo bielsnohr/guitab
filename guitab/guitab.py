@@ -216,5 +216,9 @@ class GuitabShell(cmd.Cmd):
         return line.lower()
 
 
-if __name__ == '__main__':
+def main():
     GuitabShell().cmdloop()
+
+
+if __name__ == '__main__':
+    main()
